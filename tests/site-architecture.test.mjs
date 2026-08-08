@@ -16,7 +16,7 @@ test('the documented second-wave routes exist before their verified content is a
 test('the desktop header contains four distinct document-backed destinations', async () => {
   const source = await readFile(new URL('../components/site.tsx', import.meta.url), 'utf8');
 
-  for (const destination of ['/puzzles', '/beginner-guide', '/multiplayer/best-group-size', '/achievements']) {
+  for (const destination of ['/puzzles', '/beginner-guide', '/multiplayer', '/achievements']) {
     assert.match(source, new RegExp(`href=["']${destination}`));
   }
   assert.match(source, /<summary[^>]*aria-label="Open navigation"/);

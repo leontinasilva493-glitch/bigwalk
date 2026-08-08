@@ -5,6 +5,12 @@ import { SignalFlareIcon } from './game-elements';
 
 type Guide = (typeof guides)[number];
 
+type EvidenceRoute = {
+  slug: string;
+  h1: string;
+  description: string;
+};
+
 export function PuzzleCard({ guide }: { guide: Guide }) {
   return (
     <article className="guide-card">
@@ -28,6 +34,17 @@ export function CategoryCard({ label, description, count, icon }: {
       <h3>{label}</h3>
       <p>{description}</p>
       <p className="category-card-count">{count}</p>
+    </article>
+  );
+}
+
+export function EvidenceRouteCard({ route }: { route: EvidenceRoute }) {
+  return (
+    <article className="evidence-route-card">
+      <p className="guide-card-category">EVIDENCE-GATED TOPIC</p>
+      <h3><Link href={`/${route.slug}`}>{route.h1}</Link></h3>
+      <p>{route.description}</p>
+      <p className="guide-card-meta">Verification in progress - not indexed</p>
     </article>
   );
 }
