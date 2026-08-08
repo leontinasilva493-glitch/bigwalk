@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title description">
+  <title id="title">Big Walk guide image placeholder</title>
+  <desc id="description">An editorial line illustration of hills, a tower, and a route marker awaiting first-hand verification.</desc>
+  <rect width="1200" height="675" fill="#eaf2ec"/>
+  <path d="M0 510C150 430 246 474 364 418c107-51 178-172 316-109 135 61 181 56 292-48 82-77 151-63 228-26v240H0Z" fill="#d4e4d8"/>
+  <path d="M0 548c151-109 265-43 378-107 103-58 167-144 269-88 116 64 186 35 281-48 81-71 163-61 272-10" fill="none" stroke="#1e5b40" stroke-width="8" stroke-linecap="round"/>
+  <path d="M757 400V224l78-76 78 76v176m-122-110h88m-44-142v252" fill="none" stroke="#1e5b40" stroke-width="10" stroke-linejoin="round"/>
+  <circle cx="375" cy="442" r="23" fill="#faf7f0" stroke="#d96c3d" stroke-width="10"/>
+  <path d="M375 465v68" stroke="#d96c3d" stroke-width="10" stroke-linecap="round"/>
+  <path d="M113 130h145m-72-72v144" stroke="#c77f2b" stroke-width="8" stroke-linecap="round"/>
+  <text x="600" y="590" text-anchor="middle" fill="#5a6156" font-family="Georgia, serif" font-size="28">First-hand guide image verification in progress</text>
+</svg>

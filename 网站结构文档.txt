@@ -1,0 +1,51 @@
+
+
+这是按最新方案（单站 bigwalkwalkthrough.com、滚动验证制、先提示后解法、玩家原话命名）给 Codex 的**首批 6 页完整文案规格**：
+
+---
+
+## 首批 6 页 Title / H1 / Meta Description 表格
+
+| # | 页面 URL | 目标意图 | Title（≤60字符） | H1（唯一） | Meta Description（≤155字符） |
+|---|---|---|---|---|---|
+| 1 | `/` | 枢纽页，吃 `big walk walkthrough`（KD 31.6）+ 品牌词 | `Big Walk Walkthrough — All Puzzles Solved with Hints & Guides` | `Big Walk Walkthrough: Every Puzzle Solved` | `Find any Big Walk puzzle fast. Browse by tower, item, or location — get a spoiler-free hint first, then reveal the full solution with screenshots.` |
+| 2 | `/puzzles/` | 分类目录（视觉查找器的静态形态），吃 `big walk puzzles` 长尾 | `Big Walk Puzzles — All Puzzle Solutions by Category` | `All Big Walk Puzzles, Solved` | `Every Big Walk puzzle solved: browse by tower, item, color, or location. Each one starts with a hint, then the full step-by-step answer with screenshots.` |
+| 3 | `/puzzles/green-chair-headphones/` | P0 高频卡点（Reddit 已刷屏） | `Green Chair & Headphones Puzzle — Big Walk Solution` | `Green Chair and Headphones Puzzle: Solved` | `Stuck on the green chair and headphones puzzle in Big Walk? Get a spoiler-free hint, then the full solution with marked location screenshots.` |
+| 4 | `/puzzles/purple-things-where-to-use/` | P0 内容空档（Reddit 真实求助词） | `Where Do the Purple Things Go in Big Walk? Solved` | `Where Do the Purple Things Go?` | `Where do the purple things go in Big Walk? Get the hint first, then exactly where to use them — with a location map screenshot.` |
+| 5 | `/puzzles/4166-1899-coordinates/` | 玩家原话长尾（坐标谜题） | `4166 1899 Coordinates Puzzle — Big Walk Solution` | `4166 1899 Coordinates: What Do They Mean?` | `See "4166 1899" in Big Walk and don't know what to do? Here's the hint, then the exact location and step-by-step solution.` |
+| 6 | `/walkthrough/red-tower-map-room/` | 开局卡点（红塔地图室） | `Red Tower Map Room — How to Open It | Big Walk Walkthrough` | `Red Tower Map Room: Full Walkthrough` | `Can't unlock the Red Tower map room in Big Walk? Step-by-step solution with marked screenshots — hint first, full answer after.` |
+
+---
+
+## 给 Codex 的实现要点（每页通用规格）
+
+**正文结构（模板化，三要素顺序固定）：**
+```
+1. 无剧透提示块（H2: "Stuck? Here's a Hint First"）——只给方向不给答案
+2. 完整解法（H2: "Full Solution"）——分 step 列表，每步 1 句 + 一张标注截图
+3. 每页 1~3 张原创截图（别为了凑图加页，1 张有用的 > 3 张没用的）
+```
+
+**图片 alt 自然写法示例**（不堆砌，按图片真实内容描述）：
+- 页3：`green chair and headphones puzzle location in big walk`
+- 页4：`where to place purple things in big walk map screenshot`
+- 页6：`red tower map room entrance in big walk`
+
+**图片文件名**：连字符小写英文（`green-chair-headphones-location.jpg`），不要 `img_0234.jpg`。
+
+**Schema**：Article + BreadcrumbList；**不要加 FAQPage**（Google 已限制，加了也大概率不显示）。
+
+**内链**：每页底部链回 `/puzzles/` 和首页；页 3/4/5 之间互链（都是"谜题找不到答案"场景）；页 6 链回首页。
+
+**关键约束（写进 Codex 提示词）：**
+- H1 全站唯一，不与 Title 逐字重复（我上面的 H1 已故意做区分，别让 Codex 改动）
+- Description 以玩家问题开头（"Stuck on…"、"Where do…"、"Can't…"），结尾给行动号召（"get the hint / full solution"）——这是 CTR 文案，不是关键词堆砌
+- 所有正文内容**禁止 AI 凭空生成谜题解法**——Codex 只做排版和润色，解法文字由你玩游戏/看实况后提供（哥飞 2026-04-21 群聊原话打法）
+
+---
+
+## 上线顺序微调
+
+六页可以**同一天全部上线**（都是模板页，内容就位即可），但提审 Google Search Console 后盯数据：前两周看哪个页有搜索展示/点击，就按那个方向加长尾页（第三批滚动制）。首页先挂 `/puzzles/` 和 4 个谜题页的链接，等第二批（beginner-guide、best-group-size 等）上线后再加。
+
+需要的话，我下一步可以把**第二批 5 页**（/beginner-guide/、/multiplayer/best-group-size/、/multiplayer/drop-in-host-save/、/achievements/、技术页）的 Title/H1/Description 也按同样格式写出来。

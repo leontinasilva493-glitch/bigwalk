@@ -1,0 +1,16 @@
+# Dependencies and generated Next.js output
+/node_modules/
+/.next/
+/out/
+
+# Local assistant workspace and transient build state
+/.workbuddy/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local configuration and logs
+.env*.local
+*.log
+
+# Test output
+/coverage/
