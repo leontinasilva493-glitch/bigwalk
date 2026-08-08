@@ -1,14 +1,38 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CategoryCard, EvidenceRouteCard, PuzzleCard } from '../components/guides';
+import { JsonLd } from '../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../components/site';
-import { guides, siteSections } from '../lib/content.mjs';
+import { guides, site, siteSections } from '../lib/content.mjs';
 import { WalkerStack } from '../components/game-elements';
 
 export const metadata: Metadata = {
+  title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
   description:
-    'Browse available Big Walk hints by tower, item, or location. Verified solutions and original marked screenshots are being added only after first-hand verification.',
+    'Stuck in Big Walk? Browse spoiler-free puzzle hints by tower, item, or location. Verified solutions and marked screenshots are added only after first-hand checks.',
   alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    url: '/',
+    title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
+    description:
+      'Stuck in Big Walk? Browse spoiler-free puzzle hints by tower, item, or location. Verified solutions and marked screenshots are added only after first-hand checks.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
+    description:
+      'Stuck in Big Walk? Browse spoiler-free puzzle hints by tower, item, or location. Verified solutions and marked screenshots are added only after first-hand checks.',
+  },
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: site.url,
+  description:
+    'A spoiler-conscious directory of Big Walk puzzle hints, evidence status, and verified guides.',
 };
 
 function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }) {
@@ -38,16 +62,17 @@ const featuredTopics = siteSections.filter((section) => [
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={websiteJsonLd} />
       <SiteHeader />
       <main>
         <section className="home-hero" aria-labelledby="home-title">
           <div className="page-shell home-hero__inner">
             <WalkerStack />
             <p className="eyebrow">A FIELD GUIDE FOR CURIOUS WALKERS</p>
-            <h1 id="home-title">Big Walk Hints &amp; Puzzle Directory</h1>
+            <h1 id="home-title">Big Walk Walkthrough: Hints &amp; Puzzle Guides</h1>
             <p className="home-hero__lede">
-              Browse the available hints by tower, item, or location. Verified solutions and original
-              marked screenshots are being added only after first-hand verification.
+              Browse spoiler-free hints by tower, item, or location. Verified solutions and marked screenshots are
+              added only after first-hand checks.
             </p>
             <div className="guide-search" role="search" aria-label="Guide search preview">
               <label className="sr-only" htmlFor="guide-search-input">
@@ -125,6 +150,100 @@ export default function HomePage() {
           <p className="section-intro">These topic hubs have permanent homes now. Their answers remain explicitly evidence-gated until they can be checked in the current game version.</p>
           <div className="evidence-route-grid">
             {featuredTopics.map((topic) => <EvidenceRouteCard key={topic.slug} route={topic} />)}
+          </div>
+        </section>
+
+        <section className="home-reference" aria-labelledby="directory-guide-title">
+          <div className="page-shell home-reference__inner">
+            <SectionHeading kicker="PLAY WITH CONTEXT" title="How to use this Big Walk directory" />
+            <div className="home-reference__intro">
+              <p>
+                Big Walk is built around the conversations a group has while exploring. A useful guide should help you
+                get unstuck without turning the whole island into a checklist. Start with the visible clue you have — a
+                colour, object, number, building, or landmark — and use the directory to find the closest matching
+                entry. Each entry is filed under a practical path such as a tower, area, item, or achievement, so you
+                can follow the vocabulary your group is already using rather than guess an in-game puzzle name.
+              </p>
+              <p>
+                The first thing to read on a guide is its status. A spoiler-free hint is meant to restore momentum: it
+                points your group back toward a clue or interaction without stating an answer. A full walkthrough is a
+                different promise. It needs a repeatable sequence, a current-version check, and original annotated
+                screenshots before this site treats it as a fact. Until then, the page stays visibly pending and out of
+                search indexing.
+              </p>
+              <p>
+                That distinction matters in an open-world co-op game. A good hint lets players keep communicating and
+                experimenting together. A premature solution can be wrong for the session type, hide an important
+                discovery, or send a group across the map for an object that is not available in their version of the
+                world. Use the hint first, decide together how much help you want, then return for the detailed guide
+                only when its verification panel says the evidence is complete.
+              </p>
+            </div>
+
+            <div className="home-reference__grid" aria-label="Big Walk play context">
+              <article>
+                <h3>Choose the right world size</h3>
+                <p>
+                  Before starting a session, the host selects a 2-player, 3-player, or 4+ world. The official FAQ says
+                  that parts of the world adapt to that choice, so a walkthrough must record the player-count variant
+                  it was tested in.
+                </p>
+              </article>
+              <article>
+                <h3>Keep the same host in mind</h3>
+                <p>
+                  Big Walk saves progress automatically for the host. When a group resumes, the host needs to start the
+                  session again; this is useful context when a player reports that an unlocked route or collected item
+                  does not appear in a different session.
+                </p>
+              </article>
+              <article>
+                <h3>Communication is part of the puzzle</h3>
+                <p>
+                  The game is designed around its in-game voice and text chat. Distance, sound barriers, tools, and
+                  player positions can all change how a group shares information, so guide steps should describe roles
+                  rather than assume everyone sees the same thing.
+                </p>
+              </article>
+              <article>
+                <h3>Use a guide at the right depth</h3>
+                <p>
+                  Start from the page title and its small hint. Read the spoiler section only when your group agrees to
+                  it. This keeps the directory useful for both players who want a nudge and players who actively want a
+                  checked, step-by-step route.
+                </p>
+              </article>
+            </div>
+
+            <div className="home-reference__body">
+              <h2>What makes a solution publishable?</h2>
+              <p>
+                A publishable solution on this site is not a paraphrase of a comment thread. First, the puzzle needs a
+                clear starting state: the visible object or place, any prerequisite access, and the world-size variant.
+                Next comes a reproducible route that says what each player does and what changes after each step. The
+                final result must be checked again in the current game version. Only then can the guide move from a
+                pending hint page to an indexable walkthrough.
+              </p>
+              <p>
+                Screenshots follow the same rule. They are captured for this guide, show the relevant landmark or
+                interaction, and use descriptive alt text. They are not copied from a creator&apos;s video or another guide.
+                If a public video helps locate a puzzle, it can be cited or embedded as a reference where the creator
+                permits embedding, but the written steps and explanatory screenshots still need their own verification.
+              </p>
+              <p>
+                This process is intentionally slower than publishing a quick answer. Big Walk supports two to twelve
+                players, has player-count-sensitive worlds, and asks groups to solve problems through communication.
+                Evidence labels let the site keep useful discovery pages online now without confusing a lead, a theory,
+                or an older recording with a finished solution. They also make it clear what must be rechecked when the
+                game is updated.
+              </p>
+              <p>
+                For general setup, saving, accessibility, joining a host, cross-play, and the game&apos;s communication
+                model, read the <a href="https://bigwalk.game/faq/">official Big Walk FAQ</a>. This directory links to
+                the same practical questions in its beginner, multiplayer, and troubleshooting hubs, while reserving
+                puzzle-answer claims for pages that have completed the evidence gate.
+              </p>
+            </div>
           </div>
         </section>
 
