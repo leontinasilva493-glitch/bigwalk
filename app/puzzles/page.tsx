@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { CategoryCard, PuzzleCard } from '../../components/guides';
+import { CategoryCard, EvidenceRouteCard, PuzzleCard } from '../../components/guides';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../components/site';
-import { guides } from '../../lib/content.mjs';
+import { guides, siteSections } from '../../lib/content.mjs';
 
 export const metadata: Metadata = {
   title: 'Big Walk Hints & Puzzle Directory',
@@ -45,6 +45,11 @@ export default function PuzzlesPage() {
     (groups[guide.tower] ??= []).push(guide);
     return groups;
   }, {});
+  const topicHubs = siteSections.filter((section) => [
+    'puzzles/purple-challenges',
+    'walkthrough',
+    'troubleshooting',
+  ].includes(section.slug));
 
   return (
     <>
@@ -69,6 +74,20 @@ export default function PuzzlesPage() {
           </div>
         </section>
 
+        <section className="visual-finder-section page-shell" aria-labelledby="visual-finder-heading">
+          <SectionHeading kicker="VISUAL FINDER" title="Browse by what you saw" />
+          <p className="section-intro">Each clue is filed under its visible words and aliases. Aliases improve discovery without creating thin duplicate pages.</p>
+          <div className="visual-cue-grid">
+            {guides.map((guide) => (
+              <a className="visual-cue-card" href={`/${guide.slug}`} key={guide.slug}>
+                <span>VISUAL CUE</span>
+                <strong>{guide.visualCues.join(' + ')}</strong>
+                <small>{guide.aliases.join(' / ')}</small>
+              </a>
+            ))}
+          </div>
+        </section>
+
         <section className="directory-groups page-shell">
           <SectionHeading kicker="DIRECTORY BY TOWER" title="Browse by landmark" />
           {Object.entries(guidesByTower).map(([tower, towerGuides]) => (
@@ -81,6 +100,15 @@ export default function PuzzlesPage() {
               </div>
             </div>
           ))}
+        </section>
+
+        <section className="discovery-section discovery-section--tint" aria-labelledby="puzzle-topic-hubs">
+          <div className="page-shell">
+            <SectionHeading kicker="TOPIC HUBS" title="Keep similar questions together" />
+            <div className="evidence-route-grid">
+              {topicHubs.map((topic) => <EvidenceRouteCard key={topic.slug} route={topic} />)}
+            </div>
+          </div>
         </section>
       </main>
       <SiteFooter />

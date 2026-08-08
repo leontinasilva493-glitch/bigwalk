@@ -1,6 +1,6 @@
 import { EvidencePage, evidenceMetadata } from '../../components/evidence-page';
 import { siteSectionBySlug } from '../../lib/content.mjs';
 
-const page = siteSectionBySlug('achievements')!;
+const page = siteSectionBySlug('troubleshooting')!;
 export const metadata = evidenceMetadata(page);
-export default function AchievementsPage() { return <EvidencePage page={page} />; }
+export default function TroubleshootingPage() { return <EvidencePage page={page} />; }

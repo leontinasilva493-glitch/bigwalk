@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CategoryCard, PuzzleCard } from '../components/guides';
+import { CategoryCard, EvidenceRouteCard, PuzzleCard } from '../components/guides';
 import { SectionHeading, SiteFooter, SiteHeader } from '../components/site';
-import { guides } from '../lib/content.mjs';
+import { guides, siteSections } from '../lib/content.mjs';
 import { WalkerStack } from '../components/game-elements';
 
 export const metadata: Metadata = {
@@ -28,6 +28,12 @@ const categories = [
   { label: 'Item', description: 'Browse available item hints.', count: '2 entries', icon: <GuideIcon type="item" /> },
   { label: 'Achievement', description: 'Verification pending.', count: 'Coming soon', icon: <GuideIcon type="achievement" /> },
 ];
+
+const featuredTopics = siteSections.filter((section) => [
+  'puzzles/purple-challenges',
+  'multiplayer',
+  'troubleshooting',
+].includes(section.slug));
 
 export default function HomePage() {
   return (
@@ -96,6 +102,30 @@ export default function HomePage() {
             Browse the full puzzle directory
             <span aria-hidden="true"> →</span>
           </Link>
+        </section>
+
+        <section className="discovery-section discovery-section--tint" aria-labelledby="visual-finder-title">
+          <div className="page-shell">
+            <SectionHeading kicker="VISUAL FINDER" title="Start with what you can see" />
+            <p className="section-intro">Visual words and alternate names are stored on the guide record, rather than being turned into duplicate URLs.</p>
+            <div className="visual-cue-grid">
+              {guides.map((guide) => (
+                <Link className="visual-cue-card" href={`/${guide.slug}`} key={guide.slug}>
+                  <span>LOOK FOR</span>
+                  <strong>{guide.visualCues.join(' + ')}</strong>
+                  <small>Also called: {guide.aliases.join(', ')}</small>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="discovery-section page-shell" aria-labelledby="topic-hubs-title">
+          <SectionHeading kicker="NEXT QUESTIONS" title="Purple challenges, multiplayer, and troubleshooting" />
+          <p className="section-intro">These topic hubs have permanent homes now. Their answers remain explicitly evidence-gated until they can be checked in the current game version.</p>
+          <div className="evidence-route-grid">
+            {featuredTopics.map((topic) => <EvidenceRouteCard key={topic.slug} route={topic} />)}
+          </div>
         </section>
 
         <section className="how-it-works" aria-labelledby="how-it-works-title">

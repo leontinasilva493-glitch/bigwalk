@@ -5,7 +5,7 @@ import { LanternWalker } from './game-elements';
 const navigation = [
   { href: '/puzzles', label: 'Puzzles', key: 'puzzles' },
   { href: '/beginner-guide', label: 'Beginner Guide', key: 'beginner' },
-  { href: '/multiplayer/best-group-size', label: 'Multiplayer', key: 'multiplayer' },
+  { href: '/multiplayer', label: 'Multiplayer', key: 'multiplayer' },
   { href: '/achievements', label: 'Achievements', key: 'achievements' },
 ] as const;
 
@@ -36,15 +36,9 @@ export function SiteHeader({ active }: { active?: NavigationKey }) {
           <MountainMark />
           <span>Big Walk Walkthrough</span>
         </Link>
-        <div className="site-nav-links">
-          <NavigationLinks active={active} />
-        </div>
+        <div className="site-nav-links"><NavigationLinks active={active} /></div>
         <details className="mobile-nav">
-          <summary aria-label="Open navigation">
-            <span aria-hidden="true" />
-            <span aria-hidden="true" />
-            <span aria-hidden="true" />
-          </summary>
+          <summary aria-label="Open navigation"><span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" /></summary>
           <div className="mobile-nav-panel"><NavigationLinks active={active} /></div>
         </details>
       </nav>
@@ -62,20 +56,15 @@ export function SiteFooter() {
       <div className="site-footer__links">
         <Link href="/puzzles">Puzzles</Link>
         <Link href="/beginner-guide">Beginner Guide</Link>
-        <Link href="/multiplayer/best-group-size">Multiplayer</Link>
+        <Link href="/multiplayer">Multiplayer</Link>
         <Link href="/achievements">Achievements</Link>
       </div>
-      <p>Last verified: Big Walk v1.4.8 · Updated: 2026-08-08</p>
+      <p>Evidence status: first-hand verification in progress.</p>
       <LanternWalker />
     </footer>
   );
 }
 
 export function SectionHeading({ kicker, title }: { kicker?: string; title: ReactNode }) {
-  return (
-    <div className="section-heading">
-      {kicker ? <p className="section-eyebrow">{kicker}</p> : null}
-      <h2>{title}</h2>
-    </div>
-  );
+  return <div className="section-heading">{kicker ? <p className="section-eyebrow">{kicker}</p> : null}<h2>{title}</h2></div>;
 }
