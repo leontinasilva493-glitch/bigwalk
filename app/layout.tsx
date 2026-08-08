@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Fredoka, Inter, Shantell_Sans } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 
 const brandFont = Shantell_Sans({ subsets: ['latin'], weight: ['500', '700'], variable: '--font-brand', display: 'swap' });
@@ -33,7 +34,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${brandFont.variable} ${displayFont.variable} ${bodyFont.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`(function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "xz3u8mp8w9");`}
+        </Script>
+      </body>
     </html>
   );
 }

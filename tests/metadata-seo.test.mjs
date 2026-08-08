@@ -101,3 +101,13 @@ test('homepage explains the evidence policy and version-sensitive co-op context'
   assert.match(home, /bigwalk\.game\/faq/);
   assert.match(home, /What makes a solution publishable\?/);
 });
+
+test('the root layout initializes Microsoft Clarity after hydration', async () => {
+  const layout = await sourceFor('app/layout.tsx');
+
+  assert.match(layout, /import Script from 'next\/script'/);
+  assert.match(layout, /id="microsoft-clarity"/);
+  assert.match(layout, /strategy="afterInteractive"/);
+  assert.match(layout, /https:\/\/www\.clarity\.ms\/tag\//);
+  assert.match(layout, /xz3u8mp8w9/);
+});
