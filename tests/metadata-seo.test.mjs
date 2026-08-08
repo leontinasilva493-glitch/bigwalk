@@ -69,3 +69,35 @@ test('directory and detail social metadata use their own canonical URLs', async 
   assert.match(detail, /openGraph:\s*\{\s*url:\s*`\/\$\{guide\.slug\}`/);
   assert.match(detail, /twitter:\s*\{/);
 });
+
+test('homepage presents verified content honestly and supplies a WebSite entity', async () => {
+  const home = await sourceFor('app/page.tsx');
+
+  assert.match(home, /'@type': 'WebSite'/);
+  assert.match(home, /Big Walk Walkthrough: Hints &amp; Puzzle Guides/);
+  assert.match(home, /Verified solutions and marked screenshots are added only after first-hand checks/i);
+  assert.doesNotMatch(home, /Every Puzzle Solved/);
+  assert.doesNotMatch(home, /SearchAction/);
+});
+
+test('the root route includes original social and browser metadata assets', async () => {
+  const [ogImage, icon] = await Promise.all([
+    sourceFor('app/opengraph-image.tsx'),
+    sourceFor('app/icon.svg'),
+  ]);
+
+  assert.match(ogImage, /ImageResponse/);
+  assert.match(ogImage, /width:\s*1200/);
+  assert.match(ogImage, /Big Walk Walkthrough/);
+  assert.match(icon, /<svg/);
+  assert.match(icon, /#1e5b40/i);
+});
+
+test('homepage explains the evidence policy and version-sensitive co-op context', async () => {
+  const home = await sourceFor('app/page.tsx');
+
+  assert.match(home, /How to use this Big Walk directory/);
+  assert.match(home, /2-player, 3-player, or 4\+ world/);
+  assert.match(home, /bigwalk\.game\/faq/);
+  assert.match(home, /What makes a solution publishable\?/);
+});
