@@ -70,3 +70,28 @@ test('walkthrough details activate the walkthrough destination in the shared hea
 
   assert.match(source, /<SiteHeader active="walkthrough" \/>/);
 });
+
+test('walkthrough routes show a direct route overview before optional spoilers', async () => {
+  const [routeSource, guidesSource] = await Promise.all([
+    readFile(new URL('../app/walkthrough/[...slug]/page.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
+  ]);
+
+  const overviewIndex = routeSource.indexOf('<RouteOverview');
+  const hintIndex = routeSource.indexOf('<HintBlock');
+
+  assert.ok(overviewIndex >= 0, 'the walkthrough template renders RouteOverview');
+  assert.ok(overviewIndex < hintIndex, 'the direct route overview appears before the spoiler-free hint');
+  assert.match(guidesSource, /Quick answer/);
+  assert.match(guidesSource, /Route at a glance/);
+});
+
+test('published route guides render reusable failure recovery guidance', async () => {
+  const source = await readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /If the route stalls/);
+  assert.match(source, /<th>Problem<\/th>/);
+  assert.match(source, /<th>What to do<\/th>/);
+  assert.match(source, /failure\.problem/);
+  assert.match(source, /failure\.fix/);
+});

@@ -60,6 +60,22 @@ export function HintBlock({ guide }: { guide: Guide }) {
   );
 }
 
+export function RouteOverview({ guide }: { guide: Guide }) {
+  const routeSummary = 'routeSummary' in guide ? guide.routeSummary : undefined;
+  if (!routeSummary?.length) return null;
+
+  return (
+    <section className="route-overview" aria-labelledby="route-overview-heading">
+      <p className="hint-block__kicker">Quick answer</p>
+      <h2 id="route-overview-heading">Route at a glance</h2>
+      <p>{guide.goal}</p>
+      <ol className="route-summary">
+        {routeSummary.map((stage) => <li key={stage}>{stage}</li>)}
+      </ol>
+    </section>
+  );
+}
+
 export function VerificationPanel({ guide }: { guide: Guide }) {
   const isPublished = guide.indexable;
 
@@ -83,6 +99,24 @@ export function VerificationPanel({ guide }: { guide: Guide }) {
           ))}
         </ol>
       </details>
+      {guide.commonFailures.length ? (
+        <section className="route-recovery" aria-labelledby={`recovery-${guide.slug.replaceAll('/', '-')}`}>
+          <h3 id={`recovery-${guide.slug.replaceAll('/', '-')}`}>If the route stalls</h3>
+          <div className="route-recovery__table-wrap">
+            <table>
+              <thead><tr><th>Problem</th><th>What to do</th></tr></thead>
+              <tbody>
+                {guide.commonFailures.map((failure) => (
+                  <tr key={failure.problem}>
+                    <th scope="row">{failure.problem}</th>
+                    <td>{failure.fix}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
       <section className="guide-sources" aria-labelledby={`sources-${guide.slug.replaceAll('/', '-')}`}>
         <h3 id={`sources-${guide.slug.replaceAll('/', '-')}`}>Source links</h3>
         <p>These links support the research trail. Their video frames and screenshots are not republished here.</p>
@@ -134,6 +168,7 @@ export function RelatedGuides({ relatedSlugs }: { relatedSlugs: string[] }) {
         {related.map((guide) => (
           <li key={guide.slug}><Link href={`/${guide.slug}`}>{guide.h1}</Link></li>
         ))}
+        {relatedSlugs.includes('puzzles') ? <li><Link href="/puzzles">Big Walk Puzzle Directory</Link></li> : null}
         {relatedSlugs.includes('home') ? <li><Link href="/">Big Walk Walkthrough home</Link></li> : null}
       </ul>
     </section>
