@@ -64,4 +64,3 @@ The page belongs under the existing `Walkthroughs` primary navigation destinatio
 - Verify generated metadata includes the self-canonical URL and `index, follow`.
 - Run the focused tests, full Node test suite, TypeScript check, and production Next.js build.
 - Inspect the built route and generated sitemap before handing the build back for review.
-
