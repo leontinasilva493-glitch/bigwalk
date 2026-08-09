@@ -4,12 +4,18 @@ import { LanternWalker } from './game-elements';
 
 const navigation = [
   { href: '/puzzles', label: 'Puzzles', key: 'puzzles' },
+  { href: '/walkthrough', label: 'Walkthroughs', key: 'walkthrough' },
   { href: '/beginner-guide', label: 'Beginner Guide', key: 'beginner' },
   { href: '/multiplayer', label: 'Multiplayer', key: 'multiplayer' },
-  { href: '/achievements', label: 'Achievements', key: 'achievements' },
+  { href: '/troubleshooting', label: 'Help & Fixes', key: 'help' },
 ] as const;
 
-type NavigationKey = (typeof navigation)[number]['key'];
+const secondaryNavigation = [
+  { href: '/achievements', label: 'Achievements', key: 'achievements' },
+  { href: '/puzzles/purple-challenges', label: 'Purple Challenges', key: 'purple-challenges' },
+] as const;
+
+type NavigationKey = (typeof navigation)[number]['key'] | (typeof secondaryNavigation)[number]['key'];
 
 function MountainMark() {
   return (
@@ -20,8 +26,8 @@ function MountainMark() {
   );
 }
 
-function NavigationLinks({ active }: { active?: NavigationKey }) {
-  return navigation.map((item) => (
+function NavigationLinks({ active, items = navigation }: { active?: NavigationKey; items?: typeof navigation | typeof secondaryNavigation }) {
+  return items.map((item) => (
     <Link href={item.href} key={item.key} aria-current={active === item.key ? 'page' : undefined}>
       {item.label}
     </Link>
@@ -36,10 +42,19 @@ export function SiteHeader({ active }: { active?: NavigationKey }) {
           <MountainMark />
           <span>Big Walk Walkthrough</span>
         </Link>
-        <div className="site-nav-links"><NavigationLinks active={active} /></div>
+        <div className="site-nav-links">
+          <NavigationLinks active={active} />
+          <details className="site-nav-more">
+            <summary aria-label="More guides">More</summary>
+            <div className="site-nav-more-panel"><NavigationLinks active={active} items={secondaryNavigation} /></div>
+          </details>
+        </div>
         <details className="mobile-nav">
           <summary aria-label="Open navigation"><span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" /></summary>
-          <div className="mobile-nav-panel"><NavigationLinks active={active} /></div>
+          <div className="mobile-nav-panel">
+            <NavigationLinks active={active} />
+            <NavigationLinks active={active} items={secondaryNavigation} />
+          </div>
         </details>
       </nav>
     </header>
@@ -55,8 +70,10 @@ export function SiteFooter() {
       </div>
       <div className="site-footer__links">
         <Link href="/puzzles">Puzzles</Link>
+        <Link href="/walkthrough">Walkthroughs</Link>
         <Link href="/beginner-guide">Beginner Guide</Link>
         <Link href="/multiplayer">Multiplayer</Link>
+        <Link href="/troubleshooting">Help &amp; Fixes</Link>
         <Link href="/achievements">Achievements</Link>
       </div>
       <p>Evidence status: first-hand verification in progress.</p>

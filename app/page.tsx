@@ -9,20 +9,20 @@ import { WalkerStack } from '../components/game-elements';
 export const metadata: Metadata = {
   title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
   description:
-    'Stuck in Big Walk? Browse spoiler-free puzzle hints by tower, item, or location. Verified solutions and marked screenshots are added only after first-hand checks.',
+    'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     url: '/',
     title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
     description:
-      'Stuck in Big Walk? Browse spoiler-free puzzle hints by tower, item, or location. Verified solutions and marked screenshots are added only after first-hand checks.',
+      'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
     description:
-      'Stuck in Big Walk? Browse spoiler-free puzzle hints by tower, item, or location. Verified solutions and marked screenshots are added only after first-hand checks.',
+      'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
   },
 };
 
@@ -32,7 +32,7 @@ const websiteJsonLd = {
   name: site.name,
   url: site.url,
   description:
-    'A spoiler-conscious directory of Big Walk puzzle hints, evidence status, and verified guides.',
+    'A spoiler-conscious directory of Big Walk puzzle hints, source-checked solutions, evidence status, and original-capture requirements.',
 };
 
 function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }) {
@@ -47,10 +47,10 @@ function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }
 }
 
 const categories = [
-  { label: 'Tower', description: 'Browse available tower hints.', count: '1 entry', icon: <GuideIcon type="tower" /> },
-  { label: 'Area', description: 'Browse available area hints.', count: '1 entry', icon: <GuideIcon type="area" /> },
-  { label: 'Item', description: 'Browse available item hints.', count: '2 entries', icon: <GuideIcon type="item" /> },
-  { label: 'Achievement', description: 'Verification pending.', count: 'Coming soon', icon: <GuideIcon type="achievement" /> },
+  { label: 'Tower', description: 'Browse available tower hints.', count: '1 entry', icon: <GuideIcon type="tower" />, href: '/puzzles#directory-by-tower' },
+  { label: 'Area', description: 'Browse route walkthroughs by landmark.', count: '1 route', icon: <GuideIcon type="area" />, href: '/walkthrough' },
+  { label: 'Item', description: 'Browse visible objects and clues.', count: '2 entries', icon: <GuideIcon type="item" />, href: '/puzzles#visual-finder' },
+  { label: 'Achievement', description: 'Verification pending.', count: 'Coming soon', icon: <GuideIcon type="achievement" />, href: '/achievements' },
 ];
 
 const featuredTopics = siteSections.filter((section) => [
@@ -58,6 +58,9 @@ const featuredTopics = siteSections.filter((section) => [
   'multiplayer',
   'troubleshooting',
 ].includes(section.slug));
+
+const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
+const walkthroughGuides = guides.filter((guide) => guide.kind === 'walkthrough');
 
 export default function HomePage() {
   return (
@@ -71,34 +74,22 @@ export default function HomePage() {
             <p className="eyebrow">A FIELD GUIDE FOR CURIOUS WALKERS</p>
             <h1 id="home-title">Big Walk Walkthrough: Hints &amp; Puzzle Guides</h1>
             <p className="home-hero__lede">
-              Browse spoiler-free hints by tower, item, or location. Verified solutions and marked screenshots are
-              added only after first-hand checks.
+              Browse spoiler-free hints by tower, item, or location. Source-checked solutions come with their research
+              trail; original marked screenshots are added after local capture.
             </p>
-            <div className="guide-search" role="search" aria-label="Guide search preview">
-              <label className="sr-only" htmlFor="guide-search-input">
-                Search Big Walk guides
-              </label>
-              <svg aria-hidden="true" viewBox="0 0 24 24" className="guide-search__icon">
-                <circle cx="10.8" cy="10.8" r="6.4" />
-                <path d="m16 16 4.2 4.2" />
-              </svg>
-              <input
-                id="guide-search-input"
-                type="search"
-                placeholder={'Search puzzles... try "purple things"'}
-                readOnly
-                aria-describedby="search-note"
-              />
-              <span className="guide-search__button" aria-hidden="true">
-                Browse guides
-              </span>
+            <div className="home-path-actions" aria-label="Choose a guide path">
+              <Link className="home-path-action" href="/puzzles">
+                <span>Need a solution?</span>
+                <strong>Find a puzzle <span aria-hidden="true">→</span></strong>
+              </Link>
+              <Link className="home-path-action" href="/walkthrough">
+                <span>Need the next unlock?</span>
+                <strong>Browse routes <span aria-hidden="true">→</span></strong>
+              </Link>
             </div>
-            <p className="sr-only" id="search-note">
-              Search is a visual directory prompt; use the popular guide links below.
-            </p>
             <div className="popular-links" aria-label="Popular guide links">
               <span>Popular:</span>
-              {guides.slice(0, 3).map((guide) => (
+              {[...puzzleGuides.slice(0, 2), ...walkthroughGuides].map((guide) => (
                 <Link href={`/${guide.slug}`} key={guide.slug}>
                   {guide.area}
                 </Link>
@@ -119,7 +110,7 @@ export default function HomePage() {
         <section className="discovery-section page-shell" aria-labelledby="puzzles-title">
           <SectionHeading kicker="CURRENT ENTRIES" title="Browse available hints" />
           <div className="puzzle-list">
-            {guides.map((guide) => (
+            {puzzleGuides.map((guide) => (
               <PuzzleCard guide={guide} key={guide.slug} />
             ))}
           </div>
@@ -129,12 +120,23 @@ export default function HomePage() {
           </Link>
         </section>
 
+        <section className="discovery-section page-shell" aria-labelledby="routes-title">
+          <SectionHeading kicker="UNLOCK ROUTES" title="Browse available walkthroughs" />
+          <div className="puzzle-list">
+            {walkthroughGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
+          </div>
+          <Link className="text-link" href="/walkthrough">
+            Browse walkthroughs
+            <span aria-hidden="true"> →</span>
+          </Link>
+        </section>
+
         <section className="discovery-section discovery-section--tint" aria-labelledby="visual-finder-title">
           <div className="page-shell">
             <SectionHeading kicker="VISUAL FINDER" title="Start with what you can see" />
             <p className="section-intro">Visual words and alternate names are stored on the guide record, rather than being turned into duplicate URLs.</p>
             <div className="visual-cue-grid">
-              {guides.map((guide) => (
+              {puzzleGuides.map((guide) => (
                 <Link className="visual-cue-card" href={`/${guide.slug}`} key={guide.slug}>
                   <span>LOOK FOR</span>
                   <strong>{guide.visualCues.join(' + ')}</strong>
@@ -166,17 +168,17 @@ export default function HomePage() {
               </p>
               <p>
                 The first thing to read on a guide is its status. A spoiler-free hint is meant to restore momentum: it
-                points your group back toward a clue or interaction without stating an answer. A full walkthrough is a
-                different promise. It needs a repeatable sequence, a current-version check, and original annotated
-                screenshots before this site treats it as a fact. Until then, the page stays visibly pending and out of
-                search indexing.
+                points your group back toward a clue or interaction without stating an answer. A source-checked
+                walkthrough shows its current sources, player-count context, and limits. A first-hand walkthrough adds
+                our own repeatable run and original annotated screenshots. Pages with unresolved reports stay visibly
+                pending and out of search indexing.
               </p>
               <p>
                 That distinction matters in an open-world co-op game. A good hint lets players keep communicating and
                 experimenting together. A premature solution can be wrong for the session type, hide an important
                 discovery, or send a group across the map for an object that is not available in their version of the
                 world. Use the hint first, decide together how much help you want, then return for the detailed guide
-                only when its verification panel says the evidence is complete.
+                only when its evidence panel explains which level of checking it has completed.
               </p>
             </div>
 
@@ -218,24 +220,23 @@ export default function HomePage() {
             <div className="home-reference__body">
               <h2>What makes a solution publishable?</h2>
               <p>
-                A publishable solution on this site is not a paraphrase of a comment thread. First, the puzzle needs a
-                clear starting state: the visible object or place, any prerequisite access, and the world-size variant.
-                Next comes a reproducible route that says what each player does and what changes after each step. The
-                final result must be checked again in the current game version. Only then can the guide move from a
-                pending hint page to an indexable walkthrough.
+                A publishable source-checked solution on this site is not a paraphrase of a comment thread. It needs a
+                clear starting state, a current source trail, a reproducible route, and an explicit player-count
+                context. A first-hand upgrade adds an original run and confirms the result again in the current game
+                version. Reports that cannot meet the source-checked bar remain noindex evidence pages.
               </p>
               <p>
-                Screenshots follow the same rule. They are captured for this guide, show the relevant landmark or
-                interaction, and use descriptive alt text. They are not copied from a creator&apos;s video or another guide.
-                If a public video helps locate a puzzle, it can be cited or embedded as a reference where the creator
-                permits embedding, but the written steps and explanatory screenshots still need their own verification.
+                Original screenshots follow the same rule. They are captured for this guide, show the relevant landmark
+                or interaction, and use descriptive alt text. They are not copied from a creator&apos;s video or another
+                guide. A public video can be cited or embedded as a reference where its creator permits embedding, but
+                its frames are never presented as this site&apos;s original capture.
               </p>
               <p>
                 This process is intentionally slower than publishing a quick answer. Big Walk supports two to twelve
                 players, has player-count-sensitive worlds, and asks groups to solve problems through communication.
-                Evidence labels let the site keep useful discovery pages online now without confusing a lead, a theory,
-                or an older recording with a finished solution. They also make it clear what must be rechecked when the
-                game is updated.
+                Evidence labels keep useful discovery pages online without confusing a source-checked route, a theory,
+                an older recording, and a finished first-hand capture. They also make it clear what must be rechecked
+                when the game is updated.
               </p>
               <p>
                 For general setup, saving, accessibility, joining a host, cross-play, and the game&apos;s communication

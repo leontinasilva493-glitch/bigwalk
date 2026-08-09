@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { PuzzleCard } from './guides';
 import { JsonLd } from './json-ld';
 import { SiteFooter, SiteHeader } from './site';
 import { MapIcon, RadioIcon, TrophyIcon, Walker } from './game-elements';
@@ -38,7 +39,7 @@ export function evidenceMetadata(page: SectionRecord): Metadata {
   };
 }
 
-export function EvidencePage({ page }: { page: SectionRecord }) {
+export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecord; featuredGuides?: Array<(typeof guides)[number]> }) {
   const url = `${site.url}/${page.slug}`;
   const article = {
     '@context': 'https://schema.org',
@@ -62,7 +63,7 @@ export function EvidencePage({ page }: { page: SectionRecord }) {
     <>
       <JsonLd data={article} />
       <JsonLd data={breadcrumb} />
-      <SiteHeader active={page.active as 'puzzles' | 'beginner' | 'multiplayer' | 'achievements'} />
+      <SiteHeader active={page.active as 'puzzles' | 'walkthrough' | 'beginner' | 'multiplayer' | 'help' | 'achievements' | 'purple-challenges'} />
       <main className="evidence-page page-shell">
         <nav className="breadcrumbs" aria-label="Breadcrumb">
           <ol><li><Link href="/">Home</Link></li><li aria-current="page">{page.h1}</li></ol>
@@ -91,6 +92,16 @@ export function EvidencePage({ page }: { page: SectionRecord }) {
               {page.evidenceNeeds.map((need) => <li key={need}>{need}</li>)}
             </ul>
           </section>
+
+          {featuredGuides.length ? (
+            <section className="evidence-page__available" aria-labelledby="available-routes-heading">
+              <h2 id="available-routes-heading">Available routes</h2>
+              <p>These route pages have source-checked content. Their evidence panels state what still needs a local capture.</p>
+              <div className="puzzle-list">
+                {featuredGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
+              </div>
+            </section>
+          ) : null}
 
           {page.relatedSlugs.length ? (
             <section className="related-guides" aria-labelledby="related-heading">

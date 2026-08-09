@@ -14,13 +14,13 @@ async function sourceFor(path) {
   }
 }
 
-test('pending guide metadata makes no completed-solution claims', () => {
+test('guide metadata only makes completed-solution claims for indexable source-checked pages', () => {
   const forbiddenClaims = /\bsolved\b|full walkthrough|exact location|step-by-step solution/i;
 
   for (const guide of guides) {
-    assert.equal(guide.verificationStatus, 'pending', `${guide.slug} declares its pending evidence state`);
-    assert.equal(guide.indexable, false, `${guide.slug} stays out of search until verified`);
-    assert.doesNotMatch(`${guide.title}\n${guide.h1}\n${guide.description}`, forbiddenClaims, guide.slug);
+    if (!guide.indexable) {
+      assert.doesNotMatch(`${guide.title}\n${guide.h1}\n${guide.description}`, forbiddenClaims, guide.slug);
+    }
     assert.doesNotMatch(guide.title, /\|\s*Big Walk$/, `${guide.slug} leaves the site suffix to the metadata template`);
   }
 });
@@ -30,7 +30,8 @@ test('site metadata describes an evidence-gated directory and supplies social de
 
   assert.match(layout, /default:\s*'Big Walk Hints & Puzzle Directory'/);
   assert.doesNotMatch(layout, /All Puzzles Solved/);
-  assert.match(layout, /first-hand verification/i);
+  assert.match(layout, /Source-checked solutions/i);
+  assert.match(layout, /original marked screenshots are added after local capture/i);
   assert.match(layout, /openGraph:/);
   assert.match(layout, /twitter:/);
 });
@@ -59,6 +60,13 @@ test('sitemap derives detail URLs only from indexable guide entries', async () =
   assert.doesNotMatch(sitemap, /const publicPaths\s*=/);
 });
 
+test('detail metadata receives both indexable and evidence-conflict guide states from its catalogue record', async () => {
+  const detail = await sourceFor('app/puzzles/[...slug]/page.tsx');
+
+  assert.match(detail, /robots:\s*\{\s*index:\s*guide\.indexable,\s*follow:\s*true\s*\}/);
+  assert.doesNotMatch(detail, /robots:\s*\{\s*index:\s*false/);
+});
+
 test('directory and detail social metadata use their own canonical URLs', async () => {
   const [puzzles, detail] = await Promise.all([
     sourceFor('app/puzzles/page.tsx'),
@@ -70,12 +78,13 @@ test('directory and detail social metadata use their own canonical URLs', async 
   assert.match(detail, /twitter:\s*\{/);
 });
 
-test('homepage presents verified content honestly and supplies a WebSite entity', async () => {
+test('homepage distinguishes source-checked solutions from later first-hand screenshot captures', async () => {
   const home = await sourceFor('app/page.tsx');
 
   assert.match(home, /'@type': 'WebSite'/);
   assert.match(home, /Big Walk Walkthrough: Hints &amp; Puzzle Guides/);
-  assert.match(home, /Verified solutions and marked screenshots are added only after first-hand checks/i);
+  assert.match(home, /Source-checked solutions/i);
+  assert.match(home, /original marked screenshots/i);
   assert.doesNotMatch(home, /Every Puzzle Solved/);
   assert.doesNotMatch(home, /SearchAction/);
 });

@@ -6,7 +6,7 @@ test('the catalogue exposes the three puzzles and map-room walkthrough', () => {
   assert.equal(guides.length, 4);
   assert.equal(
     guideBySlug('puzzles/green-chair-headphones').h1,
-    'Green Chair and Headphones: Hint & Verification Status',
+    'Big Walk Sound Check Puzzle: Chair and Headphones Solution',
   );
   assert.equal(guideBySlug('missing'), undefined);
 });
@@ -22,16 +22,16 @@ test('every guide declares its verification and original-image hand-off', () => 
         /^[a-z0-9-]+\.webp$/.test(guide.assetRequirement),
     ),
   );
-  assert.deepEqual(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs, ['home']);
+  assert.deepEqual(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs, ['puzzles/4166-1899-coordinates', 'home']);
 });
 
 test('every guide declares its tower evidence state', () => {
   assert.deepEqual(
     guides.map((guide) => guide.tower),
     [
-      'Tower verification pending',
-      'Tower verification pending',
-      'Tower verification pending',
+      'Yellow Tower area',
+      'Late-game completion area',
+      'Red Tower map room',
       'Red Tower',
     ],
   );
@@ -41,8 +41,39 @@ test('the home taxonomy supplies all approved browse categories', () => {
   assert.deepEqual(site.taxonomy, ['tower', 'area', 'item', 'achievement']);
 });
 
-test('the first-release catalogue keeps every placeholder explicitly evidence-gated', () => {
-  assert.ok(guides.every((guide) => guide.verificationStatus === 'pending' && guide.indexable === false));
+test('source-checked P0 guides declare complete publishable content and provenance', () => {
+  const sourceChecked = guides.filter((guide) => guide.verificationStatus === 'source_checked');
+
+  assert.deepEqual(
+    sourceChecked.map((guide) => guide.slug),
+    [
+      'puzzles/green-chair-headphones',
+      'puzzles/4166-1899-coordinates',
+      'walkthrough/red-tower-map-room',
+    ],
+  );
+  assert.ok(sourceChecked.every((guide) => (
+    guide.indexable
+    && guide.sourceCheckedAt === '2026-08-09'
+    && guide.platforms.length > 0
+    && guide.playerCount
+    && guide.solutionSteps.length >= 3
+    && guide.sources.length >= 2
+    && guide.screenshotRequests.length === 3
+  )));
+});
+
+test('purple-things remains a useful but non-indexable evidence page while reports conflict', () => {
+  const purpleThings = guideBySlug('puzzles/purple-things-where-to-use');
+
+  assert.equal(purpleThings.verificationStatus, 'evidence_conflict');
+  assert.equal(purpleThings.indexable, false);
+  assert.match(purpleThings.evidenceNote, /conflict/i);
+  assert.ok(purpleThings.sources.length >= 2);
+  assert.ok(purpleThings.solutionSteps.length >= 3);
+});
+
+test('guide text remains free of malformed encoding', () => {
   const textValues = (value) => {
     if (typeof value === 'string') return [value];
     if (Array.isArray(value)) return value.flatMap(textValues);
