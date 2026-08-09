@@ -6,19 +6,19 @@ import { guides, siteSections } from '../../lib/content.mjs';
 export const metadata: Metadata = {
   title: 'Big Walk Hints & Puzzle Directory',
   description:
-    'Browse available Big Walk hints by tower, item, or location. Verified solutions and original marked screenshots are being added only after first-hand verification.',
+    'Browse Big Walk hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
   alternates: { canonical: '/puzzles' },
   openGraph: {
     url: '/puzzles',
     title: 'Big Walk Hints & Puzzle Directory',
     description:
-      'Browse available Big Walk hints by tower, item, or location. Verified solutions and original marked screenshots are being added only after first-hand verification.',
+      'Browse Big Walk hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
   },
   twitter: {
     card: 'summary',
     title: 'Big Walk Hints & Puzzle Directory',
     description:
-      'Browse available Big Walk hints by tower, item, or location. Verified solutions and original marked screenshots are being added only after first-hand verification.',
+      'Browse Big Walk hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
   },
 };
 
@@ -34,14 +34,15 @@ function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }
 }
 
 const categories = [
-  { label: 'Tower', description: 'Browse available tower hints.', count: '1 entry', icon: <GuideIcon type="tower" /> },
-  { label: 'Area', description: 'Browse available area hints.', count: '1 entry', icon: <GuideIcon type="area" /> },
-  { label: 'Item', description: 'Browse available item hints.', count: '2 entries', icon: <GuideIcon type="item" /> },
-  { label: 'Achievement', description: 'Verification pending.', count: 'Coming soon', icon: <GuideIcon type="achievement" /> },
+  { label: 'Tower', description: 'Browse available tower hints.', count: '1 entry', icon: <GuideIcon type="tower" />, href: '#directory-by-tower' },
+  { label: 'Area', description: 'Browse route walkthroughs by landmark.', count: '1 route', icon: <GuideIcon type="area" />, href: '/walkthrough' },
+  { label: 'Item', description: 'Browse visible objects and clues.', count: '2 entries', icon: <GuideIcon type="item" />, href: '#visual-finder' },
+  { label: 'Achievement', description: 'Verification pending.', count: 'Coming soon', icon: <GuideIcon type="achievement" />, href: '/achievements' },
 ];
 
 export default function PuzzlesPage() {
-  const guidesByTower = guides.reduce<Record<string, typeof guides[number][]>>((groups, guide) => {
+  const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
+  const guidesByTower = puzzleGuides.reduce<Record<string, typeof guides[number][]>>((groups, guide) => {
     (groups[guide.tower] ??= []).push(guide);
     return groups;
   }, {});
@@ -60,8 +61,8 @@ export default function PuzzlesPage() {
             <p className="eyebrow">THE BIG WALK FIELD DIRECTORY</p>
             <h1>Big Walk Puzzle Hints &amp; Directory</h1>
             <p>
-              Browse the available hints by tower, item, or location. Verified solutions and original
-              marked screenshots are being added only after first-hand verification.
+              Browse hints and source-checked solutions by tower, item, or location. Original marked screenshots are
+              added after local capture; unresolved reports stay out of search indexing.
             </p>
           </div>
         </section>
@@ -74,11 +75,11 @@ export default function PuzzlesPage() {
           </div>
         </section>
 
-        <section className="visual-finder-section page-shell" aria-labelledby="visual-finder-heading">
+        <section id="visual-finder" className="visual-finder-section page-shell" aria-labelledby="visual-finder-heading">
           <SectionHeading kicker="VISUAL FINDER" title="Browse by what you saw" />
           <p className="section-intro">Each clue is filed under its visible words and aliases. Aliases improve discovery without creating thin duplicate pages.</p>
           <div className="visual-cue-grid">
-            {guides.map((guide) => (
+            {puzzleGuides.map((guide) => (
               <a className="visual-cue-card" href={`/${guide.slug}`} key={guide.slug}>
                 <span>VISUAL CUE</span>
                 <strong>{guide.visualCues.join(' + ')}</strong>
@@ -88,7 +89,7 @@ export default function PuzzlesPage() {
           </div>
         </section>
 
-        <section className="directory-groups page-shell">
+        <section id="directory-by-tower" className="directory-groups page-shell">
           <SectionHeading kicker="DIRECTORY BY TOWER" title="Browse by landmark" />
           {Object.entries(guidesByTower).map(([tower, towerGuides]) => (
             <div className="directory-group" key={tower}>

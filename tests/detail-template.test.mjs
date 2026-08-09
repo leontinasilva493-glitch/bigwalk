@@ -7,13 +7,13 @@ const detailRoutes = [
   '../app/walkthrough/[...slug]/page.tsx',
 ];
 
-test('detail templates are static, verification-gated server pages', async () => {
+test('detail templates are static server pages whose robots state follows each guide', async () => {
   for (const route of detailRoutes) {
     const source = await readFile(new URL(route, import.meta.url), 'utf8');
 
     assert.match(source, /generateStaticParams/);
-    assert.match(source, /noindex/);
-    assert.match(source, /follow/);
+    assert.match(source, /index:\s*guide\.indexable/);
+    assert.match(source, /follow:\s*true/);
     assert.match(source, /Article/);
     assert.match(source, /BreadcrumbList/);
 
@@ -44,13 +44,29 @@ test('walkthrough breadcrumbs omit the nonexistent walkthrough index', async () 
   assert.doesNotMatch(breadcrumbComponent, /Walkthrough/);
 });
 
-test('detail heroes show verification status before catalogue copy', async () => {
+test('detail heroes show source status before catalogue copy', async () => {
   for (const route of detailRoutes) {
     const source = await readFile(new URL(route, import.meta.url), 'utf8');
-    const statusIndex = source.indexOf('Verification in progress');
+    const statusIndex = source.indexOf('guide.verificationLabel');
     const kickerIndex = source.indexOf('guide-kicker');
 
-    assert.ok(statusIndex >= 0, `${route} visibly states that verification is in progress`);
-    assert.ok(statusIndex < kickerIndex, `${route} shows verification status before the hero copy`);
+    assert.ok(statusIndex >= 0, `${route} visibly states the guide evidence status`);
+    assert.ok(statusIndex < kickerIndex, `${route} shows evidence status before the hero copy`);
   }
+});
+
+test('published guide pages render provenance, spoiler-gated steps, source links, and capture requests', async () => {
+  const source = await readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /Source check/);
+  assert.match(source, /solutionSteps/);
+  assert.match(source, /Source links/);
+  assert.match(source, /Original screenshot capture list/);
+  assert.match(source, /youtube-nocookie\.com/);
+});
+
+test('walkthrough details activate the walkthrough destination in the shared header', async () => {
+  const source = await readFile(new URL('../app/walkthrough/[...slug]/page.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /<SiteHeader active="walkthrough" \/>/);
 });

@@ -17,24 +17,25 @@ export function PuzzleCard({ guide }: { guide: Guide }) {
       <p className="guide-card-category">{guide.category}</p>
       <h3><Link href={`/${guide.slug}`}>{guide.h1}</Link></h3>
       <p>{guide.description}</p>
-      <p className="guide-card-meta">{guide.area} · {guide.readTime}</p>
+      <p className="guide-card-meta">{guide.area} · {guide.readTime} · {guide.indexable ? 'Source-checked' : 'Evidence in progress'}</p>
     </article>
   );
 }
 
-export function CategoryCard({ label, description, count, icon }: {
+export function CategoryCard({ label, description, count, icon, href }: {
   label: string;
   description: string;
   count: string | number;
   icon: ReactNode;
+  href: string;
 }) {
   return (
-    <article className="category-card">
+    <Link className="category-card" href={href}>
       <div className="category-card-icon" aria-hidden="true">{icon}</div>
       <h3>{label}</h3>
       <p>{description}</p>
       <p className="category-card-count">{count}</p>
-    </article>
+    </Link>
   );
 }
 
@@ -60,17 +61,49 @@ export function HintBlock({ guide }: { guide: Guide }) {
 }
 
 export function VerificationPanel({ guide }: { guide: Guide }) {
+  const isPublished = guide.indexable;
+
   return (
     <section className="verification-panel" aria-labelledby="verification-heading">
-      <div className="spoiler-gate__title"><SignalFlareIcon className="spoiler-gate__icon" /><div><p className="hint-block__kicker">SPOILER WARNING</p><h2 id="verification-heading">Solution and screenshot status</h2></div></div>
-      <p>Verified solution and annotated screenshot are pending first-hand verification.</p>
-      <p>
-        Required WebP hand-off: <code>{guide.assetRequirement}</code> — natural alt text: {guide.imageAlt}.
-      </p>
+      <div className="spoiler-gate__title"><SignalFlareIcon className="spoiler-gate__icon" /><div><p className="hint-block__kicker">{isPublished ? 'SPOILER WARNING' : 'EVIDENCE STATUS'}</p><h2 id="verification-heading">{isPublished ? 'Source-checked solution' : 'What the available evidence does and does not prove'}</h2></div></div>
+      <dl className="guide-facts">
+        <div><dt>Source check</dt><dd>{guide.sourceCheckedAt}</dd></div>
+        <div><dt>Platforms</dt><dd>{guide.platforms.join('; ')}</dd></div>
+        <div><dt>Player count</dt><dd>{guide.playerCount}</dd></div>
+      </dl>
+      <p>{guide.evidenceNote}</p>
       <details className="spoiler-gate">
-        <summary>Reveal Full Solution Status</summary>
-        <p>No solution is shown here yet. This spoiler gate will only contain the verified answer after first-hand verification.</p>
+        <summary>{isPublished ? 'Reveal the full solution' : 'Read the current evidence trail'}</summary>
+        <ol className="solution-steps">
+          {guide.solutionSteps.map((step, index) => (
+            <li key={step.title}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div><h3>{step.title}</h3><p>{step.body}</p></div>
+            </li>
+          ))}
+        </ol>
       </details>
+      <section className="guide-sources" aria-labelledby={`sources-${guide.slug.replaceAll('/', '-')}`}>
+        <h3 id={`sources-${guide.slug.replaceAll('/', '-')}`}>Source links</h3>
+        <p>These links support the research trail. Their video frames and screenshots are not republished here.</p>
+        <ul>
+          {guide.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span></li>)}
+        </ul>
+      </section>
+      {'video' in guide && guide.video ? (
+        <section className="guide-video" aria-labelledby={`video-${guide.slug.replaceAll('/', '-')}`}>
+          <h3 id={`video-${guide.slug.replaceAll('/', '-')}`}>{guide.video.title}</h3>
+          <p>{guide.video.note}</p>
+          <div className="video-frame"><iframe title={guide.video.title} src={`https://www.youtube-nocookie.com/embed/${guide.video.id}`} loading="lazy" allowFullScreen /></div>
+        </section>
+      ) : null}
+      <section className="capture-list" aria-labelledby={`captures-${guide.slug.replaceAll('/', '-')}`}>
+        <h3 id={`captures-${guide.slug.replaceAll('/', '-')}`}>Original screenshot capture list</h3>
+        <p>Original local gameplay screenshots are still required for this guide. This checklist prevents a third-party frame from being substituted for an original capture.</p>
+        <ol>
+          {guide.screenshotRequests.map((request) => <li key={request.label}><strong>{request.label}:</strong> {request.description}</li>)}
+        </ol>
+      </section>
     </section>
   );
 }

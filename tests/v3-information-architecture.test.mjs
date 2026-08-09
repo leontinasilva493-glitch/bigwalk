@@ -28,8 +28,8 @@ test('guide records expose the v3 evidence model and visual aliases', () => {
     && Array.isArray(guide.nearbyLandmarks)
     && guide.worldVariants
     && Array.isArray(guide.sources)
-    && ['draft', 'verified', 'outdated'].includes(guide.status)
-    && ['not_collected', 'first_hand', 'corroborated'].includes(guide.evidenceLevel)
+    && ['draft', 'published', 'research', 'verified', 'outdated'].includes(guide.status)
+    && ['not_collected', 'first_hand', 'corroborated', 'conflicting_reports'].includes(guide.evidenceLevel)
   )));
   assert.ok(siteSections.some((section) => section.slug === 'puzzles/purple-challenges'));
   assert.ok(siteSections.every((section) => section.indexable === false));
@@ -40,4 +40,14 @@ test('new topic pages use the shared evidence template and stay out of indexing'
   assert.match(source, /robots: \{ index: false, follow: true \}/);
   assert.match(source, /Verification in progress/);
   assert.match(source, /What we still need to verify/);
+});
+
+test('primary navigation leads with player intents and keeps lower-priority topics secondary', async () => {
+  const source = await readFile(new URL('../components/site.tsx', import.meta.url), 'utf8');
+
+  assert.match(source, /\{ href: '\/walkthrough', label: 'Walkthroughs', key: 'walkthrough' \}/);
+  assert.match(source, /\{ href: '\/troubleshooting', label: 'Help & Fixes', key: 'help' \}/);
+  assert.match(source, /const secondaryNavigation/);
+  assert.match(source, /\{ href: '\/achievements', label: 'Achievements', key: 'achievements' \}/);
+  assert.match(source, /\{ href: '\/puzzles\/purple-challenges', label: 'Purple Challenges', key: 'purple-challenges' \}/);
 });

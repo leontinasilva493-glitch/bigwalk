@@ -14,7 +14,7 @@ async function sourceFor(name) {
   return readFile(new URL(pageFiles[name], import.meta.url), 'utf8');
 }
 
-test('indexable discovery pages use verification-pending copy and expose the directory structure', async () => {
+test('indexable discovery pages distinguish source-checked solutions from unresolved reports and expose the directory structure', async () => {
   const [home, puzzles] = await Promise.all([sourceFor('home'), sourceFor('puzzles')]);
 
   for (const source of [home, puzzles]) {
@@ -23,8 +23,10 @@ test('indexable discovery pages use verification-pending copy and expose the dir
     assert.doesNotMatch(source, /Every Big Walk puzzle solved/);
   }
 
-  assert.match(home, /verified solutions and original marked screenshots are being added only after first-hand verification/i);
-  assert.match(home, /Search puzzles\.\.\. try "purple things"/);
+  assert.match(home, /Source-checked solutions/i);
+  assert.match(home, /original marked screenshots are added after local capture/i);
+  assert.match(home, /Need a solution\?/);
+  assert.match(home, /Need the next unlock\?/);
   assert.match(home, /How It Works/);
   assert.match(home, /CategoryCard/g);
   assert.equal((home.match(/CategoryCard/g) ?? []).length, 2);
@@ -32,10 +34,12 @@ test('indexable discovery pages use verification-pending copy and expose the dir
   assert.match(home, /area/);
   assert.match(home, /item/);
   assert.match(home, /achievement/);
-  assert.equal((home.match(/PuzzleCard/g) ?? []).length, 2);
+  assert.equal((home.match(/PuzzleCard/g) ?? []).length, 3);
 
   assert.match(puzzles, /Big Walk Puzzle Hints/);
-  assert.match(puzzles, /verified solutions and original marked screenshots are being added only after first-hand verification/i);
+  assert.match(puzzles, /source-checked solutions/i);
+  assert.match(puzzles, /original marked screenshots are added after local capture/i);
+  assert.match(puzzles, /unresolved reports stay out of search indexing/i);
   assert.match(puzzles, /<h2>\{tower\}<\/h2>/);
   assert.match(puzzles, /PuzzleCard/g);
 });
@@ -69,4 +73,29 @@ test('detail layout keeps a narrow reading column and a desktop-only table of co
   assert.match(styles, /@media \(min-width: 1280px\)\s*\{[\s\S]*?\.guide-toc\s*\{[\s\S]*?display:\s*flex;/);
   assert.match(styles, /\.spoiler-gate summary\s*\{[\s\S]*?min-height:\s*44px/);
   assert.match(styles, /@media \(max-width: 767px\)\s*\{[\s\S]*?\.guide-article\s*\{[\s\S]*?width:\s*100%/);
+});
+
+test('directory cards keep puzzle answers distinct from route walkthroughs', async () => {
+  const [puzzles, walkthrough] = await Promise.all([
+    sourceFor('puzzles'),
+    readFile(new URL('../app/walkthrough/page.tsx', import.meta.url), 'utf8'),
+  ]);
+
+  assert.match(puzzles, /const puzzleGuides = guides\.filter\(\(guide\) => guide\.kind === 'puzzle'\)/);
+  assert.match(puzzles, /puzzleGuides\.reduce/);
+  assert.match(walkthrough, /const walkthroughGuides = guides\.filter\(\(guide\) => guide\.kind === 'walkthrough'\)/);
+  assert.match(walkthrough, /featuredGuides=\{walkthroughGuides\}/);
+});
+
+test('homepage discovery controls route visitors to real puzzle and walkthrough destinations', async () => {
+  const [home, guideComponents] = await Promise.all([
+    sourceFor('home'),
+    readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
+  ]);
+
+  assert.match(home, /href="\/puzzles"/);
+  assert.match(home, /href="\/walkthrough"/);
+  assert.doesNotMatch(home, /readOnly/);
+  assert.match(guideComponents, /href: string/);
+  assert.match(guideComponents, /<Link className="category-card" href=\{href\}>/);
 });

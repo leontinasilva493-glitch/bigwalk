@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: guide.title,
     description: guide.description,
     alternates: { canonical: `/${guide.slug}` },
-    robots: { index: false, follow: true }, // noindex, follow until verification
+    robots: { index: guide.indexable, follow: true },
     openGraph: {
       url: `/${guide.slug}`,
       title: guide.title,
@@ -65,12 +65,12 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
     <>
       <JsonLd data={articleJsonLd} />
       <JsonLd data={breadcrumbJsonLd} />
-      <SiteHeader />
+      <SiteHeader active="walkthrough" />
       <main className="guide-page">
         <Breadcrumbs guide={guide} />
         <article className="guide-article">
           <header className="guide-hero">
-            <p className="verification-status" role="status">Verification in progress</p>
+            <p className="verification-status" role="status">{guide.verificationLabel}</p>
             <p className="guide-kicker">{guide.category} walkthrough · {guide.area}</p>
             <h1>{guide.h1}</h1>
             <p className="guide-description">{guide.description}</p>
@@ -79,7 +79,7 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
           <aside className="guide-toc" aria-label="On this page">
             <p>On this page</p>
             <a href="#hint-heading">Hint</a>
-            <a href="#verification-heading">Solution status</a>
+            <a href="#verification-heading">Solution and sources</a>
           </aside>
           <HintBlock guide={guide} />
           <VerificationPanel guide={guide} />

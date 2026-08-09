@@ -14,20 +14,20 @@ export const metadata: Metadata = {
     template: '%s | Big Walk Walkthrough',
   },
   description:
-    'Find Big Walk puzzle hints by tower, item, or location. Verified solutions and original marked screenshots are added only after first-hand verification.',
+    'Find Big Walk puzzle hints by tower, item, or location. Source-checked solutions and original marked screenshots are added after local capture.',
   openGraph: {
     type: 'website',
     url: '/',
     siteName: 'Big Walk Walkthrough',
     title: 'Big Walk Hints & Puzzle Directory',
     description:
-      'Find Big Walk puzzle hints by tower, item, or location. Verified solutions and original marked screenshots are added only after first-hand verification.',
+      'Find Big Walk puzzle hints by tower, item, or location. Source-checked solutions and original marked screenshots are added after local capture.',
   },
   twitter: {
     card: 'summary',
     title: 'Big Walk Hints & Puzzle Directory',
     description:
-      'Find Big Walk puzzle hints by tower, item, or location. Verified solutions and original marked screenshots are added only after first-hand verification.',
+      'Find Big Walk puzzle hints by tower, item, or location. Source-checked solutions and original marked screenshots are added after local capture.',
   },
 };
 
