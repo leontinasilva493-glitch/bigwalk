@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { guides, guideBySlug, site } from '../lib/content.mjs';
 
 test('the catalogue exposes the three puzzles and map-room walkthrough', () => {
-  assert.equal(guides.length, 4);
+  assert.equal(guides.length, 5);
   assert.equal(
     guideBySlug('puzzles/green-chair-headphones').h1,
     'Big Walk Sound Check Puzzle: Chair and Headphones Solution',
@@ -33,6 +33,7 @@ test('every guide declares its tower evidence state', () => {
       'Late-game completion area',
       'Red Tower map room',
       'Red Tower',
+      'Opening area',
     ],
   );
 });
@@ -50,6 +51,7 @@ test('source-checked P0 guides declare complete publishable content and provenan
       'puzzles/green-chair-headphones',
       'puzzles/4166-1899-coordinates',
       'walkthrough/red-tower-map-room',
+      'walkthrough/crosswalk',
     ],
   );
   assert.ok(sourceChecked.every((guide) => (
@@ -61,6 +63,24 @@ test('source-checked P0 guides declare complete publishable content and provenan
     && guide.sources.length >= 2
     && guide.screenshotRequests.length === 3
   )));
+});
+
+test('the Crosswalk opening route is complete enough for indexed discovery', () => {
+  const crosswalk = guideBySlug('walkthrough/crosswalk');
+
+  assert.equal(crosswalk.kind, 'walkthrough');
+  assert.equal(crosswalk.indexable, true);
+  assert.equal(crosswalk.status, 'published');
+  assert.equal(crosswalk.evidenceLevel, 'corroborated');
+  assert.equal(crosswalk.sourceCheckedAt, '2026-08-09');
+  assert.ok(crosswalk.routeSummary.length >= 5);
+  assert.ok(crosswalk.solutionSteps.length >= 6);
+  assert.ok(crosswalk.commonFailures.length >= 4);
+  assert.ok(crosswalk.sources.length >= 2);
+  assert.deepEqual(crosswalk.relatedSlugs, [
+    'walkthrough/red-tower-map-room',
+    'puzzles',
+  ]);
 });
 
 test('purple-things remains a useful but non-indexable evidence page while reports conflict', () => {
