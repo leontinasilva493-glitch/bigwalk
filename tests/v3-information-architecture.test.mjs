@@ -33,7 +33,9 @@ test('guide records expose the v3 evidence model and visual aliases', () => {
   )));
   assert.ok(siteSections.some((section) => section.slug === 'puzzles/purple-challenges'));
   assert.equal(siteSections.find((section) => section.slug === 'puzzles/purple-challenges').indexable, true);
-  assert.ok(siteSections.filter((section) => section.slug !== 'puzzles/purple-challenges').every((section) => section.indexable === false));
+  assert.equal(siteSections.find((section) => section.slug === 'beginner-guide').indexable, true);
+  const publishedSectionSlugs = new Set(['beginner-guide', 'puzzles/purple-challenges']);
+  assert.ok(siteSections.filter((section) => !publishedSectionSlugs.has(section.slug)).every((section) => section.indexable === false));
 });
 
 test('new topic pages use the shared evidence template and derive indexing from evidence state', async () => {
