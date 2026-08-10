@@ -47,6 +47,12 @@ test('indexable discovery pages declare canonical URLs without trailing-slash re
   assert.match(puzzles, /alternates:\s*\{\s*canonical:\s*'\/puzzles'\s*\}/);
 });
 
+test('the puzzle directory keeps the requested title absolute instead of inheriting the site suffix', async () => {
+  const puzzles = await sourceFor('app/puzzles/page.tsx');
+
+  assert.match(puzzles, /title:\s*\{\s*absolute:\s*puzzleDirectorySeo\.title\s*\}/);
+});
+
 test('unmatched routes have accurate noindex metadata', async () => {
   const notFound = await sourceFor('app/not-found.tsx');
 
