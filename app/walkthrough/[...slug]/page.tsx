@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, HintBlock, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence } from '../../../components/guides';
+import { Breadcrumbs, GreenRoomResearch, HintBlock, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -82,6 +82,7 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
             <a href="#hint-heading">Hint</a>
             <a href="#verification-heading">Solution and sources</a>
           </aside>
+          <GreenRoomResearch guide={guide} />
           <RouteOverview guide={guide} />
           <HintBlock guide={guide} />
           <VideoEvidence guide={guide} />

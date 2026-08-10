@@ -51,6 +51,7 @@ test('public discovery is crawlable while placeholder detail URLs stay out of ge
   assert.match(sitemap, /path:\s*'\//);
   assert.match(sitemap, /path:\s*'\/puzzles'/);
   assert.match(sitemap, /guides\s*\.filter\(\(guide\)\s*=>\s*guide\.indexable\)/);
+  assert.match(sitemap, /siteSections\s*\.filter\(\(section\)\s*=>\s*section\.indexable\)/);
   assert.doesNotMatch(sitemap, /green-chair-headphones|purple-things|4166-1899|red-tower-map-room/);
   assert.match(robots, /allow:\s*['"]\/['"]/);
   assert.match(robots, /sitemap/);
