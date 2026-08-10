@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, HintBlock, RelatedGuides, VerificationPanel } from '../../../components/guides';
+import { Breadcrumbs, HintBlock, RelatedGuides, RouteOverview, VerificationPanel } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -78,9 +78,11 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
           </header>
           <aside className="guide-toc" aria-label="On this page">
             <p>On this page</p>
+            {'routeSummary' in guide ? <a href="#route-overview-heading">Route overview</a> : null}
             <a href="#hint-heading">Hint</a>
             <a href="#verification-heading">Solution and sources</a>
           </aside>
+          <RouteOverview guide={guide} />
           <HintBlock guide={guide} />
           <VerificationPanel guide={guide} />
           <SectionHeading kicker="Keep exploring" title="Related Big Walk guides" />

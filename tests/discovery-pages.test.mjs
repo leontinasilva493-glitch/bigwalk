@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { guides } from '../lib/content.mjs';
 
 const pageFiles = {
   home: '../app/page.tsx',
@@ -98,4 +99,17 @@ test('homepage discovery controls route visitors to real puzzle and walkthrough 
   assert.doesNotMatch(home, /readOnly/);
   assert.match(guideComponents, /href: string/);
   assert.match(guideComponents, /<Link className="category-card" href=\{href\}>/);
+});
+
+test('the Crosswalk route enters both walkthrough navigation and indexable discovery', () => {
+  assert.ok(
+    guides
+      .filter((guide) => guide.kind === 'walkthrough')
+      .some((guide) => guide.slug === 'walkthrough/crosswalk'),
+  );
+  assert.ok(
+    guides
+      .filter((guide) => guide.indexable)
+      .some((guide) => guide.slug === 'walkthrough/crosswalk'),
+  );
 });

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { guideBySlug } from '../lib/content.mjs';
 import { guides } from '../lib/content.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -119,4 +120,14 @@ test('the root layout initializes Microsoft Clarity after hydration', async () =
   assert.match(layout, /strategy="afterInteractive"/);
   assert.match(layout, /https:\/\/www\.clarity\.ms\/tag\//);
   assert.match(layout, /xz3u8mp8w9/);
+});
+
+test('the Crosswalk route supplies indexable self-canonical metadata inputs', () => {
+  const guide = guideBySlug('walkthrough/crosswalk');
+
+  assert.equal(guide.title, 'How to Unlock the Crosswalk in Big Walk');
+  assert.equal(guide.indexable, true);
+  assert.equal(`/${guide.slug}`, '/walkthrough/crosswalk');
+  assert.match(guide.description, /Crosswalk/);
+  assert.doesNotMatch(`${guide.title}\n${guide.description}`, /secret ending/i);
 });

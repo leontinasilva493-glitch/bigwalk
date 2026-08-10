@@ -509,6 +509,20 @@ h3 {
 
 .guide-toc { display: none; }
 
+.route-overview {
+  margin-top: 32px;
+  padding: 24px;
+  border: 1px solid color-mix(in srgb, var(--forest) 34%, var(--border));
+  border-radius: 8px;
+  background: var(--forest-tint);
+}
+
+.route-overview h2 { margin-top: 6px; font-size: 1.375rem; }
+.route-overview > p:not(.hint-block__kicker) { margin: 12px 0 0; color: var(--ink-2); }
+.route-summary { display: grid; gap: 10px; margin: 20px 0 0; padding: 0; counter-reset: route-stage; list-style: none; }
+.route-summary li { display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 10px; color: var(--ink); font-weight: 700; }
+.route-summary li::before { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--forest); color: #fff; content: counter(route-stage); counter-increment: route-stage; font-size: .75rem; }
+
 .hint-block,
 .verification-panel {
   margin-top: 32px;
@@ -572,6 +586,14 @@ h3 {
 .solution-steps li > span { color: var(--spoiler); font-weight: 800; letter-spacing: .08em; }
 .solution-steps h3 { margin: 0; font-size: 1rem; }
 .solution-steps p { margin: 6px 0 0; }
+.route-recovery { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--border); }
+.route-recovery h3 { margin: 0; font-family: var(--font-display), serif; font-size: 1rem; }
+.route-recovery__table-wrap { margin-top: 14px; overflow-x: auto; }
+.route-recovery table { width: 100%; min-width: 520px; border-collapse: collapse; background: rgb(255 255 255 / 45%); font-size: .875rem; }
+.route-recovery th,
+.route-recovery td { padding: 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+.route-recovery thead th { background: color-mix(in srgb, var(--spoiler) 11%, white); color: var(--ink); }
+.route-recovery tbody th { width: 34%; color: var(--ink); }
 .guide-sources,
 .guide-video,
 .capture-list { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--border); }
@@ -658,7 +680,8 @@ h3 {
   .guide-article { width: 100%; }
   .breadcrumbs { margin-bottom: 20px; }
   .hint-block,
-  .verification-panel { padding: 20px; }
+  .verification-panel,
+  .route-overview { padding: 20px; }
   .site-footer { grid-template-columns: 1fr; padding: 40px 24px; }
   .lantern-walker { right: 18px; bottom: 18px; transform: scale(.8); transform-origin: bottom right; }
   .walker-stack { display: none; }
