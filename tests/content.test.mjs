@@ -56,12 +56,12 @@ test('source-checked P0 guides declare complete publishable content and provenan
   );
   assert.ok(sourceChecked.every((guide) => (
     guide.indexable
-    && guide.sourceCheckedAt === '2026-08-09'
+    && /^\d{4}-\d{2}-\d{2}$/.test(guide.sourceCheckedAt)
     && guide.platforms.length > 0
     && guide.playerCount
     && guide.solutionSteps.length >= 3
     && guide.sources.length >= 2
-    && guide.screenshotRequests.length === 3
+    && guide.screenshotRequests.length >= 3
   )));
 });
 

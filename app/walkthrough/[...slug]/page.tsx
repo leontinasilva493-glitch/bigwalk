@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, HintBlock, RelatedGuides, RouteOverview, VerificationPanel } from '../../../components/guides';
+import { Breadcrumbs, HintBlock, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -84,7 +84,8 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
           </aside>
           <RouteOverview guide={guide} />
           <HintBlock guide={guide} />
-          <VerificationPanel guide={guide} />
+          <VideoEvidence guide={guide} />
+          <VerificationPanel guide={guide} showVideo={false} />
           <SectionHeading kicker="Keep exploring" title="Related Big Walk guides" />
           <RelatedGuides relatedSlugs={guide.relatedSlugs} />
         </article>

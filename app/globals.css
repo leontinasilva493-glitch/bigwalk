@@ -534,6 +534,30 @@ h3 {
 .hint-block { background: var(--forest-tint); }
 .hint-block { border-left: 6px solid var(--amber); background: var(--amber-tint); }
 .verification-panel { border-color: var(--spoiler); background: #fbedea; }
+
+.puzzle-mvp-overview { display: grid; gap: 24px; margin-top: 24px; }
+.guide-checklist,
+.progressive-hints,
+.quick-answer,
+.navigation-methods { padding: 24px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.guide-checklist h2,
+.progressive-hints h2,
+.quick-answer h2,
+.navigation-methods h2 { margin-top: 6px; font-size: 1.25rem; }
+.guide-checklist ul { display: grid; gap: 10px; margin: 16px 0 0; padding-left: 20px; color: var(--ink-2); }
+.progressive-hints__list { display: grid; gap: 10px; margin-top: 16px; }
+.progressive-hints details,
+.quick-answer details { border: 1px solid var(--border); border-radius: 6px; background: var(--amber-tint); }
+.progressive-hints summary,
+.quick-answer summary { display: flex; align-items: center; min-height: 44px; padding: 10px 14px; cursor: pointer; color: var(--ink); font-weight: 700; }
+.progressive-hints details p,
+.quick-answer details p { margin: 0; padding: 0 14px 14px; color: var(--ink-2); }
+.quick-answer { border-left: 6px solid var(--spoiler); }
+.quick-answer details { margin-top: 16px; background: #fbedea; }
+.navigation-method-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+.navigation-method-grid article { padding: 18px; border: 1px solid var(--border); border-radius: 6px; background: var(--forest-tint); }
+.navigation-method-grid h3 { margin: 0; font-size: 1rem; }
+.navigation-method-grid p { margin: 8px 0 0; color: var(--ink-2); font-size: .9375rem; }
 .hint-block h2,
 .verification-panel h2,
 .related-guides h2 { font-size: 1.25rem; }
@@ -605,6 +629,7 @@ h3 {
 .guide-sources a { color: var(--forest); text-underline-offset: 3px; }
 .guide-video p,
 .capture-list p { margin: 10px 0 0; }
+.guide-video a { color: var(--forest); font-weight: 700; text-underline-offset: 3px; }
 .video-frame { position: relative; aspect-ratio: 16 / 9; margin-top: 16px; overflow: hidden; background: var(--ink); }
 .video-frame iframe { width: 100%; height: 100%; border: 0; }
 
@@ -681,7 +706,12 @@ h3 {
   .breadcrumbs { margin-bottom: 20px; }
   .hint-block,
   .verification-panel,
-  .route-overview { padding: 20px; }
+  .route-overview,
+  .guide-checklist,
+  .progressive-hints,
+  .quick-answer,
+  .navigation-methods { padding: 20px; }
+  .navigation-method-grid { grid-template-columns: 1fr; }
   .site-footer { grid-template-columns: 1fr; padding: 40px 24px; }
   .lantern-walker { right: 18px; bottom: 18px; transform: scale(.8); transform-origin: bottom right; }
   .walker-stack { display: none; }

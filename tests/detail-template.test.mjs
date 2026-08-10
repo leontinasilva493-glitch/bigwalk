@@ -95,3 +95,18 @@ test('published route guides render reusable failure recovery guidance', async (
   assert.match(source, /failure\.problem/);
   assert.match(source, /failure\.fix/);
 });
+
+test('walkthrough video appears after the hint and before the full solution panel', async () => {
+  const source = await readFile(new URL('../app/walkthrough/[...slug]/page.tsx', import.meta.url), 'utf8');
+
+  const overviewIndex = source.indexOf('<RouteOverview');
+  const hintIndex = source.indexOf('<HintBlock');
+  const videoIndex = source.indexOf('<VideoEvidence');
+  const solutionIndex = source.indexOf('<VerificationPanel');
+
+  assert.ok(overviewIndex >= 0, 'route overview remains first');
+  assert.ok(hintIndex > overviewIndex, 'spoiler-free hint follows the overview');
+  assert.ok(videoIndex > hintIndex, 'video follows the spoiler-free hint');
+  assert.ok(solutionIndex > videoIndex, 'full solution follows the video');
+  assert.match(source, /<VerificationPanel guide=\{guide\} showVideo=\{false\}/);
+});

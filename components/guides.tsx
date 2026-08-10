@@ -60,6 +60,61 @@ export function HintBlock({ guide }: { guide: Guide }) {
   );
 }
 
+export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
+  const directAnswer = 'directAnswer' in guide ? guide.directAnswer : undefined;
+  const progressiveHints = 'progressiveHints' in guide ? guide.progressiveHints : undefined;
+  const navigationMethods = 'navigationMethods' in guide ? guide.navigationMethods : undefined;
+
+  if (!directAnswer || !progressiveHints?.length || !navigationMethods?.length) return null;
+
+  return (
+    <div className="puzzle-mvp-overview">
+      <section id="before-you-start" className="guide-checklist" aria-labelledby="before-you-start-heading">
+        <p className="hint-block__kicker">BEFORE YOU START</p>
+        <h2 id="before-you-start-heading">What your group needs</h2>
+        <ul>
+          {guide.prerequisites.map((item) => <li key={item}>{item}</li>)}
+        </ul>
+      </section>
+
+      <section className="progressive-hints" aria-labelledby="progressive-hints-heading">
+        <p className="hint-block__kicker">MORE HELP, ONE STEP AT A TIME</p>
+        <h2 id="progressive-hints-heading">Progressive hints</h2>
+        <div className="progressive-hints__list">
+          {progressiveHints.map((hint) => (
+            <details key={hint.title}>
+              <summary>{hint.title}</summary>
+              <p>{hint.body}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section id="quick-answer" className="quick-answer" aria-labelledby="quick-answer-heading">
+        <p className="hint-block__kicker">DIRECT ANSWER</p>
+        <h2 id="quick-answer-heading">What 4166, 1899 means</h2>
+        <details>
+          <summary>Reveal the short solution</summary>
+          <p>{guide.directAnswer}</p>
+        </details>
+      </section>
+
+      <section id="navigation-methods" className="navigation-methods" aria-labelledby="navigation-methods-heading">
+        <p className="hint-block__kicker">CHOOSE YOUR TOOL</p>
+        <h2 id="navigation-methods-heading">Two ways to reach the coordinates</h2>
+        <div className="navigation-method-grid">
+          {navigationMethods.map((method) => (
+            <article key={method.title}>
+              <h3>{method.title}</h3>
+              <p>{method.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export function RouteOverview({ guide }: { guide: Guide }) {
   const routeSummary = 'routeSummary' in guide ? guide.routeSummary : undefined;
   if (!routeSummary?.length) return null;
@@ -76,7 +131,7 @@ export function RouteOverview({ guide }: { guide: Guide }) {
   );
 }
 
-export function VerificationPanel({ guide }: { guide: Guide }) {
+export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; showVideo?: boolean }) {
   const isPublished = guide.indexable;
 
   return (
@@ -124,13 +179,7 @@ export function VerificationPanel({ guide }: { guide: Guide }) {
           {guide.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span></li>)}
         </ul>
       </section>
-      {'video' in guide && guide.video ? (
-        <section className="guide-video" aria-labelledby={`video-${guide.slug.replaceAll('/', '-')}`}>
-          <h3 id={`video-${guide.slug.replaceAll('/', '-')}`}>{guide.video.title}</h3>
-          <p>{guide.video.note}</p>
-          <div className="video-frame"><iframe title={guide.video.title} src={`https://www.youtube-nocookie.com/embed/${guide.video.id}`} loading="lazy" allowFullScreen /></div>
-        </section>
-      ) : null}
+      {showVideo ? <VideoEvidence guide={guide} /> : null}
       <section className="capture-list" aria-labelledby={`captures-${guide.slug.replaceAll('/', '-')}`}>
         <h3 id={`captures-${guide.slug.replaceAll('/', '-')}`}>Original screenshot capture list</h3>
         <p>Original local gameplay screenshots are still required for this guide. This checklist prevents a third-party frame from being substituted for an original capture.</p>
@@ -138,6 +187,23 @@ export function VerificationPanel({ guide }: { guide: Guide }) {
           {guide.screenshotRequests.map((request) => <li key={request.label}><strong>{request.label}:</strong> {request.description}</li>)}
         </ol>
       </section>
+    </section>
+  );
+}
+
+export function VideoEvidence({ guide }: { guide: Guide }) {
+  if (!('video' in guide) || !guide.video) return null;
+
+  const startAt = 'startAt' in guide.video ? guide.video.startAt : undefined;
+  const watchUrl = 'watchUrl' in guide.video ? guide.video.watchUrl : undefined;
+  const embedUrl = `https://www.youtube-nocookie.com/embed/${guide.video.id}${startAt ? `?start=${startAt}` : ''}`;
+
+  return (
+    <section className="guide-video" aria-labelledby={`video-${guide.slug.replaceAll('/', '-')}`}>
+      <h3 id={`video-${guide.slug.replaceAll('/', '-')}`}>{guide.video.title}</h3>
+      <p>{guide.video.note}</p>
+      <div className="video-frame"><iframe title={guide.video.title} src={embedUrl} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /></div>
+      {watchUrl ? <p><a href={guide.video.watchUrl} target="_blank" rel="noreferrer">Watch the button-location segment on YouTube (starts at 7:00)</a></p> : null}
     </section>
   );
 }
