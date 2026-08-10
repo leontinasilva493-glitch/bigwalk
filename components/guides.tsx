@@ -210,16 +210,37 @@ export function GreenRoomResearch({ guide }: { guide: Guide }) {
 
 export function RouteOverview({ guide }: { guide: Guide }) {
   const routeSummary = 'routeSummary' in guide ? guide.routeSummary : undefined;
-  if (!routeSummary?.length) return null;
+  const radioChannels = 'radioChannels' in guide ? guide.radioChannels : undefined;
+  if (!routeSummary?.length && !radioChannels?.length) return null;
 
   return (
     <section className="route-overview" aria-labelledby="route-overview-heading">
       <p className="hint-block__kicker">Quick answer</p>
       <h2 id="route-overview-heading">Route at a glance</h2>
       <p>{guide.goal}</p>
-      <ol className="route-summary">
-        {routeSummary.map((stage) => <li key={stage}>{stage}</li>)}
-      </ol>
+      {radioChannels?.length ? (
+        <div className="route-recovery__table-wrap">
+          <table>
+            <thead>
+              <tr><th>Channel</th><th>Location</th><th>Unlock</th><th>Official mix and tracks</th></tr>
+            </thead>
+            <tbody>
+              {radioChannels.map((channel) => (
+                <tr key={channel.number}>
+                  <th scope="row">{channel.number}. {channel.area}</th>
+                  <td>{channel.location}</td>
+                  <td>{channel.unlock}</td>
+                  <td><strong>{channel.officialMix}</strong><br />{channel.tracks.join(', ')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <ol className="route-summary">
+          {routeSummary?.map((stage) => <li key={stage}>{stage}</li>)}
+        </ol>
+      )}
     </section>
   );
 }
@@ -272,7 +293,16 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
         <h3 id={`sources-${guide.slug.replaceAll('/', '-')}`}>Source links</h3>
         <p>These links support the research trail. Their video frames and screenshots are not republished here.</p>
         <ul>
-          {guide.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span></li>)}
+          {guide.sources.map((source) => {
+            const purpose = 'purpose' in source ? source.purpose : undefined;
+            return (
+              <li key={source.url}>
+                <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>{' '}
+                <span>— {source.publisher}</span>
+                {purpose ? <p>{purpose}</p> : null}
+              </li>
+            );
+          })}
         </ul>
       </section>
       {showVideo ? <VideoEvidence guide={guide} /> : null}
@@ -292,6 +322,7 @@ export function VideoEvidence({ guide }: { guide: Guide }) {
 
   const startAt = 'startAt' in guide.video ? guide.video.startAt : undefined;
   const watchUrl = 'watchUrl' in guide.video ? guide.video.watchUrl : undefined;
+  const linkLabel = 'linkLabel' in guide.video ? guide.video.linkLabel : 'Watch this evidence video on YouTube';
   const embedUrl = `https://www.youtube-nocookie.com/embed/${guide.video.id}${startAt ? `?start=${startAt}` : ''}`;
 
   return (
@@ -299,7 +330,7 @@ export function VideoEvidence({ guide }: { guide: Guide }) {
       <h3 id={`video-${guide.slug.replaceAll('/', '-')}`}>{guide.video.title}</h3>
       <p>{guide.video.note}</p>
       <div className="video-frame"><iframe title={guide.video.title} src={embedUrl} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /></div>
-      {watchUrl ? <p><a href={guide.video.watchUrl} target="_blank" rel="noreferrer">Watch the button-location segment on YouTube (starts at 7:00)</a></p> : null}
+      {watchUrl ? <p><a href={guide.video.watchUrl} target="_blank" rel="noreferrer">{linkLabel}</a></p> : null}
     </section>
   );
 }
