@@ -1,24 +1,24 @@
 import type { Metadata } from 'next';
 import { CategoryCard, EvidenceRouteCard, PuzzleCard } from '../../components/guides';
+import { JsonLd } from '../../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../components/site';
-import { guides, siteSections } from '../../lib/content.mjs';
+import { buildPuzzleDirectoryJsonLd, guides, site, siteSections } from '../../lib/content.mjs';
+
+const puzzleDirectorySeo = site.puzzleDirectory;
 
 export const metadata: Metadata = {
-  title: 'Big Walk Hints & Puzzle Directory',
-  description:
-    'Browse Big Walk hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
+  title: { absolute: puzzleDirectorySeo.title },
+  description: puzzleDirectorySeo.description,
   alternates: { canonical: '/puzzles' },
   openGraph: {
     url: '/puzzles',
-    title: 'Big Walk Hints & Puzzle Directory',
-    description:
-      'Browse Big Walk hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
+    title: puzzleDirectorySeo.title,
+    description: puzzleDirectorySeo.description,
   },
   twitter: {
     card: 'summary',
-    title: 'Big Walk Hints & Puzzle Directory',
-    description:
-      'Browse Big Walk hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
+    title: puzzleDirectorySeo.title,
+    description: puzzleDirectorySeo.description,
   },
 };
 
@@ -42,6 +42,7 @@ const categories = [
 
 export default function PuzzlesPage() {
   const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
+  const puzzleDirectoryJsonLd = buildPuzzleDirectoryJsonLd(puzzleGuides);
   const guidesByTower = puzzleGuides.reduce<Record<string, typeof guides[number][]>>((groups, guide) => {
     (groups[guide.tower] ??= []).push(guide);
     return groups;
@@ -54,12 +55,13 @@ export default function PuzzlesPage() {
 
   return (
     <>
+      <JsonLd data={puzzleDirectoryJsonLd} />
       <SiteHeader active="puzzles" />
       <main className="directory-page">
         <section className="directory-hero">
           <div className="page-shell">
             <p className="eyebrow">THE BIG WALK FIELD DIRECTORY</p>
-            <h1>Big Walk Puzzle Hints &amp; Directory</h1>
+            <h1>{puzzleDirectorySeo.h1}</h1>
             <p>
               Browse hints and source-checked solutions by tower, item, or location. Original marked screenshots are
               added after local capture; unresolved reports stay out of search indexing.

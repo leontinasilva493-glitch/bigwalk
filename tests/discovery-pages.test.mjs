@@ -37,9 +37,9 @@ test('indexable discovery pages distinguish source-checked solutions from unreso
   assert.match(home, /achievement/);
   assert.equal((home.match(/PuzzleCard/g) ?? []).length, 3);
 
-  assert.match(puzzles, /Big Walk Puzzle Hints/);
+  assert.match(puzzles, /puzzleDirectorySeo\.h1/);
   assert.match(puzzles, /source-checked solutions/i);
-  assert.match(puzzles, /original marked screenshots are added after local capture/i);
+  assert.match(puzzles, /puzzleDirectorySeo\.description/);
   assert.match(puzzles, /unresolved reports stay out of search indexing/i);
   assert.match(puzzles, /<h2>\{tower\}<\/h2>/);
   assert.match(puzzles, /PuzzleCard/g);
