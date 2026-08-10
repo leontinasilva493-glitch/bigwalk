@@ -18,6 +18,16 @@ test('4166 1899 guide is a complete, indexable source-checked MVP', () => {
   assert.equal(guide.sourceCheckedAt, '2026-08-10');
   assert.equal(guide.updated, '2026-08-10');
 
+  assert.equal(guide.numberConfirmation.heading, 'Confirm the numbers first');
+  assert.equal(
+    guide.numberConfirmation.disambiguation,
+    'Searched for 1466 or 3971? Those are usually a misremembered order or a live GPS readout — check the fixed sign on the orange building.',
+  );
+  assert.equal(guide.roleAssignments.length, 2);
+  assert.deepEqual(guide.roleAssignments.map((role) => role.title), ['Player A', 'Player B']);
+  assert.equal(guide.lostReward.status, 'To verify');
+  assert.ok(guide.prerequisites.some((item) => item.href === '/walkthrough/red-tower-map-room'));
+
   assert.ok(guide.prerequisites.length >= 4);
   assert.ok(guide.progressiveHints.length >= 3);
   assert.ok(guide.navigationMethods.length >= 2);
@@ -53,6 +63,7 @@ test('puzzle template renders the MVP sections and timestamped video embed', asy
     readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
   ]);
 
+  assert.match(routeSource, /CoordinatesFirstScreen/);
   assert.match(routeSource, /PuzzleMvpOverview/);
   assert.match(routeSource, /title:\s*\{\s*absolute:\s*guide\.title\s*\}/);
   assert.match(routeSource, /#quick-answer/);
@@ -62,6 +73,8 @@ test('puzzle template renders the MVP sections and timestamped video embed', asy
   assert.match(componentSource, /guide\.prerequisites/);
   assert.match(componentSource, /guide\.progressiveHints/);
   assert.match(componentSource, /guide\.navigationMethods/);
+  assert.match(componentSource, /guide\.numberConfirmation/);
+  assert.match(componentSource, /guide\.roleAssignments/);
   assert.match(componentSource, /guide\.video\.startAt/);
   assert.match(componentSource, /guide\.video\.watchUrl/);
   assert.match(componentSource, /youtube-nocookie\.com/);
@@ -73,11 +86,13 @@ test('4166 video appears after progressive help and before the full solution pan
     readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
   ]);
 
+  const firstScreenIndex = routeSource.indexOf('<CoordinatesFirstScreen');
   const overviewIndex = routeSource.indexOf('<PuzzleMvpOverview');
   const videoIndex = routeSource.indexOf('<VideoEvidence');
   const solutionIndex = routeSource.indexOf('<VerificationPanel');
 
-  assert.ok(overviewIndex >= 0, 'progressive help renders before the video');
+  assert.ok(firstScreenIndex >= 0, 'number confirmation and prerequisites render near the hero');
+  assert.ok(overviewIndex > firstScreenIndex, 'progressive help follows the first-screen preparation');
   assert.ok(videoIndex > overviewIndex, 'video follows the progressive help');
   assert.ok(solutionIndex > videoIndex, 'full text solution follows the video');
   assert.match(routeSource, /<VerificationPanel guide=\{guide\} showVideo=\{false\}/);

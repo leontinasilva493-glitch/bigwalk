@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { guides, site } from '../lib/content.mjs';
+import { guides, site, siteSections } from '../lib/content.mjs';
 
 const discoveryEntries = [
   { path: '/', lastModified: new Date('2026-08-08') },
@@ -11,7 +11,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .filter((guide) => guide.indexable)
     .map((guide) => ({ path: `/${guide.slug}`, lastModified: new Date(guide.updated) }));
 
-  return [...discoveryEntries, ...verifiedGuideEntries].map((entry) => ({
+  const verifiedSectionEntries = siteSections
+    .filter((section) => section.indexable)
+    .map((section) => ({ path: `/${section.slug}`, lastModified: new Date(section.updated ?? '2026-08-08') }));
+
+  return [...discoveryEntries, ...verifiedGuideEntries, ...verifiedSectionEntries].map((entry) => ({
     url: `${site.url}${entry.path}`,
     lastModified: entry.lastModified,
   }));
