@@ -74,6 +74,7 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
             <p className="guide-kicker">{guide.category} walkthrough · {guide.area}</p>
             <h1>{guide.h1}</h1>
             <p className="guide-description">{guide.description}</p>
+            {'introNote' in guide && guide.introNote ? <p className="guide-intro-note">{guide.introNote}</p> : null}
             <p className="guide-meta">{guide.readTime} · Updated {guide.updated} · {guide.lastVerified}</p>
           </header>
           <aside className="guide-toc" aria-label="On this page">
