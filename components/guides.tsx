@@ -133,6 +133,9 @@ export function RouteOverview({ guide }: { guide: Guide }) {
 
 export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; showVideo?: boolean }) {
   const isPublished = guide.indexable;
+  const recoveryHeading = 'recoveryHeading' in guide && typeof guide.recoveryHeading === 'string'
+    ? guide.recoveryHeading
+    : 'If the route stalls';
 
   return (
     <section className="verification-panel" aria-labelledby="verification-heading">
@@ -156,7 +159,7 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
       </details>
       {guide.commonFailures.length ? (
         <section className="route-recovery" aria-labelledby={`recovery-${guide.slug.replaceAll('/', '-')}`}>
-          <h3 id={`recovery-${guide.slug.replaceAll('/', '-')}`}>If the route stalls</h3>
+          <h3 id={`recovery-${guide.slug.replaceAll('/', '-')}`}>{recoveryHeading}</h3>
           <div className="route-recovery__table-wrap">
             <table>
               <thead><tr><th>Problem</th><th>What to do</th></tr></thead>

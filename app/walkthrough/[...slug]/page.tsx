@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!guide) return {};
 
   return {
-    title: guide.title,
+    title: 'absoluteTitle' in guide && guide.absoluteTitle ? { absolute: guide.title } : guide.title,
     description: guide.description,
     alternates: { canonical: `/${guide.slug}` },
     robots: { index: guide.indexable, follow: true },
