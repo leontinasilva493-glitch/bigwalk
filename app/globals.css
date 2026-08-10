@@ -683,6 +683,85 @@ h3 {
 .related-guides li { padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 .related-guides a { font-weight: 700; }
 
+.beginner-guide-article { max-width: 780px; }
+.beginner-guide-hero { position: relative; }
+.beginner-guide-hero__walker { float: right; display: grid; place-items: center; width: 88px; height: 96px; margin: 0 0 18px 28px; color: var(--steel); }
+.beginner-guide-hero__walker .walker { width: 70px; }
+.beginner-guide-intro { display: grid; gap: 12px; margin-top: 24px; }
+.beginner-guide-intro p { margin: 0; color: var(--ink-2); }
+.beginner-section { margin-top: 48px; scroll-margin-top: 24px; }
+.beginner-section > h2 { margin-top: 6px; font-size: clamp(1.35rem, 2vw, 1.65rem); }
+.beginner-section > h3 { margin-top: 28px; font-size: 1.125rem; }
+.beginner-section > p:not(.hint-block__kicker):not(.beginner-video-meta):not(.beginner-inline-link) { margin: 12px 0 0; color: var(--ink-2); }
+.beginner-quick-start,
+.beginner-video-section,
+.beginner-regroup,
+.beginner-evidence { padding: 26px; border: 1px solid var(--border); border-radius: 8px; }
+.beginner-quick-start { border-left: 6px solid var(--forest); background: var(--forest-tint); }
+.beginner-video-section { border-color: color-mix(in srgb, var(--forest) 36%, var(--border)); background: var(--surface); }
+.beginner-regroup { border-left: 6px solid var(--amber); background: var(--amber-tint); }
+.beginner-evidence { border-color: var(--spoiler); background: #fbedea; }
+.beginner-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
+.beginner-card-grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.beginner-card-grid article { position: relative; padding: 18px; border: 1px solid var(--border); border-radius: 7px; background: rgb(255 255 255 / 62%); }
+.beginner-card-grid h3,
+.beginner-card-grid h4 { margin: 0; font-size: 1rem; }
+.beginner-card-grid p { margin: 8px 0 14px; color: var(--ink-2); font-size: .925rem; }
+.beginner-card-grid--quick article { padding-top: 44px; }
+.beginner-card-number { position: absolute; top: 16px; left: 18px; color: var(--forest); font-size: .75rem; font-weight: 800; letter-spacing: .1em; }
+.beginner-status { display: inline-flex; align-items: center; min-height: 24px; padding: 3px 8px; border: 1px solid currentColor; border-radius: 999px; color: var(--forest); font-size: .6875rem; font-weight: 800; letter-spacing: .035em; line-height: 1.2; }
+.beginner-status[data-status='Source-checked'] { color: #24557a; }
+.beginner-status[data-status='Community-reported'] { color: var(--amber-text); }
+.beginner-status[data-status='To verify'] { color: var(--spoiler); }
+.beginner-video-section .video-frame { border-radius: 7px; }
+.beginner-video-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 0; color: var(--ink-2); font-size: .8125rem; }
+.beginner-video-meta a,
+.beginner-inline-link a { color: var(--forest); font-weight: 700; text-underline-offset: 3px; }
+.beginner-inline-link { margin: 16px 0 0; }
+.beginner-table-wrap { width: min(980px, calc(100vw - 48px)); margin-top: 22px; overflow-x: auto; }
+.beginner-table-wrap table { width: 100%; min-width: 760px; border-collapse: collapse; background: var(--surface); font-size: .875rem; }
+.beginner-table-wrap th,
+.beginner-table-wrap td { padding: 13px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+.beginner-table-wrap thead th { background: var(--forest-tint); color: var(--ink); }
+.beginner-table-wrap tbody th { width: 18%; color: var(--ink); }
+.beginner-checklist { display: grid; gap: 0; margin: 22px 0 0; padding: 0; counter-reset: beginner-step; list-style: none; }
+.beginner-checklist li { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.beginner-checklist li::before { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--forest); color: #fff; content: counter(beginner-step); counter-increment: beginner-step; font-size: .75rem; font-weight: 800; }
+.beginner-checklist h3 { margin: 0; font-size: 1rem; }
+.beginner-checklist p { margin: 7px 0 12px; color: var(--ink-2); }
+.beginner-regroup > .beginner-status { margin-top: 14px; }
+.beginner-regroup ol { display: grid; gap: 12px; margin: 20px 0 0; padding-left: 22px; }
+.beginner-regroup li { padding-left: 4px; color: var(--ink-2); }
+.beginner-route-heading { padding-top: 28px; border-top: 1px solid var(--border); }
+.beginner-route { display: grid; gap: 12px; margin: 18px 0 0; padding: 0; counter-reset: route-stage; list-style: none; }
+.beginner-route li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; padding: 16px; border: 1px solid var(--border); border-radius: 7px; background: var(--forest-tint); }
+.beginner-route li::before { color: var(--forest); content: counter(route-stage, decimal-leading-zero); counter-increment: route-stage; font-weight: 800; }
+.beginner-route h4 { margin: 0; font-size: 1rem; }
+.beginner-route p { margin: 6px 0 0; color: var(--ink-2); font-size: .925rem; }
+.beginner-mistakes { display: grid; gap: 0; margin-top: 18px; border-top: 1px solid var(--border); }
+.beginner-mistakes article { display: grid; grid-template-columns: minmax(180px, .8fr) minmax(0, 1.2fr); gap: 22px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+.beginner-mistakes h3 { margin: 0; font-size: .975rem; }
+.beginner-mistakes p { margin: 0; color: var(--ink-2); font-size: .925rem; }
+.beginner-faq-list { display: grid; gap: 10px; margin-top: 20px; }
+.beginner-faq-list details { border: 1px solid var(--border); border-radius: 7px; background: var(--surface); }
+.beginner-faq-list summary { min-height: 48px; padding: 13px 44px 13px 16px; cursor: pointer; color: var(--ink); font-weight: 700; }
+.beginner-faq-list details p { margin: 0; padding: 0 16px 12px; color: var(--ink-2); }
+.beginner-faq-list details .beginner-status { margin: 0 16px 16px; }
+.beginner-evidence > h3 { margin: 30px 0 0; font-size: 1.05rem; }
+.beginner-evidence .beginner-card-grid article { background: rgb(255 255 255 / 54%); }
+.beginner-evidence .beginner-card-grid h3 { margin-top: 12px; }
+.beginner-video-links { display: grid; gap: 12px; margin-top: 16px; }
+.beginner-video-links article { padding: 16px; border: 1px solid var(--border); border-radius: 7px; background: rgb(255 255 255 / 54%); }
+.beginner-video-links h4 { margin: 10px 0 0; }
+.beginner-video-links a,
+.beginner-source-list a { color: var(--forest); text-underline-offset: 3px; }
+.beginner-video-links p { margin: 7px 0 0; color: var(--ink-2); font-size: .925rem; }
+.beginner-source-list { display: grid; gap: 9px; margin: 14px 0 0; padding-left: 20px; color: var(--ink-2); font-size: .9rem; }
+.beginner-related-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+.beginner-related-grid a { display: grid; gap: 5px; padding: 14px; border: 1px solid var(--border); border-radius: 7px; background: rgb(255 255 255 / 60%); color: var(--ink); text-decoration: none; }
+.beginner-related-grid a:hover { border-color: var(--forest); }
+.beginner-related-grid span { color: var(--ink-2); font-size: .85rem; }
+
 @media (min-width: 1280px) {
   .guide-toc {
     position: absolute;
@@ -763,6 +842,17 @@ h3 {
   .player-roles,
   .lost-reward,
   .green-room-research { padding: 20px; }
+  .beginner-guide-hero__walker { width: 64px; height: 72px; margin-left: 16px; }
+  .beginner-guide-hero__walker .walker { width: 54px; }
+  .beginner-quick-start,
+  .beginner-video-section,
+  .beginner-regroup,
+  .beginner-evidence { padding: 20px; }
+  .beginner-card-grid,
+  .beginner-card-grid--three,
+  .beginner-related-grid { grid-template-columns: 1fr; }
+  .beginner-table-wrap { width: calc(100vw - 40px); }
+  .beginner-mistakes article { grid-template-columns: 1fr; gap: 7px; }
   .challenge-directory__table-wrap { width: calc(100vw - 40px); }
   .site-footer { grid-template-columns: 1fr; padding: 40px 24px; }
   .lantern-walker { right: 18px; bottom: 18px; transform: scale(.8); transform-origin: bottom right; }
