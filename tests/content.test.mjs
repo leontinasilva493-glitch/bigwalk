@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { guides, guideBySlug, site } from '../lib/content.mjs';
 
-test('the catalogue exposes the three puzzles and map-room walkthrough', () => {
-  assert.equal(guides.length, 5);
+test('the catalogue exposes the current puzzle and walkthrough records', () => {
+  assert.equal(guides.length, 6);
   assert.equal(
     guideBySlug('puzzles/green-chair-headphones').h1,
     'Big Walk Sound Check Puzzle: Chair and Headphones Solution',
@@ -22,7 +22,11 @@ test('every guide declares its verification and original-image hand-off', () => 
         /^[a-z0-9-]+\.webp$/.test(guide.assetRequirement),
     ),
   );
-  assert.deepEqual(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs, ['puzzles/4166-1899-coordinates', 'home']);
+  assert.deepEqual(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs, [
+    'puzzles/4166-1899-coordinates',
+    'walkthrough/blue-tower-train',
+    'home',
+  ]);
 });
 
 test('every guide declares its tower evidence state', () => {
@@ -33,6 +37,7 @@ test('every guide declares its tower evidence state', () => {
       'Late-game completion area',
       'Red Tower map room',
       'Red Tower',
+      'Blue Tower',
       'Opening area',
     ],
   );
@@ -51,6 +56,7 @@ test('source-checked P0 guides declare complete publishable content and provenan
       'puzzles/green-chair-headphones',
       'puzzles/4166-1899-coordinates',
       'walkthrough/red-tower-map-room',
+      'walkthrough/blue-tower-train',
       'walkthrough/crosswalk',
     ],
   );
