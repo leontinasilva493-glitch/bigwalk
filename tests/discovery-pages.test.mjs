@@ -1,11 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { guides } from '../lib/content.mjs';
+import {
+  guides,
+  homepageDirectoryStats,
+  homepageFeaturedGuideSlugs,
+} from '../lib/content.mjs';
 
 const pageFiles = {
   home: '../app/page.tsx',
   puzzles: '../app/puzzles/page.tsx',
+  achievements: '../app/achievements/page.tsx',
+  multiplayer: '../app/multiplayer/page.tsx',
   styles: '../app/globals.css',
   sitemap: '../app/sitemap.ts',
   robots: '../app/robots.ts',
@@ -89,6 +95,8 @@ test('directory cards keep puzzle answers distinct from route walkthroughs', asy
   assert.match(walkthrough, /const walkthroughGuides = guides\s*\.filter\(\(guide\) => guide\.kind === 'walkthrough'\)/);
   assert.match(walkthrough, /walkthroughGuides\.map/);
   assert.match(walkthrough, /Where are you stuck\?/);
+  const evidencePage = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
+  assert.match(evidencePage, /source-checked routes from evidence-in-progress research/i);
 });
 
 test('homepage discovery controls route visitors to real puzzle and walkthrough destinations', async () => {
@@ -102,6 +110,58 @@ test('homepage discovery controls route visitors to real puzzle and walkthrough 
   assert.doesNotMatch(home, /readOnly/);
   assert.match(guideComponents, /href: string/);
   assert.match(guideComponents, /<Link className="category-card" href=\{href\}>/);
+});
+
+test('homepage counts are derived from the current catalogue and featured links are curated', async () => {
+  const home = await sourceFor('home');
+  const stats = homepageDirectoryStats();
+  const featuredGuides = homepageFeaturedGuideSlugs.map((slug) => guides.find((guide) => guide.slug === slug));
+
+  assert.deepEqual(stats, {
+    puzzleEntries: 3,
+    walkthroughEntries: 7,
+    visualEntries: 3,
+    achievements: 13,
+  });
+  assert.equal(homepageFeaturedGuideSlugs.length, 5);
+  assert.equal(new Set(homepageFeaturedGuideSlugs).size, homepageFeaturedGuideSlugs.length);
+  assert.ok(featuredGuides.every((guide) => guide?.indexable));
+  assert.match(home, /homepageDirectoryStats\(\)/);
+  assert.match(home, /featuredGuides\.map/);
+  assert.match(home, /Featured:/);
+  assert.doesNotMatch(home, /Popular:/);
+  assert.doesNotMatch(home, /\.\.\.puzzleGuides\.slice|\.\.\.walkthroughGuides/);
+});
+
+test('homepage quick answers route trophy and platform demand to source-checked hubs', async () => {
+  const home = await sourceFor('home');
+
+  assert.match(home, /Quick Answers/i);
+  assert.match(home, /Can I play with friends on other platforms\?/);
+  assert.match(home, /How many trophies are in Big Walk\?/);
+  assert.match(home, /href:\s*'\/achievements'/);
+  assert.match(home, /href:\s*'\/multiplayer'/);
+});
+
+test('achievements and multiplayer hubs are source-checked and indexable', async () => {
+  const [achievements, multiplayer] = await Promise.all([
+    sourceFor('achievements'),
+    sourceFor('multiplayer'),
+  ]);
+
+  assert.match(achievements, /Source-checked guide/);
+  assert.match(achievements, /Big Walk Trophy & Achievement Guide/);
+  assert.match(achievements, /Gamer Social Club/);
+  assert.match(achievements, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true\s*\}/);
+  assert.match(achievements, /href: '\/walkthrough\/blue-tower-train'/);
+  assert.match(achievements, /href: '\/walkthrough\/green-tower-chairlift'/);
+  assert.match(achievements, /href: '\/walkthrough\/yellow-tower-tunnels'/);
+  assert.doesNotMatch(achievements, /\[planned:\s*\/walkthrough\//);
+
+  assert.match(multiplayer, /Source-checked guide/);
+  assert.match(multiplayer, /Quick compatibility table/);
+  assert.match(multiplayer, /House House/);
+  assert.match(multiplayer, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true\s*\}/);
 });
 
 test('the Crosswalk route enters both walkthrough navigation and indexable discovery', () => {

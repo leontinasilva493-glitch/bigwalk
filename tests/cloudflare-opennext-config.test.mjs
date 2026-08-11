@@ -20,3 +20,18 @@ test('the project owns its OpenNext build and deployment commands', async () => 
   assert.ok(manifest.devDependencies['@opennextjs/cloudflare']);
   assert.ok(manifest.devDependencies.wrangler);
 });
+
+test('Windows contributors have a WSL-native OpenNext verification command', async () => {
+  const [manifestSource, script] = await Promise.all([
+    readFile(new URL('../package.json', import.meta.url), 'utf8'),
+    readFile(new URL('../scripts/build-opennext-wsl.sh', import.meta.url), 'utf8'),
+  ]);
+  const manifest = JSON.parse(manifestSource);
+
+  assert.equal(manifest.scripts['cf:build:wsl'], 'wsl.exe -e bash ./scripts/build-opennext-wsl.sh');
+  assert.match(script, /mktemp -d/);
+  assert.match(script, /npm ci --no-audit --no-fund/);
+  assert.match(script, /npm run cf:build/);
+  assert.match(script, /\.open-next\/worker\.js/);
+  assert.match(script, /\[\[ ! -s "\$worker_file" \]\]/);
+});

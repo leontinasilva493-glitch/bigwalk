@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "test": "node --test",
     "cf:build": "opennextjs-cloudflare build",
+    "cf:build:wsl": "wsl.exe -e bash ./scripts/build-opennext-wsl.sh",
     "cf:deploy": "opennextjs-cloudflare deploy",
     "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
   },

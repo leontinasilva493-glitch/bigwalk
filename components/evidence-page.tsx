@@ -152,7 +152,7 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
           {featuredGuides.length ? (
             <section className="evidence-page__available" aria-labelledby="available-routes-heading">
               <h2 id="available-routes-heading">Available routes</h2>
-              <p>These route pages have source-checked content. Their evidence panels state what still needs a local capture.</p>
+              <p>These cards distinguish source-checked routes from evidence-in-progress research. Each evidence panel states what still needs a local capture.</p>
               <div className="puzzle-list">
                 {featuredGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
               </div>
