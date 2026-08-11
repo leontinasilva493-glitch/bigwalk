@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Git keeps this script LF-only so WSL can execute it after a Windows checkout.
 set -euo pipefail
 
 source_dir="$(pwd -P)"
