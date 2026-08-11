@@ -75,16 +75,18 @@ test('homepage and puzzle directory counts derive from the content arrays', asyn
   for (const source of [home, puzzles]) {
     assert.doesNotMatch(source, /count:\s*'1 entry'/);
     assert.doesNotMatch(source, /count:\s*'1 route'/);
-    assert.match(source, /puzzleGuides\.length/);
-    assert.match(source, /walkthroughGuides\.length/);
   }
+  assert.match(home, /homepageDirectoryStats\(\)/);
+  assert.match(puzzles, /puzzleGuides\.length/);
+  assert.match(puzzles, /walkthroughGuides\.length/);
 });
 
-test('walkthrough is a noindex route center built from current walkthrough data', async () => {
+test('walkthrough is an indexable route center built from current walkthrough data', async () => {
   const page = await sourceFor('app/walkthrough/page.tsx');
   const section = siteSectionBySlug('walkthrough');
 
-  assert.equal(section.indexable, false);
+  assert.equal(section.indexable, true);
+  assert.equal(section.status, 'published');
   assert.match(page, /evidenceMetadata\(page\)/);
   assert.doesNotMatch(page, /<EvidencePage/);
   assert.match(page, /Route map/);
