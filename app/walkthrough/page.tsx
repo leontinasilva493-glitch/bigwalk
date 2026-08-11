@@ -9,6 +9,10 @@ const routeOrder = [
   'walkthrough/crosswalk',
   'walkthrough/red-tower-map-room',
   'walkthrough/blue-tower-train',
+  'walkthrough/green-tower-chairlift',
+  'walkthrough/yellow-tower-tunnels',
+  'walkthrough/radio-channels',
+  'walkthrough/green-room',
 ];
 const walkthroughGuides = guides
   .filter((guide) => guide.kind === 'walkthrough')
@@ -19,6 +23,12 @@ const latestSourceCheck = walkthroughGuides
   .slice()
   .sort()
   .at(-1);
+
+function firstPrerequisite(guide: (typeof walkthroughGuides)[number]) {
+  const prerequisite = guide.prerequisites[0];
+  if (typeof prerequisite === 'string') return prerequisite;
+  return prerequisite?.text ?? 'Open the route page for its checked starting state.';
+}
 
 export const metadata = evidenceMetadata(page);
 
@@ -75,7 +85,13 @@ export default function WalkthroughPage() {
               <div className="route-map__branches">
                 <Link href="/walkthrough/red-tower-map-room"><span>Tower path</span><strong>Red Tower Map Room</strong></Link>
                 <Link href="/walkthrough/blue-tower-train"><span>Tower path</span><strong>Blue Tower Train</strong></Link>
+                <Link href="/walkthrough/green-tower-chairlift"><span>Tower path</span><strong>Green Tower Chairlift</strong></Link>
+                <Link href="/walkthrough/yellow-tower-tunnels"><span>Tower path</span><strong>Yellow Tower Tunnels</strong></Link>
               </div>
+            </div>
+            <div className="route-map__references" aria-label="Island reference routes">
+              <Link href="/walkthrough/radio-channels"><span>Island reference</span><strong>All Radio Channels</strong></Link>
+              <Link href="/walkthrough/green-room"><span>Evidence in progress</span><strong>Green Room research</strong></Link>
             </div>
           </section>
 
@@ -90,7 +106,7 @@ export default function WalkthroughPage() {
                   <dl>
                     <div>
                       <dt>Prerequisite</dt>
-                      <dd>{guide.prerequisites[0] ?? 'Open the route page for its checked starting state.'}</dd>
+                      <dd>{firstPrerequisite(guide)}</dd>
                     </div>
                     <div><dt>Player count</dt><dd>{guide.playerCount}</dd></div>
                     <div><dt>Unlock result</dt><dd>{guide.goal}</dd></div>

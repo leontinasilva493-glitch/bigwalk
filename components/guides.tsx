@@ -70,14 +70,6 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
 
   return (
     <div className="puzzle-mvp-overview">
-      <section id="before-you-start" className="guide-checklist" aria-labelledby="before-you-start-heading">
-        <p className="hint-block__kicker">BEFORE YOU START</p>
-        <h2 id="before-you-start-heading">What your group needs</h2>
-        <ul>
-          {guide.prerequisites.map((item) => <li key={item}>{item}</li>)}
-        </ul>
-      </section>
-
       <section className="progressive-hints" aria-labelledby="progressive-hints-heading">
         <p className="hint-block__kicker">MORE HELP, ONE STEP AT A TIME</p>
         <h2 id="progressive-hints-heading">Progressive hints</h2>
@@ -116,18 +108,140 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
   );
 }
 
+export function CoordinatesFirstScreen({ guide }: { guide: Guide }) {
+  if (!('numberConfirmation' in guide) || !guide.numberConfirmation) return null;
+
+  return (
+    <div className="coordinates-first-screen">
+      <section className="number-confirmation" aria-labelledby="number-confirmation-heading">
+        <p className="hint-block__kicker">CHECK THE CLUE</p>
+        <h2 id="number-confirmation-heading">{guide.numberConfirmation.heading}</h2>
+        <p>{guide.numberConfirmation.body}</p>
+        <p className="number-confirmation__disambiguation">{guide.numberConfirmation.disambiguation}</p>
+      </section>
+
+      <section id="before-you-start" className="guide-checklist" aria-labelledby="before-you-start-heading">
+        <p className="hint-block__kicker">BEFORE YOU START</p>
+        <h2 id="before-you-start-heading">Unlock the map and compass first</h2>
+        <ul>
+          {guide.prerequisites.map((item) => {
+            const text = typeof item === 'string' ? item : item.text;
+            return <li key={text}>{text}{typeof item !== 'string' && item.href ? <> <Link href={item.href}>{item.linkLabel}</Link>.</> : null}</li>;
+          })}
+        </ul>
+      </section>
+
+      <section className="player-roles" aria-labelledby="player-roles-heading">
+        <p className="hint-block__kicker">SPLIT THE FINAL JOB</p>
+        <h2 id="player-roles-heading">Player A / Player B</h2>
+        <div className="player-role-grid">
+          {guide.roleAssignments.map((role) => <article key={role.title}><h3>{role.title}</h3><p>{role.body}</p></article>)}
+        </div>
+      </section>
+
+      <section className="lost-reward" aria-labelledby="lost-reward-heading">
+        <p className="hint-block__kicker">{guide.lostReward.status}</p>
+        <h2 id="lost-reward-heading">Lost the reward?</h2>
+        <p>{guide.lostReward.body}</p>
+      </section>
+    </div>
+  );
+}
+
+export function GreenRoomResearch({ guide }: { guide: Guide }) {
+  if (!('greenRoomSections' in guide) || !guide.greenRoomSections) return null;
+
+  const sections = guide.greenRoomSections;
+  const plannedLinkLabels: Record<string, string> = {
+    'puzzles/purple-things-where-to-use': 'Where Do Purple Things Go?',
+    'puzzles/purple-challenges': 'Purple Challenges directory',
+    'walkthrough/true-ending': 'True Ending research page (planned)',
+  };
+
+  return (
+    <section className="green-room-research" aria-labelledby="green-room-research-heading">
+      <p className="hint-block__kicker">NOINDEX RESEARCH ROUTE</p>
+      <h2 id="green-room-research-heading">Routes, entrance evidence, and reported room use</h2>
+
+      <section aria-labelledby="green-room-routes-heading">
+        <h3 id="green-room-routes-heading">Two routes from spawn</h3>
+        <div className="research-card-grid">
+          {sections.routes.map((route) => <article key={route.title}><h4>{route.title}</h4><p>{route.body}</p></article>)}
+        </div>
+      </section>
+
+      <section aria-labelledby="green-room-entrance-heading">
+        <p className="evidence-label">{sections.entrance.status}</p>
+        <h3 id="green-room-entrance-heading">{sections.entrance.title}</h3>
+        <p>{sections.entrance.body}</p>
+      </section>
+
+      <section aria-labelledby="green-room-slots-heading">
+        <p className="evidence-label">{sections.slots.status}</p>
+        <h3 id="green-room-slots-heading">{sections.slots.title}</h3>
+        <p>{sections.slots.body}</p>
+      </section>
+
+      <section className="evidence-conflict" aria-labelledby="green-room-conflict-heading">
+        <p className="evidence-label">{sections.itemConflict.status}</p>
+        <h3 id="green-room-conflict-heading">{sections.itemConflict.title}</h3>
+        <p>{sections.itemConflict.body}</p>
+        <ul>{sections.itemConflict.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a></li>)}</ul>
+      </section>
+
+      <section aria-labelledby="green-room-map-heading">
+        <p className="evidence-label">{sections.mapTracking.status}</p>
+        <h3 id="green-room-map-heading">{sections.mapTracking.title}</h3>
+        <p>{sections.mapTracking.body}</p>
+      </section>
+
+      <section aria-labelledby="green-room-recovery-heading">
+        <p className="evidence-label">{sections.recovery.status}</p>
+        <h3 id="green-room-recovery-heading">{sections.recovery.title}</h3>
+        <p>{sections.recovery.body}</p>
+      </section>
+
+      <section className="green-room-research__links" aria-labelledby="green-room-links-heading">
+        <h3 id="green-room-links-heading">Continue the evidence trail</h3>
+        <ul>{guide.plannedLinks.map((slug) => <li key={slug}><Link href={`/${slug}`}>{plannedLinkLabels[slug] ?? slug}</Link></li>)}</ul>
+      </section>
+    </section>
+  );
+}
+
 export function RouteOverview({ guide }: { guide: Guide }) {
   const routeSummary = 'routeSummary' in guide ? guide.routeSummary : undefined;
-  if (!routeSummary?.length) return null;
+  const radioChannels = 'radioChannels' in guide ? guide.radioChannels : undefined;
+  if (!routeSummary?.length && !radioChannels?.length) return null;
 
   return (
     <section className="route-overview" aria-labelledby="route-overview-heading">
       <p className="hint-block__kicker">Quick answer</p>
       <h2 id="route-overview-heading">Route at a glance</h2>
       <p>{guide.goal}</p>
-      <ol className="route-summary">
-        {routeSummary.map((stage) => <li key={stage}>{stage}</li>)}
-      </ol>
+      {radioChannels?.length ? (
+        <div className="route-recovery__table-wrap">
+          <table>
+            <thead>
+              <tr><th>Channel</th><th>Location</th><th>Unlock</th><th>Official mix and tracks</th></tr>
+            </thead>
+            <tbody>
+              {radioChannels.map((channel) => (
+                <tr key={channel.number}>
+                  <th scope="row">{channel.number}. {channel.area}</th>
+                  <td>{channel.location}</td>
+                  <td>{channel.unlock}</td>
+                  <td><strong>{channel.officialMix}</strong><br />{channel.tracks.join(', ')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <ol className="route-summary">
+          {routeSummary?.map((stage) => <li key={stage}>{stage}</li>)}
+        </ol>
+      )}
     </section>
   );
 }
@@ -231,7 +345,16 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
         <h3 id={`sources-${guide.slug.replaceAll('/', '-')}`}>Source links</h3>
         <p>These links support the research trail. Their video frames and screenshots are not republished here.</p>
         <ul>
-          {guide.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span></li>)}
+          {guide.sources.map((source) => {
+            const purpose = 'purpose' in source ? source.purpose : undefined;
+            return (
+              <li key={source.url}>
+                <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>{' '}
+                <span>— {source.publisher}</span>
+                {purpose ? <p>{purpose}</p> : null}
+              </li>
+            );
+          })}
         </ul>
       </section>
       {showVideo ? <VideoEvidence guide={guide} /> : null}
@@ -251,12 +374,13 @@ export function VideoEvidence({ guide }: { guide: Guide }) {
 
   const startAt = 'startAt' in guide.video ? guide.video.startAt : undefined;
   const watchUrl = 'watchUrl' in guide.video ? guide.video.watchUrl : undefined;
+  const linkLabel = 'linkLabel' in guide.video ? guide.video.linkLabel : 'Watch this evidence video on YouTube';
   return (
     <section className="guide-video" aria-labelledby={`video-${guide.slug.replaceAll('/', '-')}`}>
       <h3 id={`video-${guide.slug.replaceAll('/', '-')}`}>{guide.video.title}</h3>
       <p>{guide.video.note}</p>
       <YouTubeEmbed id={guide.video.id} title={guide.video.title} startAt={startAt} />
-      {watchUrl ? <p><a href={guide.video.watchUrl} target="_blank" rel="noreferrer">Watch the button-location segment on YouTube (starts at 7:00)</a></p> : null}
+      {watchUrl ? <p><a href={guide.video.watchUrl} target="_blank" rel="noreferrer">{linkLabel}</a></p> : null}
     </section>
   );
 }

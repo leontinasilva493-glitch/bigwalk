@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, GuideToc, HintBlock, NextStepRecommendations, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence } from '../../../components/guides';
+import { Breadcrumbs, GreenRoomResearch, GuideToc, HintBlock, NextStepRecommendations, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -74,9 +74,11 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
             <p className="guide-kicker">{guide.category} walkthrough · {guide.area}</p>
             <h1>{guide.h1}</h1>
             <p className="guide-description">{guide.description}</p>
+            {'introNote' in guide && guide.introNote ? <p className="guide-intro-note">{guide.introNote}</p> : null}
             <p className="guide-meta">{guide.readTime} · Updated {guide.updated} · {guide.lastVerified}</p>
           </header>
           <GuideToc guide={guide} />
+          <GreenRoomResearch guide={guide} />
           <RouteOverview guide={guide} />
           <HintBlock guide={guide} />
           <NextStepRecommendations guide={guide} />

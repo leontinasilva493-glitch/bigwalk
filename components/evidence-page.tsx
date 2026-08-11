@@ -16,6 +16,21 @@ type SectionRecord = {
   evidenceNeeds: string[];
   relatedSlugs: string[];
   illustration: string;
+  indexable: boolean;
+  updated?: string;
+  verificationLabel?: string;
+  challenges?: Array<{
+    name: string;
+    href?: string;
+    visualCues: string;
+    position: string;
+    prerequisiteItem: string;
+    transport: string;
+    playerCount: string;
+    verificationStatus: string;
+  }>;
+  pendingFirstHand?: Array<{ label: string; value: string }>;
+  sources?: Array<{ title: string; publisher: string; url: string }>;
 };
 
 function relatedTitle(slug: string) {
@@ -33,7 +48,7 @@ export function evidenceMetadata(page: SectionRecord): Metadata {
     title: page.title,
     description: page.description,
     alternates: { canonical: `/${page.slug}` },
-    robots: { index: false, follow: true },
+    robots: { index: page.indexable, follow: true },
     openGraph: { url: `/${page.slug}`, title: page.title, description: page.description },
     twitter: { card: 'summary', title: page.title, description: page.description },
   };
@@ -46,7 +61,7 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
     '@type': 'Article',
     headline: page.h1,
     description: page.description,
-    dateModified: '2026-08-08',
+    dateModified: page.updated ?? '2026-08-08',
     mainEntityOfPage: url,
     publisher: { '@type': 'Organization', name: site.name },
   };
@@ -75,7 +90,7 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
             {page.illustration === 'trophy' ? <TrophyIcon /> : null}
             {page.illustration === 'map' ? <MapIcon /> : null}
           </div>
-          <p className="verification-status" role="status">Verification in progress</p>
+          <p className="verification-status" role="status">{page.verificationLabel ?? 'Verification in progress'}</p>
           <h1>{page.h1}</h1>
           <p className="evidence-page__lede">{page.description}</p>
 
@@ -85,12 +100,53 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
             <p>{page.scope}</p>
           </section>
 
+          {page.challenges?.length ? (
+            <section className="challenge-directory" aria-labelledby="challenge-directory-heading">
+              <p className="hint-block__kicker">PURPLE CHALLENGE DIRECTORY</p>
+              <h2 id="challenge-directory-heading">Seven reported purple challenges</h2>
+              <p>Names are community working names, not official labels. “Source-checked” means the listed cue or map marker appears in the cited sources; it does not promote an untested reward or unlock mechanism to fact.</p>
+              <div className="challenge-directory__table-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Community name</th><th>Visual cues</th><th>Position / coordinates</th><th>Prerequisite item</th><th>Transport</th><th>Players</th><th>Status</th></tr>
+                  </thead>
+                  <tbody>
+                    {page.challenges.map((challenge) => (
+                      <tr key={challenge.name}>
+                        <th scope="row">{challenge.href ? <Link href={challenge.href}>{challenge.name}</Link> : challenge.name}</th>
+                        <td>{challenge.visualCues}</td>
+                        <td>{challenge.position}</td>
+                        <td>{challenge.prerequisiteItem}</td>
+                        <td>{challenge.transport}</td>
+                        <td>{challenge.playerCount}</td>
+                        <td><span className="evidence-label">{challenge.verificationStatus}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          ) : null}
+
           <section className="verification-panel" aria-labelledby="evidence-heading">
             <h2 id="evidence-heading">What we still need to verify</h2>
-            <p>This page is deliberately not a completed answer yet. It stays out of search indexing until current, first-hand evidence supports the guidance.</p>
+            <p>{page.indexable
+              ? 'This directory is publishable because its names, visual cues, and mapped positions are source-labelled. The following gameplay conclusions still require current first-hand evidence.'
+              : 'This page is deliberately not a completed answer yet. It stays out of search indexing until current, first-hand evidence supports the guidance.'}</p>
+            {page.pendingFirstHand?.length ? (
+              <dl className="pending-facts">
+                {page.pendingFirstHand.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
+              </dl>
+            ) : null}
             <ul className="evidence-checklist">
               {page.evidenceNeeds.map((need) => <li key={need}>{need}</li>)}
             </ul>
+            {page.sources?.length ? (
+              <div className="guide-sources">
+                <h3>Source links</h3>
+                <ul>{page.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span></li>)}</ul>
+              </div>
+            ) : null}
           </section>
 
           {featuredGuides.length ? (

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { guides, guideBySlug, site } from '../lib/content.mjs';
 
 test('the catalogue exposes the current puzzle and walkthrough records', () => {
-  assert.equal(guides.length, 6);
+  assert.equal(guides.length, 10);
   assert.equal(
     guideBySlug('puzzles/green-chair-headphones').h1,
     'Big Walk Sound Check Puzzle: Chair and Headphones Solution',
@@ -25,7 +25,7 @@ test('every guide declares its verification and original-image hand-off', () => 
   assert.deepEqual(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs.map((related) => related.slug), [
     'puzzles/4166-1899-coordinates',
     'walkthrough/blue-tower-train',
-    'home',
+    'walkthrough/green-tower-chairlift',
   ]);
 });
 
@@ -39,6 +39,10 @@ test('every guide declares its tower evidence state', () => {
       'Red Tower',
       'Blue Tower',
       'Opening area',
+      'Green Tower',
+      'Yellow Tower',
+      'Island radio network',
+      'Green Room research',
     ],
   );
 });
@@ -58,6 +62,9 @@ test('source-checked P0 guides declare complete publishable content and provenan
       'walkthrough/red-tower-map-room',
       'walkthrough/blue-tower-train',
       'walkthrough/crosswalk',
+      'walkthrough/green-tower-chairlift',
+      'walkthrough/yellow-tower-tunnels',
+      'walkthrough/radio-channels',
     ],
   );
   assert.ok(sourceChecked.every((guide) => (
@@ -85,6 +92,7 @@ test('the Crosswalk opening route is complete enough for indexed discovery', () 
   assert.ok(crosswalk.sources.length >= 2);
   assert.deepEqual(crosswalk.relatedSlugs.map((related) => related.slug), [
     'walkthrough/red-tower-map-room',
+    'walkthrough/green-tower-chairlift',
     'puzzles',
   ]);
 });

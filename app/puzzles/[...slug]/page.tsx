@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, GuideToc, HintBlock, NextStepRecommendations, PuzzleMvpOverview, RelatedGuides, VerificationPanel, VideoEvidence } from '../../../components/guides';
+import { Breadcrumbs, CoordinatesFirstScreen, GuideToc, HintBlock, NextStepRecommendations, PuzzleMvpOverview, RelatedGuides, VerificationPanel, VideoEvidence } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -77,6 +77,7 @@ export default async function PuzzleGuidePage({ params }: PageProps) {
             <p className="guide-description">{guide.description}</p>
             <p className="guide-meta">{guide.readTime} · Updated {guide.updated} · {guide.lastVerified}</p>
           </header>
+          <CoordinatesFirstScreen guide={guide} />
           <GuideToc guide={guide} />
           <HintBlock guide={guide} />
           <PuzzleMvpOverview guide={guide} />

@@ -32,13 +32,16 @@ test('guide records expose the v3 evidence model and visual aliases', () => {
     && ['not_collected', 'first_hand', 'corroborated', 'conflicting_reports'].includes(guide.evidenceLevel)
   )));
   assert.ok(siteSections.some((section) => section.slug === 'puzzles/purple-challenges'));
-  assert.ok(siteSections.every((section) => section.indexable === false));
+  assert.equal(siteSections.find((section) => section.slug === 'puzzles/purple-challenges').indexable, true);
+  assert.equal(siteSections.find((section) => section.slug === 'beginner-guide').indexable, true);
+  const publishedSectionSlugs = new Set(['beginner-guide', 'puzzles/purple-challenges']);
+  assert.ok(siteSections.filter((section) => !publishedSectionSlugs.has(section.slug)).every((section) => section.indexable === false));
 });
 
-test('new topic pages use the shared evidence template and stay out of indexing', async () => {
+test('new topic pages use the shared evidence template and derive indexing from evidence state', async () => {
   const source = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
-  assert.match(source, /robots: \{ index: false, follow: true \}/);
-  assert.match(source, /Verification in progress/);
+  assert.match(source, /robots: \{ index: page\.indexable, follow: true \}/);
+  assert.match(source, /page\.verificationLabel/);
   assert.match(source, /What we still need to verify/);
 });
 

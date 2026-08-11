@@ -93,6 +93,10 @@ test('walkthrough is a noindex route center built from current walkthrough data'
   assert.match(page, /Player count/);
   assert.match(page, /Unlock result/);
   assert.match(page, /guide\.updated/);
+  assert.match(page, /walkthrough\/green-tower-chairlift/);
+  assert.match(page, /walkthrough\/yellow-tower-tunnels/);
+  assert.match(page, /walkthrough\/radio-channels/);
+  assert.match(page, /walkthrough\/green-room/);
 });
 
 test('video evidence waits for user action before creating the YouTube iframe', async () => {
@@ -117,10 +121,10 @@ test('mobile readers get an inline table of contents and card-style recovery ste
   assert.match(styles, /@media \(max-width: 767px\)[\s\S]*?\.route-recovery tbody tr\s*\{[\s\S]*?display:\s*grid/);
 });
 
-test('the noindex beginner guide remains excluded from sitemap discovery', async () => {
+test('the published beginner guide enters sitemap discovery through indexable sections', async () => {
   const sitemap = await sourceFor('app/sitemap.ts');
   const beginner = siteSectionBySlug('beginner-guide');
 
-  assert.equal(beginner.indexable, false);
-  assert.doesNotMatch(sitemap, /path:\s*['"]\/beginner-guide['"]/);
+  assert.equal(beginner.indexable, true);
+  assert.match(sitemap, /siteSections\s*\.filter\(\(section\)\s*=>\s*section\.indexable\)/);
 });
