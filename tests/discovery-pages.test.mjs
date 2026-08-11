@@ -6,6 +6,8 @@ import { guides } from '../lib/content.mjs';
 const pageFiles = {
   home: '../app/page.tsx',
   puzzles: '../app/puzzles/page.tsx',
+  achievements: '../app/achievements/page.tsx',
+  multiplayer: '../app/multiplayer/page.tsx',
   styles: '../app/globals.css',
   sitemap: '../app/sitemap.ts',
   robots: '../app/robots.ts',
@@ -99,6 +101,33 @@ test('homepage discovery controls route visitors to real puzzle and walkthrough 
   assert.doesNotMatch(home, /readOnly/);
   assert.match(guideComponents, /href: string/);
   assert.match(guideComponents, /<Link className="category-card" href=\{href\}>/);
+});
+
+test('homepage quick answers route trophy and platform demand to source-checked hubs', async () => {
+  const home = await sourceFor('home');
+
+  assert.match(home, /Quick Answers/i);
+  assert.match(home, /Can I play with friends on other platforms\?/);
+  assert.match(home, /How many trophies are in Big Walk\?/);
+  assert.match(home, /href:\s*'\/achievements'/);
+  assert.match(home, /href:\s*'\/multiplayer'/);
+});
+
+test('achievements and multiplayer hubs are source-checked and indexable', async () => {
+  const [achievements, multiplayer] = await Promise.all([
+    sourceFor('achievements'),
+    sourceFor('multiplayer'),
+  ]);
+
+  assert.match(achievements, /Source-checked guide/);
+  assert.match(achievements, /Big Walk Trophy & Achievement Guide/);
+  assert.match(achievements, /Gamer Social Club/);
+  assert.match(achievements, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true\s*\}/);
+
+  assert.match(multiplayer, /Source-checked guide/);
+  assert.match(multiplayer, /Quick compatibility table/);
+  assert.match(multiplayer, /House House/);
+  assert.match(multiplayer, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true\s*\}/);
 });
 
 test('the Crosswalk route enters both walkthrough navigation and indexable discovery', () => {

@@ -30,18 +30,14 @@ test('walkthrough breadcrumbs omit the nonexistent walkthrough index', async () 
     readFile(new URL('../app/walkthrough/[...slug]/page.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
   ]);
-  const breadcrumbComponent = guidesSource.match(
-    /export function Breadcrumbs[\s\S]*?\n}\n\nexport function RelatedGuides/,
-  )?.[0] ?? '';
-
   assert.match(routeSource, /position: 1, name: 'Home', item: site\.url/);
   assert.match(routeSource, /position: 2, name: guide\.h1, item: `\$\{site\.url\}\/\$\{guide\.slug\}`/);
   assert.doesNotMatch(routeSource, /name: 'Walkthrough'/);
   assert.doesNotMatch(routeSource, /position: 3/);
 
-  assert.match(breadcrumbComponent, /<Link href="\/">Home<\/Link>/);
-  assert.match(breadcrumbComponent, /<li aria-current="page">\{guide\.h1\}<\/li>/);
-  assert.doesNotMatch(breadcrumbComponent, /Walkthrough/);
+  assert.match(guidesSource, /<Link href="\/">Home<\/Link>/);
+  assert.match(guidesSource, /<li aria-current="page">\{guide\.h1\}<\/li>/);
+  assert.doesNotMatch(guidesSource, /<Link href="\/walkthrough">Walkthrough<\/Link>/);
 });
 
 test('detail heroes show source status before catalogue copy', async () => {

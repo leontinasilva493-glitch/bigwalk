@@ -59,6 +59,27 @@ const featuredTopics = siteSections.filter((section) => [
   'troubleshooting',
 ].includes(section.slug));
 
+const quickAnswers = [
+  {
+    label: 'Crossplay',
+    question: 'Can I play with friends on other platforms?',
+    answer: 'Yes. PS5, PC/Mac, and Switch 2 can play together with a Join Code.',
+    href: '/multiplayer',
+  },
+  {
+    label: 'Trophies',
+    question: 'How many trophies are in Big Walk?',
+    answer: '13 total on PS5: 1 Platinum, 10 Gold, and 2 Silver. Steam tracks the 12 non-Platinum objectives.',
+    href: '/achievements',
+  },
+  {
+    label: 'Platforms',
+    question: 'Is Big Walk on Xbox or Switch?',
+    answer: 'It is on PS5, PC, Mac, and Switch 2. It is not listed for Xbox or the original Switch.',
+    href: '/multiplayer',
+  },
+];
+
 const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
 const walkthroughGuides = guides.filter((guide) => guide.kind === 'walkthrough');
 
@@ -95,6 +116,19 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="quick-answers page-shell" aria-labelledby="quick-answers-title">
+          <SectionHeading kicker="QUICK ANSWERS" title="Current high-intent questions" />
+          <div className="quick-answer-grid">
+            {quickAnswers.map((item) => (
+              <Link className="quick-answer-card" href={item.href} key={item.label}>
+                <span>{item.label}</span>
+                <h3>{item.question}</h3>
+                <p>{item.answer}</p>
+              </Link>
+            ))}
           </div>
         </section>
 
