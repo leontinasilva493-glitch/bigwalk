@@ -65,12 +65,13 @@ test('directory groups guides by their declared tower instead of an inferred are
   assert.doesNotMatch(puzzles, /guide\.area !== 'Red Tower'/);
 });
 
-test('detail layout keeps a narrow reading column and a desktop-only table of contents', async () => {
+test('detail layout keeps a narrow reading column and exposes a mobile-friendly table of contents', async () => {
   const styles = await sourceFor('styles');
 
   assert.match(styles, /\.guide-page\s*\{[\s\S]*?width:\s*min\(100% - 48px,\s*1120px\)/);
   assert.match(styles, /\.guide-article\s*\{[\s\S]*?max-width:\s*720px/);
-  assert.match(styles, /\.guide-toc\s*\{\s*display:\s*none;/);
+  assert.match(styles, /\.guide-toc\s*\{[\s\S]*?display:\s*flex;/);
+  assert.match(styles, /\.guide-toc a\s*\{[\s\S]*?min-height:\s*44px/);
   assert.match(styles, /@media \(min-width: 1280px\)\s*\{[\s\S]*?\.guide-toc\s*\{[\s\S]*?display:\s*flex;/);
   assert.match(styles, /\.spoiler-gate summary\s*\{[\s\S]*?min-height:\s*44px/);
   assert.match(styles, /@media \(max-width: 767px\)\s*\{[\s\S]*?\.guide-article\s*\{[\s\S]*?width:\s*100%/);
@@ -84,8 +85,9 @@ test('directory cards keep puzzle answers distinct from route walkthroughs', asy
 
   assert.match(puzzles, /const puzzleGuides = guides\.filter\(\(guide\) => guide\.kind === 'puzzle'\)/);
   assert.match(puzzles, /puzzleGuides\.reduce/);
-  assert.match(walkthrough, /const walkthroughGuides = guides\.filter\(\(guide\) => guide\.kind === 'walkthrough'\)/);
-  assert.match(walkthrough, /featuredGuides=\{walkthroughGuides\}/);
+  assert.match(walkthrough, /const walkthroughGuides = guides\s*\.filter\(\(guide\) => guide\.kind === 'walkthrough'\)/);
+  assert.match(walkthrough, /walkthroughGuides\.map/);
+  assert.match(walkthrough, /Where are you stuck\?/);
 });
 
 test('homepage discovery controls route visitors to real puzzle and walkthrough destinations', async () => {

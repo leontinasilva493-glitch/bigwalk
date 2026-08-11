@@ -21,7 +21,7 @@ test('the Blue Tower train route is publishable and discoverable', () => {
   assert.ok(guide.solutionSteps.length >= 5);
   assert.ok(guide.commonFailures.length >= 4);
   assert.ok(guide.sources.length >= 4);
-  assert.ok(guide.relatedSlugs.includes('walkthrough/red-tower-map-room'));
+  assert.ok(guide.relatedSlugs.some((related) => related.slug === 'walkthrough/red-tower-map-room'));
   assert.ok(guides.filter((entry) => entry.indexable).some((entry) => entry.slug === slug));
 });
 

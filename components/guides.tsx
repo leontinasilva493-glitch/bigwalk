@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { guides } from '../lib/content.mjs';
 import { SignalFlareIcon } from './game-elements';
+import { YouTubeEmbed } from './youtube-embed';
 
 type Guide = (typeof guides)[number];
 
@@ -131,6 +132,57 @@ export function RouteOverview({ guide }: { guide: Guide }) {
   );
 }
 
+function recommendationTarget(slug: string) {
+  if (slug === 'home') return { href: '/', title: 'Big Walk Walkthrough home' };
+  if (slug === 'puzzles') return { href: '/puzzles', title: 'Big Walk Puzzle Directory' };
+  const target = guides.find((entry) => entry.slug === slug);
+  return target ? { href: `/${target.slug}`, title: target.h1 } : undefined;
+}
+
+export function NextStepRecommendations({ guide }: { guide: Guide }) {
+  const recommendations = guide.relatedSlugs
+    .map((related) => ({ related, target: recommendationTarget(related.slug) }))
+    .filter((entry): entry is { related: Guide['relatedSlugs'][number]; target: { href: string; title: string } } => Boolean(entry.target));
+
+  if (!recommendations.length) return null;
+
+  return (
+    <section className="next-steps" aria-labelledby="next-steps-heading">
+      <p className="hint-block__kicker">CHOOSE YOUR NEXT MOVE</p>
+      <h2 id="next-steps-heading">What to do next</h2>
+      <div className="next-step-grid">
+        {recommendations.map(({ related, target }) => (
+          <Link className="next-step-card" href={target.href} key={related.slug}>
+            <span>{related.relationType}</span>
+            <strong>{target.title}</strong>
+            <p>{related.reason}</p>
+            <small>Continue <span aria-hidden="true">→</span></small>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function GuideToc({ guide }: { guide: Guide }) {
+  const hasPuzzleOverview = 'directAnswer' in guide
+    && 'progressiveHints' in guide
+    && 'navigationMethods' in guide;
+
+  return (
+    <nav className="guide-toc" aria-label="On this page">
+      <p>On this page</p>
+      {'routeSummary' in guide ? <a href="#route-overview-heading">Route overview</a> : null}
+      <a href="#hint-heading">Hint</a>
+      {hasPuzzleOverview ? <a href="#before-you-start">Before you start</a> : null}
+      {hasPuzzleOverview ? <a href="#quick-answer">Quick answer</a> : null}
+      {hasPuzzleOverview ? <a href="#navigation-methods">Navigation methods</a> : null}
+      <a href="#next-steps-heading">Next steps</a>
+      <a href="#verification-heading">Solution and sources</a>
+    </nav>
+  );
+}
+
 export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; showVideo?: boolean }) {
   const isPublished = guide.indexable;
   const recoveryHeading = 'recoveryHeading' in guide && typeof guide.recoveryHeading === 'string'
@@ -199,13 +251,11 @@ export function VideoEvidence({ guide }: { guide: Guide }) {
 
   const startAt = 'startAt' in guide.video ? guide.video.startAt : undefined;
   const watchUrl = 'watchUrl' in guide.video ? guide.video.watchUrl : undefined;
-  const embedUrl = `https://www.youtube-nocookie.com/embed/${guide.video.id}${startAt ? `?start=${startAt}` : ''}`;
-
   return (
     <section className="guide-video" aria-labelledby={`video-${guide.slug.replaceAll('/', '-')}`}>
       <h3 id={`video-${guide.slug.replaceAll('/', '-')}`}>{guide.video.title}</h3>
       <p>{guide.video.note}</p>
-      <div className="video-frame"><iframe title={guide.video.title} src={embedUrl} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen /></div>
+      <YouTubeEmbed id={guide.video.id} title={guide.video.title} startAt={startAt} />
       {watchUrl ? <p><a href={guide.video.watchUrl} target="_blank" rel="noreferrer">Watch the button-location segment on YouTube (starts at 7:00)</a></p> : null}
     </section>
   );
@@ -225,21 +275,23 @@ export function Breadcrumbs({ guide }: { guide: Guide }) {
   );
 }
 
-export function RelatedGuides({ relatedSlugs }: { relatedSlugs: string[] }) {
-  const related = relatedSlugs
-    .map((slug) => slug === 'home' ? undefined : guides.find((guide) => guide.slug === slug))
-    .filter((guide): guide is Guide => Boolean(guide));
+export function RelatedGuides({ guide }: { guide: Guide }) {
+  const sameKind = guides.filter((entry) => entry.kind === guide.kind);
+  const currentIndex = sameKind.findIndex((entry) => entry.slug === guide.slug);
+  const previous = currentIndex > 0 ? sameKind[currentIndex - 1] : undefined;
+  const next = currentIndex >= 0 && currentIndex < sameKind.length - 1 ? sameKind[currentIndex + 1] : undefined;
+  const directory = guide.kind === 'puzzle'
+    ? { href: '/puzzles', title: 'Big Walk Puzzle Directory' }
+    : { href: '/walkthrough', title: 'Big Walk Walkthrough Route Center' };
 
   return (
     <section className="related-guides" aria-labelledby="related-guides-heading">
       <h2 id="related-guides-heading">Related guides</h2>
-      <ul>
-        {related.map((guide) => (
-          <li key={guide.slug}><Link href={`/${guide.slug}`}>{guide.h1}</Link></li>
-        ))}
-        {relatedSlugs.includes('puzzles') ? <li><Link href="/puzzles">Big Walk Puzzle Directory</Link></li> : null}
-        {relatedSlugs.includes('home') ? <li><Link href="/">Big Walk Walkthrough home</Link></li> : null}
-      </ul>
+      <div className="related-guide-grid">
+        {previous ? <Link href={`/${previous.slug}`}><span>Previous</span><strong>{previous.h1}</strong></Link> : null}
+        {next ? <Link href={`/${next.slug}`}><span>Next</span><strong>{next.h1}</strong></Link> : null}
+        <Link href={directory.href}><span>Browse all</span><strong>{directory.title}</strong></Link>
+      </div>
     </section>
   );
 }

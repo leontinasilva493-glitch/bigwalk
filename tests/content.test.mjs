@@ -22,7 +22,7 @@ test('every guide declares its verification and original-image hand-off', () => 
         /^[a-z0-9-]+\.webp$/.test(guide.assetRequirement),
     ),
   );
-  assert.deepEqual(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs, [
+  assert.deepEqual(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs.map((related) => related.slug), [
     'puzzles/4166-1899-coordinates',
     'walkthrough/blue-tower-train',
     'home',
@@ -83,7 +83,7 @@ test('the Crosswalk opening route is complete enough for indexed discovery', () 
   assert.ok(crosswalk.solutionSteps.length >= 6);
   assert.ok(crosswalk.commonFailures.length >= 4);
   assert.ok(crosswalk.sources.length >= 2);
-  assert.deepEqual(crosswalk.relatedSlugs, [
+  assert.deepEqual(crosswalk.relatedSlugs.map((related) => related.slug), [
     'walkthrough/red-tower-map-room',
     'puzzles',
   ]);

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, HintBlock, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence } from '../../../components/guides';
+import { Breadcrumbs, GuideToc, HintBlock, NextStepRecommendations, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
-import { SectionHeading, SiteFooter, SiteHeader } from '../../../components/site';
+import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
 
 type PageProps = { params: Promise<{ slug: string[] }> };
@@ -76,18 +76,13 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
             <p className="guide-description">{guide.description}</p>
             <p className="guide-meta">{guide.readTime} · Updated {guide.updated} · {guide.lastVerified}</p>
           </header>
-          <aside className="guide-toc" aria-label="On this page">
-            <p>On this page</p>
-            {'routeSummary' in guide ? <a href="#route-overview-heading">Route overview</a> : null}
-            <a href="#hint-heading">Hint</a>
-            <a href="#verification-heading">Solution and sources</a>
-          </aside>
+          <GuideToc guide={guide} />
           <RouteOverview guide={guide} />
           <HintBlock guide={guide} />
+          <NextStepRecommendations guide={guide} />
           <VideoEvidence guide={guide} />
           <VerificationPanel guide={guide} showVideo={false} />
-          <SectionHeading kicker="Keep exploring" title="Related Big Walk guides" />
-          <RelatedGuides relatedSlugs={guide.relatedSlugs} />
+          <RelatedGuides guide={guide} />
         </article>
       </main>
       <SiteFooter />
