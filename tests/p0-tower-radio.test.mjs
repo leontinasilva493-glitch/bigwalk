@@ -23,8 +23,8 @@ test('Green Tower chairlift guide matches the publishable tower-route contract',
   assert.equal(guide.screenshotRequests.length, 3);
   assert.ok(guide.sources.length >= 4);
   assert.ok(guide.sources.every((source) => source.purpose));
-  for (const slug of ['walkthrough/red-tower-map-room', 'walkthrough/blue-tower-train', 'walkthrough/crosswalk']) {
-    assert.ok(guide.relatedSlugs.includes(slug));
+  for (const slug of ['walkthrough/crosswalk', 'walkthrough/yellow-tower-tunnels', 'walkthrough/blue-tower-train']) {
+    assert.ok(guide.relatedSlugs.some((related) => related.slug === slug));
   }
 });
 
@@ -46,8 +46,8 @@ test('Yellow Tower tunnels guide matches the publishable tower-route contract', 
   assert.equal(guide.screenshotRequests.length, 3);
   assert.ok(guide.sources.length >= 4);
   assert.ok(guide.sources.every((source) => source.purpose));
-  for (const slug of ['walkthrough/red-tower-map-room', 'walkthrough/blue-tower-train', 'walkthrough/crosswalk']) {
-    assert.ok(guide.relatedSlugs.includes(slug));
+  for (const slug of ['walkthrough/crosswalk', 'walkthrough/green-tower-chairlift', 'walkthrough/red-tower-map-room']) {
+    assert.ok(guide.relatedSlugs.some((related) => related.slug === slug));
   }
 });
 
@@ -76,8 +76,8 @@ test('radio channels guide lists seven official soundtrack groups and locations'
   assert.equal(guide.screenshotRequests.length, 3);
   assert.ok(guide.sources.length >= 2);
   assert.ok(guide.sources.every((source) => source.purpose));
-  for (const slug of ['walkthrough/crosswalk', 'puzzles', 'walkthrough/green-tower-chairlift', 'walkthrough/blue-tower-train', 'walkthrough/yellow-tower-tunnels']) {
-    assert.ok(guide.relatedSlugs.includes(slug));
+  for (const slug of ['walkthrough/crosswalk', 'puzzles', 'walkthrough/green-tower-chairlift']) {
+    assert.ok(guide.relatedSlugs.some((related) => related.slug === slug));
   }
   assert.ok(guides.filter((entry) => entry.indexable).some((entry) => entry.slug === guide.slug));
 });

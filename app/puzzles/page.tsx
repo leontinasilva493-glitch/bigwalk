@@ -33,15 +33,17 @@ function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[type]}</svg>;
 }
 
+const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
+const walkthroughGuides = guides.filter((guide) => guide.kind === 'walkthrough');
+
 const categories = [
-  { label: 'Tower', description: 'Browse available tower hints.', count: '1 entry', icon: <GuideIcon type="tower" />, href: '#directory-by-tower' },
-  { label: 'Area', description: 'Browse route walkthroughs by landmark.', count: '1 route', icon: <GuideIcon type="area" />, href: '/walkthrough' },
-  { label: 'Item', description: 'Browse visible objects and clues.', count: '2 entries', icon: <GuideIcon type="item" />, href: '#visual-finder' },
+  { label: 'Tower', description: 'Browse available tower hints.', count: `${puzzleGuides.length} entries`, icon: <GuideIcon type="tower" />, href: '#directory-by-tower' },
+  { label: 'Area', description: 'Browse route walkthroughs by landmark.', count: `${walkthroughGuides.length} routes`, icon: <GuideIcon type="area" />, href: '/walkthrough' },
+  { label: 'Item', description: 'Browse visible objects and clues.', count: `${puzzleGuides.length} entries`, icon: <GuideIcon type="item" />, href: '#visual-finder' },
   { label: 'Achievement', description: 'Verification pending.', count: 'Coming soon', icon: <GuideIcon type="achievement" />, href: '/achievements' },
 ];
 
 export default function PuzzlesPage() {
-  const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
   const puzzleDirectoryJsonLd = buildPuzzleDirectoryJsonLd(puzzleGuides);
   const guidesByTower = puzzleGuides.reduce<Record<string, typeof guides[number][]>>((groups, guide) => {
     (groups[guide.tower] ??= []).push(guide);

@@ -31,7 +31,7 @@ test('walkthrough breadcrumbs omit the nonexistent walkthrough index', async () 
     readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
   ]);
   const breadcrumbComponent = guidesSource.match(
-    /export function Breadcrumbs[\s\S]*?\n}\n\nexport function RelatedGuides/,
+    /export function Breadcrumbs[\s\S]*?\r?\n}\r?\n\r?\nexport function RelatedGuides/,
   )?.[0] ?? '';
 
   assert.match(routeSource, /position: 1, name: 'Home', item: site\.url/);
@@ -55,14 +55,19 @@ test('detail heroes show source status before catalogue copy', async () => {
   }
 });
 
-test('published guide pages render provenance, spoiler-gated steps, source links, and capture requests', async () => {
-  const source = await readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8');
+test('published guide pages render provenance, spoiler-gated steps, source links, capture requests, and a private embed', async () => {
+  const [source, player] = await Promise.all([
+    readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../components/youtube-embed.tsx', import.meta.url), 'utf8'),
+  ]);
 
   assert.match(source, /Source check/);
   assert.match(source, /solutionSteps/);
   assert.match(source, /Source links/);
   assert.match(source, /Original screenshot capture list/);
-  assert.match(source, /youtube-nocookie\.com/);
+  assert.match(source, /<YouTubeEmbed/);
+  assert.match(player, /youtube-nocookie\.com/);
+  assert.match(player, /Load video/);
 });
 
 test('walkthrough details activate the walkthrough destination in the shared header', async () => {

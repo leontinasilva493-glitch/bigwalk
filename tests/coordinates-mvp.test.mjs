@@ -51,24 +51,25 @@ test('4166 1899 guide is connected to the map-room route and generated sitemap',
   const guide = guideBySlug(slug);
   const sitemapSource = await readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8');
 
-  assert.ok(guide.relatedSlugs.includes('walkthrough/red-tower-map-room'));
-  assert.ok(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs.includes(slug));
+  assert.ok(guide.relatedSlugs.some((related) => related.slug === 'walkthrough/red-tower-map-room'));
+  assert.ok(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs.some((related) => related.slug === slug));
   assert.ok(guides.filter((item) => item.indexable).some((item) => item.slug === slug));
   assert.match(sitemapSource, /guides\s*\.filter\(\(guide\)\s*=>\s*guide\.indexable\)/);
 });
 
-test('puzzle template renders the MVP sections and timestamped video embed', async () => {
-  const [routeSource, componentSource] = await Promise.all([
+test('puzzle template renders the MVP sections and timestamped click-to-load video embed', async () => {
+  const [routeSource, componentSource, playerSource] = await Promise.all([
     readFile(new URL('../app/puzzles/[...slug]/page.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
+    readFile(new URL('../components/youtube-embed.tsx', import.meta.url), 'utf8'),
   ]);
 
   assert.match(routeSource, /CoordinatesFirstScreen/);
   assert.match(routeSource, /PuzzleMvpOverview/);
   assert.match(routeSource, /title:\s*\{\s*absolute:\s*guide\.title\s*\}/);
-  assert.match(routeSource, /#quick-answer/);
-  assert.match(routeSource, /#before-you-start/);
-  assert.match(routeSource, /#navigation-methods/);
+  assert.match(componentSource, /#quick-answer/);
+  assert.match(componentSource, /#before-you-start/);
+  assert.match(componentSource, /#navigation-methods/);
   assert.match(componentSource, /guide\.directAnswer/);
   assert.match(componentSource, /guide\.prerequisites/);
   assert.match(componentSource, /guide\.progressiveHints/);
@@ -77,7 +78,8 @@ test('puzzle template renders the MVP sections and timestamped video embed', asy
   assert.match(componentSource, /guide\.roleAssignments/);
   assert.match(componentSource, /guide\.video\.startAt/);
   assert.match(componentSource, /guide\.video\.watchUrl/);
-  assert.match(componentSource, /youtube-nocookie\.com/);
+  assert.match(componentSource, /<YouTubeEmbed/);
+  assert.match(playerSource, /youtube-nocookie\.com/);
 });
 
 test('4166 video appears after progressive help and before the full solution panel', async () => {

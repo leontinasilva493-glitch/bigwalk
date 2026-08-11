@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, CoordinatesFirstScreen, HintBlock, PuzzleMvpOverview, RelatedGuides, VerificationPanel, VideoEvidence } from '../../../components/guides';
+import { Breadcrumbs, CoordinatesFirstScreen, GuideToc, HintBlock, NextStepRecommendations, PuzzleMvpOverview, RelatedGuides, VerificationPanel, VideoEvidence } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
-import { SectionHeading, SiteFooter, SiteHeader } from '../../../components/site';
+import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
 
 type PageProps = { params: Promise<{ slug: string[] }> };
@@ -78,20 +78,13 @@ export default async function PuzzleGuidePage({ params }: PageProps) {
             <p className="guide-meta">{guide.readTime} · Updated {guide.updated} · {guide.lastVerified}</p>
           </header>
           <CoordinatesFirstScreen guide={guide} />
-          <aside className="guide-toc" aria-label="On this page">
-            <p>On this page</p>
-            <a href="#hint-heading">Hint</a>
-            <a href="#before-you-start">Before you start</a>
-            <a href="#quick-answer">Quick answer</a>
-            <a href="#navigation-methods">Navigation methods</a>
-            <a href="#verification-heading">Full solution and sources</a>
-          </aside>
+          <GuideToc guide={guide} />
           <HintBlock guide={guide} />
           <PuzzleMvpOverview guide={guide} />
+          <NextStepRecommendations guide={guide} />
           <VideoEvidence guide={guide} />
           <VerificationPanel guide={guide} showVideo={false} />
-          <SectionHeading kicker="Keep exploring" title="Related Big Walk guides" />
-          <RelatedGuides relatedSlugs={guide.relatedSlugs} />
+          <RelatedGuides guide={guide} />
         </article>
       </main>
       <SiteFooter />
