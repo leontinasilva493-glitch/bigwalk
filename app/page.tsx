@@ -3,7 +3,13 @@ import Link from 'next/link';
 import { CategoryCard, EvidenceRouteCard, PuzzleCard } from '../components/guides';
 import { JsonLd } from '../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../components/site';
-import { guides, site, siteSections } from '../lib/content.mjs';
+import {
+  guides,
+  homepageDirectoryStats,
+  homepageFeaturedGuideSlugs,
+  site,
+  siteSections,
+} from '../lib/content.mjs';
 import { WalkerStack } from '../components/game-elements';
 
 export const metadata: Metadata = {
@@ -48,12 +54,16 @@ function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }
 
 const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
 const walkthroughGuides = guides.filter((guide) => guide.kind === 'walkthrough');
+const directoryStats = homepageDirectoryStats();
+const featuredGuides = homepageFeaturedGuideSlugs
+  .map((slug) => guides.find((guide) => guide.slug === slug))
+  .filter((guide): guide is (typeof guides)[number] => Boolean(guide));
 
 const categories = [
-  { label: 'Tower', description: 'Browse available tower hints.', count: `${puzzleGuides.length} entries`, icon: <GuideIcon type="tower" />, href: '/puzzles#directory-by-tower' },
-  { label: 'Area', description: 'Browse route walkthroughs by landmark.', count: `${walkthroughGuides.length} routes`, icon: <GuideIcon type="area" />, href: '/walkthrough' },
-  { label: 'Item', description: 'Browse visible objects and clues.', count: `${puzzleGuides.length} entries`, icon: <GuideIcon type="item" />, href: '/puzzles#visual-finder' },
-  { label: 'Achievement', description: 'Verification pending.', count: 'Coming soon', icon: <GuideIcon type="achievement" />, href: '/achievements' },
+  { label: 'Tower', description: 'Browse available tower hints.', count: `${directoryStats.puzzleEntries} puzzle entries`, icon: <GuideIcon type="tower" />, href: '/puzzles#directory-by-tower' },
+  { label: 'Area', description: 'Browse route walkthroughs by landmark.', count: `${directoryStats.walkthroughEntries} routes`, icon: <GuideIcon type="area" />, href: '/walkthrough' },
+  { label: 'Item', description: 'Browse visible objects and clues.', count: `${directoryStats.visualEntries} visual entries`, icon: <GuideIcon type="item" />, href: '/puzzles#visual-finder' },
+  { label: 'Achievement', description: 'Browse the source-checked trophy list.', count: `${directoryStats.achievements} trophies`, icon: <GuideIcon type="achievement" />, href: '/achievements' },
 ];
 
 const featuredTopics = siteSections.filter((section) => [
@@ -107,9 +117,9 @@ export default function HomePage() {
                 <strong>Browse routes <span aria-hidden="true">→</span></strong>
               </Link>
             </div>
-            <div className="popular-links" aria-label="Popular guide links">
-              <span>Popular:</span>
-              {[...puzzleGuides.slice(0, 2), ...walkthroughGuides].map((guide) => (
+            <div className="popular-links" aria-label="Featured guide links">
+              <span>Featured:</span>
+              {featuredGuides.map((guide) => (
                 <Link href={`/${guide.slug}`} key={guide.slug}>
                   {guide.area}
                 </Link>

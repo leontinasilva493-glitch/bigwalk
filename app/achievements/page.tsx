@@ -22,9 +22,9 @@ export const metadata: Metadata = {
 const trophyRows = [
   { name: 'Big Walk', grade: 'Gold', requirement: 'Cross the drawbridge.', area: 'Opening drawbridge', difficulty: 'Easy', href: '/walkthrough/crosswalk' },
   { name: 'Big View', grade: 'Gold', requirement: 'Visit the map.', area: 'Red Tower map room', difficulty: 'Easy', href: '/walkthrough/red-tower-map-room' },
-  { name: 'Big Sit', grade: 'Gold', requirement: 'Ride the chairlift.', area: 'Green Tower chairlift', difficulty: 'Easy', href: '[planned: /walkthrough/green-tower-chairlift]' },
-  { name: 'Big Ride', grade: 'Gold', requirement: 'Ride the train.', area: 'Blue Tower train', difficulty: 'Easy', href: '[planned: /walkthrough/blue-tower-train]' },
-  { name: 'Big Tunnel', grade: 'Gold', requirement: 'Enter a big tunnel.', area: 'Yellow Tower tunnels', difficulty: 'Easy', href: '[planned: /walkthrough/yellow-tower-tunnels]' },
+  { name: 'Big Sit', grade: 'Gold', requirement: 'Ride the chairlift.', area: 'Green Tower chairlift', difficulty: 'Easy', href: '/walkthrough/green-tower-chairlift' },
+  { name: 'Big Ride', grade: 'Gold', requirement: 'Ride the train.', area: 'Blue Tower train', difficulty: 'Easy', href: '/walkthrough/blue-tower-train' },
+  { name: 'Big Tunnel', grade: 'Gold', requirement: 'Enter a big tunnel.', area: 'Yellow Tower tunnels', difficulty: 'Easy', href: '/walkthrough/yellow-tower-tunnels' },
   { name: 'Big Wall', grade: 'Gold', requirement: 'Go beyond the wall.', area: 'Wall gate', difficulty: 'Medium', href: '/walkthrough/crosswalk' },
 ];
 

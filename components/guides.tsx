@@ -387,12 +387,14 @@ export function VideoEvidence({ guide }: { guide: Guide }) {
 
 export function Breadcrumbs({ guide }: { guide: Guide }) {
   const isPuzzle = guide.kind === 'puzzle';
+  const isWalkthrough = guide.kind === 'walkthrough';
 
   return (
     <nav className="breadcrumbs" aria-label="Breadcrumb">
       <ol>
         <li><Link href="/">Home</Link></li>
         {isPuzzle ? <li><Link href="/puzzles">Puzzles</Link></li> : null}
+        {isWalkthrough ? <li><Link href="/walkthrough">Walkthroughs</Link></li> : null}
         <li aria-current="page">{guide.h1}</li>
       </ol>
     </nav>

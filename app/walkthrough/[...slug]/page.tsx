@@ -57,7 +57,8 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
-      { '@type': 'ListItem', position: 2, name: guide.h1, item: `${site.url}/${guide.slug}` },
+      { '@type': 'ListItem', position: 2, name: 'Walkthroughs', item: `${site.url}/walkthrough` },
+      { '@type': 'ListItem', position: 3, name: guide.h1, item: `${site.url}/${guide.slug}` },
     ],
   };
 

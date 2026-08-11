@@ -25,7 +25,7 @@ test('detail templates are static server pages whose robots state follows each g
   }
 });
 
-test('walkthrough breadcrumbs omit the nonexistent walkthrough index', async () => {
+test('walkthrough details link back to the published walkthrough directory', async () => {
   const [routeSource, guidesSource] = await Promise.all([
     readFile(new URL('../app/walkthrough/[...slug]/page.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
@@ -35,13 +35,12 @@ test('walkthrough breadcrumbs omit the nonexistent walkthrough index', async () 
   )?.[0] ?? '';
 
   assert.match(routeSource, /position: 1, name: 'Home', item: site\.url/);
-  assert.match(routeSource, /position: 2, name: guide\.h1, item: `\$\{site\.url\}\/\$\{guide\.slug\}`/);
-  assert.doesNotMatch(routeSource, /name: 'Walkthrough'/);
-  assert.doesNotMatch(routeSource, /position: 3/);
+  assert.match(routeSource, /position: 2, name: 'Walkthroughs', item: `\$\{site\.url\}\/walkthrough`/);
+  assert.match(routeSource, /position: 3, name: guide\.h1, item: `\$\{site\.url\}\/\$\{guide\.slug\}`/);
 
   assert.match(guidesSource, /<Link href="\/">Home<\/Link>/);
+  assert.match(guidesSource, /<Link href="\/walkthrough">Walkthroughs<\/Link>/);
   assert.match(guidesSource, /<li aria-current="page">\{guide\.h1\}<\/li>/);
-  assert.doesNotMatch(guidesSource, /<Link href="\/walkthrough">Walkthrough<\/Link>/);
 });
 
 test('detail heroes show source status before catalogue copy', async () => {

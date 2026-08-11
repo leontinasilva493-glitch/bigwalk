@@ -36,15 +36,29 @@ test('guide records expose the v3 evidence model and visual aliases', () => {
   assert.equal(siteSections.find((section) => section.slug === 'beginner-guide').indexable, true);
   assert.equal(siteSections.find((section) => section.slug === 'achievements')?.indexable, true);
   assert.equal(siteSections.find((section) => section.slug === 'multiplayer')?.indexable, true);
+  assert.equal(siteSections.find((section) => section.slug === 'walkthrough')?.indexable, true);
   const publishedSectionSlugs = new Set([
     'achievements',
     'beginner-guide',
     'multiplayer',
     'puzzles/purple-challenges',
+    'walkthrough',
   ]);
   assert.ok(siteSections
     .filter((section) => !publishedSectionSlugs.has(section.slug))
     .every((section) => section.indexable === false));
+});
+
+test('walkthrough directory has publishable metadata and enters generated sitemap discovery', async () => {
+  const walkthrough = siteSections.find((section) => section.slug === 'walkthrough');
+  const sitemap = await readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8');
+
+  assert.equal(walkthrough?.status, 'published');
+  assert.equal(walkthrough?.evidenceLevel, 'corroborated');
+  assert.equal(walkthrough?.verificationLabel, 'Source-checked walkthrough directory');
+  assert.match(walkthrough?.title ?? '', /Walkthroughs/);
+  assert.doesNotMatch(walkthrough?.title ?? '', /Verification in Progress/i);
+  assert.match(sitemap, /siteSections\s*\.filter\(\(section\)\s*=>\s*section\.indexable\)/);
 });
 
 test('new topic pages use the shared evidence template and derive indexing from evidence state', async () => {
