@@ -17,7 +17,7 @@ const routeFiles = [
   '../app/beginner-guide/can-you-play-solo/page.tsx',
 ];
 
-test('the approved v3 hubs and evidence-gated topic routes exist', async () => {
+test('the approved v3 hubs and topic routes exist', async () => {
   await Promise.all(routeFiles.map((routeFile) => access(new URL(routeFile, import.meta.url))));
 });
 
@@ -34,8 +34,17 @@ test('guide records expose the v3 evidence model and visual aliases', () => {
   assert.ok(siteSections.some((section) => section.slug === 'puzzles/purple-challenges'));
   assert.equal(siteSections.find((section) => section.slug === 'puzzles/purple-challenges').indexable, true);
   assert.equal(siteSections.find((section) => section.slug === 'beginner-guide').indexable, true);
-  const publishedSectionSlugs = new Set(['beginner-guide', 'puzzles/purple-challenges']);
-  assert.ok(siteSections.filter((section) => !publishedSectionSlugs.has(section.slug)).every((section) => section.indexable === false));
+  assert.equal(siteSections.find((section) => section.slug === 'achievements')?.indexable, true);
+  assert.equal(siteSections.find((section) => section.slug === 'multiplayer')?.indexable, true);
+  const publishedSectionSlugs = new Set([
+    'achievements',
+    'beginner-guide',
+    'multiplayer',
+    'puzzles/purple-challenges',
+  ]);
+  assert.ok(siteSections
+    .filter((section) => !publishedSectionSlugs.has(section.slug))
+    .every((section) => section.indexable === false));
 });
 
 test('new topic pages use the shared evidence template and derive indexing from evidence state', async () => {
