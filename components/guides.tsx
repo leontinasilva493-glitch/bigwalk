@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { guides } from '../lib/content.mjs';
+import { guides, siteSectionBySlug } from '../lib/content.mjs';
 import { SignalFlareIcon } from './game-elements';
 import { YouTubeEmbed } from './youtube-embed';
 
@@ -65,6 +65,12 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
   const directAnswer = 'directAnswer' in guide ? guide.directAnswer : undefined;
   const progressiveHints = 'progressiveHints' in guide ? guide.progressiveHints : undefined;
   const navigationMethods = 'navigationMethods' in guide ? guide.navigationMethods : undefined;
+  const quickAnswerHeading = 'quickAnswerHeading' in guide
+    ? guide.quickAnswerHeading
+    : 'What 4166, 1899 means';
+  const navigationHeading = 'navigationHeading' in guide
+    ? guide.navigationHeading
+    : 'Two ways to reach the coordinates';
 
   if (!directAnswer || !progressiveHints?.length || !navigationMethods?.length) return null;
 
@@ -85,7 +91,7 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
 
       <section id="quick-answer" className="quick-answer" aria-labelledby="quick-answer-heading">
         <p className="hint-block__kicker">DIRECT ANSWER</p>
-        <h2 id="quick-answer-heading">What 4166, 1899 means</h2>
+        <h2 id="quick-answer-heading">{quickAnswerHeading}</h2>
         <details>
           <summary>Reveal the short solution</summary>
           <p>{guide.directAnswer}</p>
@@ -94,7 +100,7 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
 
       <section id="navigation-methods" className="navigation-methods" aria-labelledby="navigation-methods-heading">
         <p className="hint-block__kicker">CHOOSE YOUR TOOL</p>
-        <h2 id="navigation-methods-heading">Two ways to reach the coordinates</h2>
+        <h2 id="navigation-methods-heading">{navigationHeading}</h2>
         <div className="navigation-method-grid">
           {navigationMethods.map((method) => (
             <article key={method.title}>
@@ -250,7 +256,9 @@ function recommendationTarget(slug: string) {
   if (slug === 'home') return { href: '/', title: 'Big Walk Walkthrough home' };
   if (slug === 'puzzles') return { href: '/puzzles', title: 'Big Walk Puzzle Directory' };
   const target = guides.find((entry) => entry.slug === slug);
-  return target ? { href: `/${target.slug}`, title: target.h1 } : undefined;
+  if (target) return { href: `/${target.slug}`, title: target.h1 };
+  const section = siteSectionBySlug(slug);
+  return section ? { href: `/${section.slug}`, title: section.h1 } : undefined;
 }
 
 export function NextStepRecommendations({ guide }: { guide: Guide }) {

@@ -1,4 +1,7 @@
 :root {
+  --font-brand: "Shantell Sans";
+  --font-display: "Fredoka";
+  --font-body: "Inter";
   --vermilion: #d8492b;
   --steel: #3e6d9c;
   --sun: #f0b93c;

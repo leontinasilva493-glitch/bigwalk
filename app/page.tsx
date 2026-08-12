@@ -5,6 +5,7 @@ import { JsonLd } from '../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../components/site';
 import {
   guides,
+  homepageDemandGuideSlugs,
   homepageDirectoryStats,
   homepageFeaturedGuideSlugs,
   site,
@@ -56,6 +57,9 @@ const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
 const walkthroughGuides = guides.filter((guide) => guide.kind === 'walkthrough');
 const directoryStats = homepageDirectoryStats();
 const featuredGuides = homepageFeaturedGuideSlugs
+  .map((slug) => guides.find((guide) => guide.slug === slug))
+  .filter((guide): guide is (typeof guides)[number] => Boolean(guide));
+const demandGuides = homepageDemandGuideSlugs
   .map((slug) => guides.find((guide) => guide.slug === slug))
   .filter((guide): guide is (typeof guides)[number] => Boolean(guide));
 
@@ -147,6 +151,18 @@ export default function HomePage() {
             {categories.map((category) => (
               <CategoryCard key={category.label} {...category} />
             ))}
+          </div>
+        </section>
+
+        <section className="discovery-section page-shell" aria-labelledby="demand-guides-title">
+          <SectionHeading kicker="NEW DEMAND PAGES" title="True ending and peg puzzle" />
+          <p className="section-intro">
+            These two focused pages answer distinct search intents without creating duplicate item or ending hubs.
+            They are source-labelled and available for review, but remain outside search indexing until first-hand
+            captures confirm the current-version route.
+          </p>
+          <div className="puzzle-list">
+            {demandGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
           </div>
         </section>
 

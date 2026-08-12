@@ -41,7 +41,7 @@ test('indexable discovery pages distinguish source-checked solutions from unreso
   assert.match(home, /area/);
   assert.match(home, /item/);
   assert.match(home, /achievement/);
-  assert.equal((home.match(/PuzzleCard/g) ?? []).length, 3);
+  assert.equal((home.match(/PuzzleCard/g) ?? []).length, 4);
 
   assert.match(puzzles, /puzzleDirectorySeo\.h1/);
   assert.match(puzzles, /source-checked solutions/i);
@@ -118,9 +118,9 @@ test('homepage counts are derived from the current catalogue and featured links 
   const featuredGuides = homepageFeaturedGuideSlugs.map((slug) => guides.find((guide) => guide.slug === slug));
 
   assert.deepEqual(stats, {
-    puzzleEntries: 3,
-    walkthroughEntries: 7,
-    visualEntries: 3,
+    puzzleEntries: 4,
+    walkthroughEntries: 8,
+    visualEntries: 4,
     achievements: 13,
   });
   assert.equal(homepageFeaturedGuideSlugs.length, 5);

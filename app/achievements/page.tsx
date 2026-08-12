@@ -29,14 +29,14 @@ const trophyRows = [
 ];
 
 const trophies = [
-  { name: 'Big Trophy', grade: 'Platinum', requirement: 'Unlock every other trophy.', area: 'Full trophy list', difficulty: 'Hard', spoiler: 'Full', related: 'Use the full route list below as the checklist.' },
-  ...trophyRows.map((row) => ({ ...row, spoiler: 'Minor', related: row.href })),
-  { name: 'Big Pack', grade: 'Silver', requirement: 'Wear a backpack.', area: 'Wearable item structures', difficulty: 'Easy', spoiler: 'None', related: '/beginner-guide' },
-  { name: 'Big Help', grade: 'Silver', requirement: 'Wear something on your hip.', area: 'Wearable item structures', difficulty: 'Easy', spoiler: 'None', related: '[to verify - co-op wearable action]' },
-  { name: 'Big Climb', grade: 'Gold', requirement: 'Reach the highest point.', area: 'Highest chairlift-side peak', difficulty: 'Medium', spoiler: 'Minor', related: '[to verify]' },
-  { name: 'Big Makeover', grade: 'Gold', requirement: 'Get shiny.', area: '[to verify]', difficulty: 'Medium', spoiler: 'Minor', related: '[to verify]' },
-  { name: 'Big Goodbye', grade: 'Gold', requirement: 'Finish the game.', area: 'Ending route', difficulty: 'Medium', spoiler: 'Full', related: '[to verify - normal ending]' },
-  { name: 'Big Game', grade: 'Gold', requirement: 'Completely finish the game.', area: 'Post-game completion route', difficulty: 'Hard', spoiler: 'Full', related: '[to verify - true ending]' },
+  { name: 'Big Trophy', grade: 'Platinum', requirement: 'Unlock every other trophy.', area: 'Full trophy list', difficulty: 'Hard', spoiler: 'Full', related: 'Use the full route list below as the checklist.', guidance: 'Complete the other 12 PlayStation trophies. Steam has the same core objectives but no Platinum achievement.' },
+  ...trophyRows.map((row) => ({ ...row, spoiler: 'Minor', related: row.href, guidance: `Complete the linked ${row.area.toLowerCase()} route.` })),
+  { name: 'Big Pack', grade: 'Silver', requirement: 'Wear a backpack.', area: 'Wearable item structures', difficulty: 'Easy', spoiler: 'None', related: '/beginner-guide', guidance: 'Ask another player to place a backpack on your character at one of the blue wearable-item structures.' },
+  { name: 'Big Help', grade: 'Silver', requirement: 'Wear something on your hip.', area: 'Wearable item structures', difficulty: 'Easy', spoiler: 'None', related: '/beginner-guide', guidance: 'Have another player equip a hip bag or belt on your character at a blue wearable-item structure.' },
+  { name: 'Big Climb', grade: 'Gold', requirement: 'Reach the highest point.', area: 'Highest chairlift-side peak', difficulty: 'Medium', spoiler: 'Minor', related: '/walkthrough/green-tower-chairlift', guidance: 'Use the Green Tower chairlift route, then continue to the highest-point station and step onto its upper platform.' },
+  { name: 'Big Makeover', grade: 'Gold', requirement: 'Get shiny.', area: 'Salon in the tunnel network', difficulty: 'Medium', spoiler: 'Minor', related: '/walkthrough/yellow-tower-tunnels', guidance: 'Reach the salon in the tunnel route and have another player use its makeover controls to paint your character a shiny color.' },
+  { name: 'Big Goodbye', grade: 'Gold', requirement: 'Finish the game.', area: 'First ending beyond the wall', difficulty: 'Medium', spoiler: 'Full', related: '/walkthrough/true-ending', guidance: 'Complete the first ending by following the main route beyond the wall and finishing the giant-sphere sequence.' },
+  { name: 'Big Game', grade: 'Gold', requirement: 'Completely finish the game.', area: 'Post-game completion route', difficulty: 'Hard', spoiler: 'Full', related: '/walkthrough/true-ending', guidance: 'Unlock the true ending after clearing every required puzzle, collecting the final completion items, and returning to the ending room.' },
 ];
 
 const sources = [
@@ -126,6 +126,17 @@ export default function AchievementsPage() {
             </p>
           </section>
 
+          <section className="route-recovery" aria-labelledby="ending-trophy-split">
+            <p className="hint-block__kicker">Ending trophies</p>
+            <h2 id="ending-trophy-split">Normal ending vs true ending</h2>
+            <p>
+              <strong>Big Goodbye</strong> is the first ending and can unlock before the island is fully cleared.
+              <strong> Big Game</strong> is the completion ending: clear the remaining puzzles and use the final
+              post-game route. Follow the <Link href="/walkthrough/true-ending">true ending checklist</Link> if one
+              of these two trophies is still missing.
+            </p>
+          </section>
+
           <section className="trophy-list" aria-labelledby="full-trophy-list">
             <h2 id="full-trophy-list">Full Trophy List</h2>
             {trophies.map((trophy) => (
@@ -133,6 +144,7 @@ export default function AchievementsPage() {
                 <h3>{trophy.name} <span>{trophy.grade}</span></h3>
                 <dl className="guide-facts">
                   <div><dt>Requirement</dt><dd>{trophy.requirement}</dd></div>
+                  <div><dt>How it unlocks</dt><dd>{trophy.guidance}</dd></div>
                   <div><dt>Area</dt><dd>{trophy.area}</dd></div>
                   <div><dt>Difficulty</dt><dd>{trophy.difficulty}</dd></div>
                   <div><dt>Related walkthrough</dt><dd><RelatedLink value={trophy.related} /></dd></div>
@@ -165,6 +177,7 @@ export default function AchievementsPage() {
               <li><Link href="/walkthrough">Big Walk walkthroughs</Link></li>
               <li><Link href="/multiplayer">Big Walk multiplayer and platforms</Link></li>
               <li><Link href="/puzzles">Big Walk puzzle directory</Link></li>
+              <li><Link href="/walkthrough/true-ending">Big Walk true ending checklist</Link></li>
             </ul>
           </section>
         </article>

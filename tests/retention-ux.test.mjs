@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { guides, siteSectionBySlug } from '../lib/content.mjs';
+import { guides, siteSections, siteSectionBySlug } from '../lib/content.mjs';
 
 async function sourceFor(path) {
   try {
@@ -13,7 +13,7 @@ async function sourceFor(path) {
 }
 
 test('guide recommendations carry a valid target, relation type, and user-facing reason', () => {
-  const validTargets = new Set(['home', 'puzzles', ...guides.map((guide) => guide.slug)]);
+  const validTargets = new Set(['home', 'puzzles', ...guides.map((guide) => guide.slug), ...siteSections.map((section) => section.slug)]);
 
   for (const guide of guides) {
     assert.ok(guide.relatedSlugs.length >= 2 && guide.relatedSlugs.length <= 3, `${guide.slug} has 2-3 next steps`);

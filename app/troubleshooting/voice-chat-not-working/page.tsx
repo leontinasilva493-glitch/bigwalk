@@ -1,6 +1,6 @@
-import { EvidencePage, evidenceMetadata } from '../../../components/evidence-page';
-import { siteSectionBySlug } from '../../../lib/content.mjs';
+import { TroubleshootingGuide, troubleshootingMetadata } from '../../../components/troubleshooting-guide';
+import { troubleshootingBySlug } from '../../../lib/troubleshooting-content.mjs';
 
-const page = siteSectionBySlug('troubleshooting/voice-chat-not-working')!;
-export const metadata = evidenceMetadata(page);
-export default function VoiceChatPage() { return <EvidencePage page={page} />; }
+const guide = troubleshootingBySlug('voice-chat-not-working')!;
+export const metadata = troubleshootingMetadata(guide);
+export default function VoiceChatPage() { return <TroubleshootingGuide guide={guide} />; }
