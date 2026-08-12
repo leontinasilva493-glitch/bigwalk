@@ -67,9 +67,9 @@ test('puzzle template renders the MVP sections and timestamped click-to-load vid
   assert.match(routeSource, /CoordinatesFirstScreen/);
   assert.match(routeSource, /PuzzleMvpOverview/);
   assert.match(routeSource, /title:\s*\{\s*absolute:\s*guide\.title\s*\}/);
-  assert.match(componentSource, /#quick-answer/);
-  assert.match(componentSource, /#before-you-start/);
-  assert.match(componentSource, /#navigation-methods/);
+  assert.match(componentSource, /id="quick-answer"/);
+  assert.match(componentSource, /id="before-you-start"/);
+  assert.match(componentSource, /id="navigation-methods"/);
   assert.match(componentSource, /guide\.directAnswer/);
   assert.match(componentSource, /guide\.prerequisites/);
   assert.match(componentSource, /guide\.progressiveHints/);

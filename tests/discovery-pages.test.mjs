@@ -34,7 +34,8 @@ test('indexable discovery pages distinguish source-checked solutions from unreso
   assert.match(home, /original marked screenshots are added after local capture/i);
   assert.match(home, /Need a solution\?/);
   assert.match(home, /Need the next unlock\?/);
-  assert.match(home, /How It Works/);
+  assert.match(home, /How to use this Big Walk directory/);
+  assert.match(home, /href="\/methodology"/);
   assert.match(home, /CategoryCard/g);
   assert.equal((home.match(/CategoryCard/g) ?? []).length, 2);
   assert.match(home, /tower/);
