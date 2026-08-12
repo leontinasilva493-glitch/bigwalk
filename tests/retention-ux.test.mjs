@@ -115,12 +115,17 @@ test('video evidence waits for user action before creating the YouTube iframe', 
   assert.match(playerSource, /youtube-nocookie\.com\/embed/);
 });
 
-test('mobile readers get an inline table of contents and card-style recovery steps', async () => {
-  const styles = await sourceFor('app/globals.css');
+test('mobile readers get an inline table of contents and semantic recovery cards', async () => {
+  const [styles, components] = await Promise.all([
+    sourceFor('app/globals.css'),
+    sourceFor('components/guides.tsx'),
+  ]);
 
   assert.match(styles, /\.guide-toc\s*\{[\s\S]*?display:\s*flex/);
-  assert.match(styles, /@media \(max-width: 767px\)[\s\S]*?\.route-recovery thead\s*\{\s*display:\s*none/);
-  assert.match(styles, /@media \(max-width: 767px\)[\s\S]*?\.route-recovery tbody tr\s*\{[\s\S]*?display:\s*grid/);
+  assert.match(styles, /@media \(max-width: 767px\)[\s\S]*?\.route-recovery__table-wrap\s*\{\s*display:\s*none/);
+  assert.match(styles, /@media \(max-width: 767px\)[\s\S]*?\.route-recovery__mobile-list\s*\{\s*display:\s*grid/);
+  assert.match(components, /<details className="route-recovery__mobile-card"/);
+  assert.match(components, /<summary>\{failure\.problem\}<\/summary>/);
 });
 
 test('the published beginner guide enters sitemap discovery through indexable sections', async () => {

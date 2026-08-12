@@ -750,7 +750,7 @@ h3 {
 .solution-steps { display: grid; gap: 18px; margin: 20px 0 0; padding: 0; list-style: none; }
 .solution-steps li { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; }
 .solution-steps li > span { color: var(--spoiler); font-weight: 800; letter-spacing: .08em; }
-.solution-steps h3 { margin: 0; font-size: 1rem; }
+.solution-steps h4 { margin: 0; font-family: var(--font-display), ui-sans-serif, sans-serif; font-size: 1rem; }
 .solution-steps p { margin: 6px 0 0; }
 .route-recovery { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--border); }
 .route-recovery h3 { margin: 0; font-family: var(--font-display), serif; font-size: 1rem; }
@@ -760,6 +760,10 @@ h3 {
 .route-recovery td { padding: 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
 .route-recovery thead th { background: color-mix(in srgb, var(--spoiler) 11%, white); color: var(--ink); }
 .route-recovery tbody th { width: 34%; color: var(--ink); }
+.route-recovery__mobile-list { display: none; }
+.route-recovery__mobile-card { overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: rgb(255 255 255 / 55%); }
+.route-recovery__mobile-card summary { display: flex; align-items: center; min-height: 44px; padding: 10px 14px; cursor: pointer; color: var(--ink); font-weight: 700; line-height: 1.45; }
+.route-recovery__mobile-card p { margin: 0; padding: 12px 14px 14px; border-top: 1px solid var(--border); color: var(--ink-2); }
 .guide-sources,
 .guide-video,
 .capture-list { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--border); }
@@ -975,8 +979,8 @@ h3 {
   .mobile-nav-panel { position: absolute; z-index: 3; top: calc(100% + 10px); right: 0; display: grid; min-width: 210px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
   .mobile-nav-panel a { display: flex; align-items: center; min-height: 44px; padding-inline: 12px; color: var(--ink); font-size: .9375rem; font-weight: 600; text-decoration: none; }
   .mobile-nav-panel a[aria-current='page'] { color: var(--forest); }
-  .home-path-actions { display: grid; }
-  .home-path-action { min-width: 0; }
+  .home-path-actions { display: grid; grid-template-columns: 1fr; }
+  .home-path-action { width: 100%; min-width: 0; min-height: 44px; }
   .category-grid,
   .quick-answer-grid,
   .how-it-works__steps,
@@ -1006,28 +1010,15 @@ h3 {
   .route-center-card dl,
   .stuck-finder__grid { grid-template-columns: 1fr; }
   .next-step-card { min-height: 0; }
-  .guide-toc { overflow-x: auto; flex-wrap: nowrap; }
-  .guide-toc p { display: none; }
-  .guide-toc a { flex: 0 0 auto; }
   .route-map__flow { grid-template-columns: 1fr; }
   .route-map__connector { transform: rotate(90deg); }
   .walkthrough-hub { padding-block: 24px 56px; }
   .route-map,
   .route-center,
   .stuck-finder { padding-top: 52px; }
-  .route-recovery__table-wrap { overflow: visible; }
-  .route-recovery table { min-width: 0; background: transparent; }
-  .route-recovery thead { display: none; }
-  .route-recovery tbody,
-  .route-recovery tbody tr,
-  .route-recovery tbody th,
-  .route-recovery tbody td { display: block; width: 100%; }
-  .route-recovery tbody { display: grid; gap: 12px; }
-  .route-recovery tbody tr { display: grid; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: rgb(255 255 255 / 55%); }
-  .route-recovery tbody th,
-  .route-recovery tbody td { border: 0; }
-  .route-recovery tbody th { background: color-mix(in srgb, var(--spoiler) 9%, white); }
-  .route-recovery tbody td { border-top: 1px solid var(--border); }
+  .route-recovery__table-wrap { display: none; }
+  .route-recovery__mobile-list { display: grid; gap: 12px; margin-top: 14px; }
+  .route-recovery__mobile-card summary { min-height: 44px; }
   .number-confirmation,
   .player-roles,
   .lost-reward,
@@ -1053,4 +1044,10 @@ h3 {
   .evidence-page__illustration { width: 64px; height: 64px; margin-left: 16px; }
   .spoiler-gate summary { width: 100%; justify-content: center; }
   .guide-facts div { grid-template-columns: 1fr; gap: 4px; }
+}
+
+@media (max-width: 768px) {
+  .guide-toc { overflow-x: auto; flex-wrap: nowrap; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+  .guide-toc p { display: none; }
+  .guide-toc a { flex: 0 0 auto; min-height: 44px; touch-action: manipulation; }
 }

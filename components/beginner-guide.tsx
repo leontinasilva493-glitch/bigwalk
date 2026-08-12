@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { JsonLd } from './json-ld';
 import { SiteFooter, SiteHeader } from './site';
 import { Walker } from './game-elements';
+import { YouTubeEmbed } from './youtube-embed';
 import { site } from '../lib/content.mjs';
 
 type Status = 'Official-confirmed' | 'Source-checked' | 'Community-reported' | 'To verify';
@@ -120,16 +121,7 @@ export function BeginnerGuideArticle({ page }: { page: BeginnerPage }) {
             <p className="hint-block__kicker">WATCH FIRST</p>
             <h2 id="official-video">Watch the official gameplay overview</h2>
             <p>{content.videoIntro}</p>
-            <div className="video-frame">
-              <iframe
-                title={content.officialVideo.title}
-                src={`https://www.youtube-nocookie.com/embed/${content.officialVideo.id}`}
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </div>
+            <YouTubeEmbed id={content.officialVideo.id} title={content.officialVideo.title} />
             <p className="beginner-video-meta"><EvidenceLabel status="Official-confirmed" /> {content.officialVideo.duration} · <a href={content.officialVideo.watchUrl} target="_blank" rel="noreferrer">Watch on YouTube</a></p>
           </section>
 

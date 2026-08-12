@@ -288,19 +288,30 @@ export function NextStepRecommendations({ guide }: { guide: Guide }) {
 
 export function GuideToc({ guide }: { guide: Guide }) {
   const hasPuzzleOverview = 'directAnswer' in guide
+    && Boolean(guide.directAnswer)
     && 'progressiveHints' in guide
-    && 'navigationMethods' in guide;
+    && Boolean(guide.progressiveHints?.length)
+    && 'navigationMethods' in guide
+    && Boolean(guide.navigationMethods?.length);
+  const hasRouteOverview = ('routeSummary' in guide && Boolean(guide.routeSummary?.length))
+    || ('radioChannels' in guide && Boolean(guide.radioChannels?.length));
+  const quickAnswerTarget = hasPuzzleOverview
+    ? '#quick-answer-heading'
+    : hasRouteOverview
+      ? '#route-overview-heading'
+      : undefined;
+  const hasSolution = guide.solutionSteps.length > 0;
+  const hasRecovery = guide.commonFailures.length > 0;
+  const hasSources = guide.sources.length > 0;
 
   return (
     <nav className="guide-toc" aria-label="On this page">
       <p>On this page</p>
-      {'routeSummary' in guide ? <a href="#route-overview-heading">Route overview</a> : null}
       <a href="#hint-heading">Hint</a>
-      {hasPuzzleOverview ? <a href="#before-you-start">Before you start</a> : null}
-      {hasPuzzleOverview ? <a href="#quick-answer">Quick answer</a> : null}
-      {hasPuzzleOverview ? <a href="#navigation-methods">Navigation methods</a> : null}
-      <a href="#next-steps-heading">Next steps</a>
-      <a href="#verification-heading">Solution and sources</a>
+      {quickAnswerTarget ? <a href={quickAnswerTarget}>Quick answer</a> : null}
+      {hasSolution ? <a href="#solution-heading">Solution</a> : null}
+      {hasRecovery ? <a href="#recovery-heading">Recovery</a> : null}
+      {hasSources ? <a href="#sources-heading">Sources</a> : null}
     </nav>
   );
 }
@@ -320,20 +331,23 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
         <div><dt>Player count</dt><dd>{guide.playerCount}</dd></div>
       </dl>
       <p>{guide.evidenceNote}</p>
-      <details className="spoiler-gate">
-        <summary>{isPublished ? 'Reveal the full solution' : 'Read the current evidence trail'}</summary>
-        <ol className="solution-steps">
-          {guide.solutionSteps.map((step, index) => (
-            <li key={step.title}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <div><h3>{step.title}</h3><p>{step.body}</p></div>
-            </li>
-          ))}
-        </ol>
-      </details>
+      <section className="guide-solution" aria-labelledby="solution-heading">
+        <h3 id="solution-heading">{isPublished ? 'Solution' : 'Evidence trail'}</h3>
+        <details className="spoiler-gate">
+          <summary>{isPublished ? 'Reveal the full solution' : 'Read the current evidence trail'}</summary>
+          <ol className="solution-steps">
+            {guide.solutionSteps.map((step, index) => (
+              <li key={step.title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <div><h4>{step.title}</h4><p>{step.body}</p></div>
+              </li>
+            ))}
+          </ol>
+        </details>
+      </section>
       {guide.commonFailures.length ? (
-        <section className="route-recovery" aria-labelledby={`recovery-${guide.slug.replaceAll('/', '-')}`}>
-          <h3 id={`recovery-${guide.slug.replaceAll('/', '-')}`}>{recoveryHeading}</h3>
+        <section className="route-recovery" aria-labelledby="recovery-heading">
+          <h3 id="recovery-heading">{recoveryHeading}</h3>
           <div className="route-recovery__table-wrap">
             <table>
               <thead><tr><th>Problem</th><th>What to do</th></tr></thead>
@@ -347,10 +361,18 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
               </tbody>
             </table>
           </div>
+          <div className="route-recovery__mobile-list">
+            {guide.commonFailures.map((failure) => (
+              <details className="route-recovery__mobile-card" key={failure.problem}>
+                <summary>{failure.problem}</summary>
+                <p>{failure.fix}</p>
+              </details>
+            ))}
+          </div>
         </section>
       ) : null}
-      <section className="guide-sources" aria-labelledby={`sources-${guide.slug.replaceAll('/', '-')}`}>
-        <h3 id={`sources-${guide.slug.replaceAll('/', '-')}`}>Source links</h3>
+      <section className="guide-sources" aria-labelledby="sources-heading">
+        <h3 id="sources-heading">Source links</h3>
         <p>These links support the research trail. Their video frames and screenshots are not republished here.</p>
         <ul>
           {guide.sources.map((source) => {

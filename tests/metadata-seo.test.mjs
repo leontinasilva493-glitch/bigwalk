@@ -109,21 +109,27 @@ test('the root route includes original social and browser metadata assets', asyn
   assert.match(icon, /#1e5b40/i);
 });
 
-test('homepage explains the evidence policy and version-sensitive co-op context', async () => {
-  const home = await sourceFor('app/page.tsx');
+test('homepage summarizes the evidence policy and links to the noindex methodology route', async () => {
+  const [home, methodology] = await Promise.all([
+    sourceFor('app/page.tsx'),
+    sourceFor('app/methodology/page.tsx'),
+  ]);
 
   assert.match(home, /How to use this Big Walk directory/);
-  assert.match(home, /2-player, 3-player, or 4\+ world/);
-  assert.match(home, /bigwalk\.game\/faq/);
-  assert.match(home, /What makes a solution publishable\?/);
+  assert.match(home, /href="\/methodology"/);
+  assert.doesNotMatch(home, /What makes a solution publishable\?/);
+  assert.match(methodology, /2-player, 3-player, or 4\+ world/);
+  assert.match(methodology, /bigwalk\.game\/faq/);
+  assert.match(methodology, /What makes a solution publishable\?/);
+  assert.match(methodology, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
 });
 
-test('the root layout initializes Microsoft Clarity after hydration', async () => {
+test('the root layout defers Microsoft Clarity until browser idle time', async () => {
   const layout = await sourceFor('app/layout.tsx');
 
   assert.match(layout, /import Script from 'next\/script'/);
   assert.match(layout, /id="microsoft-clarity"/);
-  assert.match(layout, /strategy="afterInteractive"/);
+  assert.match(layout, /strategy="lazyOnload"/);
   assert.match(layout, /https:\/\/www\.clarity\.ms\/tag\//);
   assert.match(layout, /xz3u8mp8w9/);
 });

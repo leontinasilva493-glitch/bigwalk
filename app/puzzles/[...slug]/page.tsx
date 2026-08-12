@@ -77,8 +77,8 @@ export default async function PuzzleGuidePage({ params }: PageProps) {
             <p className="guide-description">{guide.description}</p>
             <p className="guide-meta">{guide.readTime} · Updated {guide.updated} · {guide.lastVerified}</p>
           </header>
-          <CoordinatesFirstScreen guide={guide} />
           <GuideToc guide={guide} />
+          <CoordinatesFirstScreen guide={guide} />
           <HintBlock guide={guide} />
           <PuzzleMvpOverview guide={guide} />
           <NextStepRecommendations guide={guide} />
