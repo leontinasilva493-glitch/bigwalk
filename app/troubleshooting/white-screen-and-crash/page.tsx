@@ -1,6 +1,6 @@
-import { EvidencePage, evidenceMetadata } from '../../../components/evidence-page';
-import { siteSectionBySlug } from '../../../lib/content.mjs';
+import { TroubleshootingGuide, troubleshootingMetadata } from '../../../components/troubleshooting-guide';
+import { troubleshootingBySlug } from '../../../lib/troubleshooting-content.mjs';
 
-const page = siteSectionBySlug('troubleshooting/white-screen-and-crash')!;
-export const metadata = evidenceMetadata(page);
-export default function WhiteScreenPage() { return <EvidencePage page={page} />; }
+const guide = troubleshootingBySlug('white-screen-and-crash')!;
+export const metadata = troubleshootingMetadata(guide);
+export default function WhiteScreenPage() { return <TroubleshootingGuide guide={guide} />; }

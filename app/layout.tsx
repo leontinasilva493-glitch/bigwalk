@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
-import { Fredoka, Inter, Shantell_Sans } from 'next/font/google';
 import Script from 'next/script';
+import '@fontsource/shantell-sans/500.css';
+import '@fontsource/shantell-sans/700.css';
+import '@fontsource/fredoka/600.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
 import './globals.css';
-
-const brandFont = Shantell_Sans({ subsets: ['latin'], weight: ['500', '700'], variable: '--font-brand', display: 'swap' });
-const displayFont = Fredoka({ subsets: ['latin'], weight: ['600'], variable: '--font-display', display: 'swap' });
-const bodyFont = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-body', display: 'swap' });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bigwalkwalkthrough.com'),
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${brandFont.variable} ${displayFont.variable} ${bodyFont.variable}`}>
+    <html lang="en">
       <body>
         {children}
         <Script id="microsoft-clarity" strategy="afterInteractive">

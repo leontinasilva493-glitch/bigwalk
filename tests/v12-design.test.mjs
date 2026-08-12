@@ -18,9 +18,11 @@ async function source(name) {
 test('the v1.2 visual system uses self-hosted fonts and original game elements', async () => {
   const [layout, elements, home, guides, site, styles] = await Promise.all(Object.keys(files).map(source));
 
-  assert.match(layout, /Shantell_Sans/);
-  assert.match(layout, /Fredoka/);
-  assert.match(layout, /Inter/);
+  assert.match(layout, /@fontsource\/shantell-sans/);
+  assert.match(layout, /@fontsource\/fredoka/);
+  assert.match(layout, /@fontsource\/inter/);
+  assert.doesNotMatch(layout, /next\/font\/google/);
+  assert.match(styles, /--font-brand:\s*"Shantell Sans"/);
   assert.match(elements, /export function Walker/);
   assert.match(elements, /export function SignalFlareIcon/);
   assert.match(elements, /export function LanternWalker/);

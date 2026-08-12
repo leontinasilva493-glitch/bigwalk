@@ -1,6 +1,6 @@
-import { EvidencePage, evidenceMetadata } from '../../../components/evidence-page';
-import { siteSectionBySlug } from '../../../lib/content.mjs';
+import { TroubleshootingGuide, troubleshootingMetadata } from '../../../components/troubleshooting-guide';
+import { troubleshootingBySlug } from '../../../lib/troubleshooting-content.mjs';
 
-const page = siteSectionBySlug('troubleshooting/cant-rejoin-after-disconnect')!;
-export const metadata = evidenceMetadata(page);
-export default function CantRejoinPage() { return <EvidencePage page={page} />; }
+const guide = troubleshootingBySlug('cant-rejoin-after-disconnect')!;
+export const metadata = troubleshootingMetadata(guide);
+export default function CantRejoinPage() { return <TroubleshootingGuide guide={guide} />; }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { guides, guideBySlug, site } from '../lib/content.mjs';
 
 test('the catalogue exposes the current puzzle and walkthrough records', () => {
-  assert.equal(guides.length, 10);
+  assert.equal(guides.length, 12);
   assert.equal(
     guideBySlug('puzzles/green-chair-headphones').h1,
     'Big Walk Sound Check Puzzle: Chair and Headphones Solution',
@@ -43,6 +43,8 @@ test('every guide declares its tower evidence state', () => {
       'Yellow Tower',
       'Island radio network',
       'Green Room research',
+      'Post-game completion route',
+      'Island peninsula',
     ],
   );
 });
