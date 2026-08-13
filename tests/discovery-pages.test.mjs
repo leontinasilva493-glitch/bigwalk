@@ -48,6 +48,8 @@ test('indexable discovery pages distinguish source-checked solutions from unreso
   assert.match(puzzles, /source-checked solutions/i);
   assert.match(puzzles, /puzzleDirectorySeo\.description/);
   assert.match(puzzles, /unresolved reports stay out of search indexing/i);
+  assert.match(puzzles, /<h2[^>]*id="browse-guide-categories"[^>]*>Browse guide categories<\/h2>/);
+  assert.match(puzzles, /aria-labelledby="browse-guide-categories"/);
   assert.match(puzzles, /<h2>\{tower\}<\/h2>/);
   assert.match(puzzles, /PuzzleCard/g);
 });
