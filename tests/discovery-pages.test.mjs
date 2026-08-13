@@ -5,6 +5,7 @@ import {
   guides,
   homepageDirectoryStats,
   homepageFeaturedGuideSlugs,
+  walkthroughHubGuides,
 } from '../lib/content.mjs';
 
 const pageFiles = {
@@ -95,9 +96,21 @@ test('directory cards keep puzzle answers distinct from route walkthroughs', asy
 
   assert.match(puzzles, /const puzzleGuides = guides\.filter\(\(guide\) => guide\.kind === 'puzzle'\)/);
   assert.match(puzzles, /puzzleGuides\.reduce/);
-  assert.match(walkthrough, /const walkthroughGuides = guides\s*\.filter\(\(guide\) => guide\.kind === 'walkthrough'\)/);
+  assert.match(walkthrough, /const walkthroughGuides = walkthroughHubGuides\(\)/);
   assert.match(walkthrough, /walkthroughGuides\.map/);
   assert.match(walkthrough, /Where are you stuck\?/);
+
+  const orderedWalkthroughs = walkthroughHubGuides();
+  assert.ok(orderedWalkthroughs.every((guide) => guide.kind === 'walkthrough'));
+  assert.equal(orderedWalkthroughs[0]?.slug, 'walkthrough/crosswalk');
+  assert.ok(
+    orderedWalkthroughs.findIndex((guide) => guide.slug === 'walkthrough/true-ending') >
+      orderedWalkthroughs.findIndex((guide) => guide.slug === 'walkthrough/green-room'),
+  );
+  assert.ok(
+    orderedWalkthroughs.findLastIndex((guide) => guide.indexable) <
+      orderedWalkthroughs.findIndex((guide) => !guide.indexable),
+  );
   const evidencePage = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
   assert.match(evidencePage, /source-checked routes from evidence-in-progress research/i);
 });
