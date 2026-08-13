@@ -71,7 +71,8 @@ export default function PuzzlesPage() {
           </div>
         </section>
 
-        <section className="discovery-section page-shell" aria-label="Browse guide categories">
+        <section className="discovery-section page-shell" aria-labelledby="browse-guide-categories">
+          <h2 className="sr-only" id="browse-guide-categories">Browse guide categories</h2>
           <div className="category-grid">
             {categories.map((category) => (
               <CategoryCard key={category.label} {...category} />

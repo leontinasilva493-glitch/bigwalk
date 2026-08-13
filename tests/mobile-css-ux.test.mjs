@@ -27,3 +27,17 @@ test('homepage hero actions stack at full width on phones', () => {
   assert.match(mobileRules, /\.home-path-actions\s*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(mobileRules, /\.home-path-action\s*\{[^}]*width:\s*100%/s);
 });
+
+test('tablet landscape uses the compact navigation through 1024px', () => {
+  const tabletRules = styles.match(/@media \(max-width: 1024px\) \{[\s\S]*?\n\}/)?.[0] ?? '';
+
+  assert.match(tabletRules, /\.site-nav-links\s*\{[^}]*display:\s*none/s);
+  assert.match(tabletRules, /\.mobile-nav\s*\{[^}]*display:\s*block/s);
+  assert.match(styles, /\.site-brand\s*\{[^}]*min-height:\s*44px[^}]*white-space:\s*nowrap/s);
+});
+
+test('high-frequency mobile links provide at least a 44px touch area', () => {
+  assert.match(styles, /\.popular-links a\s*\{[^}]*min-height:\s*44px/s);
+  assert.match(styles, /\.site-footer__links a\s*\{[^}]*min-height:\s*44px/s);
+  assert.match(styles, /\.beginner-video-meta a\s*\{[^}]*min-height:\s*44px/s);
+});
