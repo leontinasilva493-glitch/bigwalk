@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { guides, siteSectionBySlug } from '../lib/content.mjs';
+import { guides, siteSectionBySlug, topicHubStatusLabel } from '../lib/content.mjs';
 import { SignalFlareIcon } from './game-elements';
 import { YouTubeEmbed } from './youtube-embed';
 
@@ -10,6 +10,7 @@ type EvidenceRoute = {
   slug: string;
   h1: string;
   description: string;
+  indexable: boolean;
 };
 
 export function PuzzleCard({ guide }: { guide: Guide }) {
@@ -46,7 +47,7 @@ export function EvidenceRouteCard({ route }: { route: EvidenceRoute }) {
       <p className="guide-card-category">EVIDENCE-GATED TOPIC</p>
       <h3><Link href={`/${route.slug}`}>{route.h1}</Link></h3>
       <p>{route.description}</p>
-      <p className="guide-card-meta">Verification in progress - not indexed</p>
+      <p className="guide-card-meta">{topicHubStatusLabel(route)}</p>
     </article>
   );
 }
@@ -57,6 +58,61 @@ export function HintBlock({ guide }: { guide: Guide }) {
       <p className="hint-block__kicker">STUCK? HERE&apos;S A HINT FIRST</p>
       <h2 id="hint-heading">Spoiler-free hint</h2>
       <p>{guide.hint}</p>
+    </section>
+  );
+}
+
+export function SearchIntentPanel({ guide }: { guide: Guide }) {
+  if (!('searchIntent' in guide) || !guide.searchIntent) return null;
+
+  const panelId = `search-intent-${guide.slug.replaceAll('/', '-')}`;
+
+  return (
+    <section className="search-intent-panel" aria-labelledby={panelId}>
+      <p className="hint-block__kicker">MATCH WHAT YOU SAW</p>
+      <h2 id={panelId}>{guide.searchIntent.heading}</h2>
+      <p>{guide.searchIntent.answer}</p>
+      <div className="route-recovery__table-wrap">
+        <table>
+          <thead>
+            <tr>{guide.searchIntent.columnHeadings.map((heading) => <th key={heading}>{heading}</th>)}</tr>
+          </thead>
+          <tbody>
+            {guide.searchIntent.rows.map((row) => (
+              <tr key={row.label}>
+                <th scope="row">{row.label}</th>
+                <td>{row.cue}</td>
+                <td>{row.guidance}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="route-recovery__mobile-list">
+        {guide.searchIntent.rows.map((row) => (
+          <details className="route-recovery__mobile-card" key={row.label}>
+            <summary>{row.label}</summary>
+            <p><strong>{guide.searchIntent.columnHeadings[1]}:</strong> {row.cue}</p>
+            <p><strong>{guide.searchIntent.columnHeadings[2]}:</strong> {row.guidance}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export function GuideRoleAssignments({ guide }: { guide: Guide }) {
+  if (!('roleAssignments' in guide) || !guide.roleAssignments?.length || 'numberConfirmation' in guide) return null;
+
+  const rolesId = `guide-roles-${guide.slug.replaceAll('/', '-')}`;
+
+  return (
+    <section className="guide-role-assignments" aria-labelledby={rolesId}>
+      <p className="hint-block__kicker">SPLIT THE JOB</p>
+      <h2 id={rolesId}>Give each player one clear role</h2>
+      <div className="player-role-grid">
+        {guide.roleAssignments.map((role) => <article key={role.title}><h3>{role.title}</h3><p>{role.body}</p></article>)}
+      </div>
     </section>
   );
 }

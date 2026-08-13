@@ -659,6 +659,17 @@ h3 {
 .verification-panel { border-color: var(--spoiler); background: #fbedea; }
 
 .puzzle-mvp-overview { display: grid; gap: 24px; margin-top: 24px; }
+.search-intent-panel,
+.guide-role-assignments { margin-top: 24px; padding: 24px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.search-intent-panel { border-left: 6px solid var(--forest); background: var(--forest-tint); }
+.search-intent-panel h2,
+.guide-role-assignments h2 { margin-top: 6px; font-size: 1.25rem; }
+.search-intent-panel > p:not(.hint-block__kicker) { max-width: 820px; margin: 10px 0 0; color: var(--ink-2); }
+.search-intent-panel table { width: 100%; min-width: 620px; border-collapse: collapse; background: rgb(255 255 255 / 55%); font-size: .875rem; }
+.search-intent-panel th,
+.search-intent-panel td { padding: 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+.search-intent-panel thead th { background: color-mix(in srgb, var(--forest) 10%, white); color: var(--ink); }
+.search-intent-panel tbody th { width: 22%; color: var(--ink); }
 .coordinates-first-screen { display: grid; gap: 18px; margin-top: 24px; }
 .number-confirmation,
 .player-roles,
@@ -923,9 +934,25 @@ h3 {
 .walkthrough-hub__hero dl div { min-width: 190px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 .walkthrough-hub__hero dt { color: var(--ink-2); font-size: .75rem; font-weight: 700; text-transform: uppercase; }
 .walkthrough-hub__hero dd { margin: 3px 0 0; color: var(--forest); font-weight: 800; }
+.walkthrough-start,
+.walkthrough-progression,
 .route-map,
 .route-center,
 .stuck-finder { padding-top: 64px; }
+.walkthrough-start__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
+.walkthrough-start__grid a { display: flex; min-height: 220px; flex-direction: column; padding: 22px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--ink); text-decoration: none; }
+.walkthrough-start__grid a:hover { border-color: var(--forest); }
+.walkthrough-start__grid span { color: var(--amber-text); font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.walkthrough-start__grid strong { margin-top: 8px; font-family: var(--font-display), ui-sans-serif, sans-serif; font-size: 1.125rem; }
+.walkthrough-start__grid p { margin: 10px 0 0; color: var(--ink-2); font-size: .875rem; line-height: 1.6; }
+.walkthrough-start__grid small { margin-top: auto; padding-top: 16px; color: var(--forest); font-weight: 700; }
+.walkthrough-progression > p:not(.hint-block__kicker) { max-width: 760px; margin: 14px 0 0; color: var(--ink-2); }
+.walkthrough-progression ol { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 24px 0 0; padding: 0; list-style: none; }
+.walkthrough-progression a { display: flex; height: 100%; gap: 10px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--forest-tint); color: var(--ink); text-decoration: none; }
+.walkthrough-progression a:hover { border-color: var(--forest); }
+.walkthrough-progression a > span { color: var(--forest); font-weight: 800; }
+.walkthrough-progression strong { font-family: var(--font-display), ui-sans-serif, sans-serif; font-size: .9375rem; }
+.walkthrough-progression p { margin: 6px 0 0; color: var(--ink-2); font-size: .8125rem; line-height: 1.5; }
 .route-map > p:not(.hint-block__kicker),
 .route-center > p:not(.hint-block__kicker) { max-width: 760px; margin: 14px 0 0; color: var(--ink-2); }
 .route-map__flow { display: grid; grid-template-columns: minmax(220px, .8fr) 42px minmax(0, 1.4fr); align-items: center; gap: 12px; margin-top: 24px; }
@@ -1014,6 +1041,8 @@ h3 {
   .navigation-method-grid,
   .player-role-grid,
   .research-card-grid,
+  .walkthrough-start__grid,
+  .walkthrough-progression ol,
   .pending-facts,
   .next-step-grid,
   .related-guide-grid,
@@ -1025,6 +1054,8 @@ h3 {
   .route-map__flow { grid-template-columns: 1fr; }
   .route-map__connector { transform: rotate(90deg); }
   .walkthrough-hub { padding-block: 24px 56px; }
+  .walkthrough-start,
+  .walkthrough-progression,
   .route-map,
   .route-center,
   .stuck-finder { padding-top: 52px; }
@@ -1032,6 +1063,8 @@ h3 {
   .route-recovery__mobile-list { display: grid; gap: 12px; margin-top: 14px; }
   .route-recovery__mobile-card summary { min-height: 44px; }
   .number-confirmation,
+  .search-intent-panel,
+  .guide-role-assignments,
   .player-roles,
   .lost-reward,
   .green-room-research { padding: 20px; }

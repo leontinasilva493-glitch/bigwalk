@@ -2,22 +2,12 @@ import Link from 'next/link';
 import { evidenceMetadata } from '../../components/evidence-page';
 import { JsonLd } from '../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../components/site';
-import { guides, site, siteSectionBySlug } from '../../lib/content.mjs';
+import { site, siteSectionBySlug, walkthroughHubGuides } from '../../lib/content.mjs';
 
 const page = siteSectionBySlug('walkthrough')!;
-const routeOrder = [
-  'walkthrough/crosswalk',
-  'walkthrough/red-tower-map-room',
-  'walkthrough/blue-tower-train',
-  'walkthrough/green-tower-chairlift',
-  'walkthrough/yellow-tower-tunnels',
-  'walkthrough/radio-channels',
-  'walkthrough/green-room',
-];
-const walkthroughGuides = guides
-  .filter((guide) => guide.kind === 'walkthrough')
-  .slice()
-  .sort((a, b) => routeOrder.indexOf(a.slug) - routeOrder.indexOf(b.slug));
+const walkthroughGuides = walkthroughHubGuides();
+const startPaths = page.startPaths ?? [];
+const progression = page.progression ?? [];
 const latestSourceCheck = walkthroughGuides
   .map((guide) => guide.updated)
   .slice()
@@ -66,7 +56,7 @@ export default function WalkthroughPage() {
           </nav>
 
           <header className="walkthrough-hub__hero">
-            <p className="verification-status">ROUTE CENTER · SOURCE-CHECKED CHILD GUIDES</p>
+            <p className="verification-status">ROUTE CENTER | SOURCE-CHECKED CHILD GUIDES</p>
             <h1>{page.h1}</h1>
             <p>{page.description}</p>
             <dl>
@@ -75,13 +65,44 @@ export default function WalkthroughPage() {
             </dl>
           </header>
 
+          <section className="walkthrough-start" aria-labelledby="walkthrough-start-heading">
+            <p className="hint-block__kicker">START WITH YOUR CURRENT SITUATION</p>
+            <h2 id="walkthrough-start-heading">Where should your group start?</h2>
+            <div className="walkthrough-start__grid">
+              {startPaths.map((path) => (
+                <Link href={path.href} key={path.label}>
+                  <span>{path.label}</span>
+                  <strong>{path.title}</strong>
+                  <p>{path.body}</p>
+                  <small>Open the matching guide <span aria-hidden="true">-&gt;</span></small>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          <section className="walkthrough-progression" aria-labelledby="walkthrough-progression-heading">
+            <p className="hint-block__kicker">SPOILER-LIGHT PROGRESSION</p>
+            <h2 id="walkthrough-progression-heading">A useful route through the full game</h2>
+            <p>This is a navigation aid, not one mandatory universal order. After the fixed Crosswalk opening, choose routes and clean-up tasks that match your host world.</p>
+            <ol>
+              {progression.map((stage, index) => (
+                <li key={stage.title}>
+                  <Link href={stage.href}>
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <div><strong>{stage.title}</strong><p>{stage.body}</p></div>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </section>
+
           <section className="route-map" aria-labelledby="route-map-heading">
             <p className="hint-block__kicker">ROUTE MAP</p>
             <h2 id="route-map-heading">Route map</h2>
             <p>This map shows the current source-checked guide paths. It is a navigation aid, not a claim that every tower must be completed in one universal order.</p>
             <div className="route-map__flow" aria-label="Current walkthrough route paths">
               <Link href="/walkthrough/crosswalk"><span>Start here</span><strong>Crosswalk opening route</strong></Link>
-              <span className="route-map__connector" aria-hidden="true">→</span>
+              <span className="route-map__connector" aria-hidden="true">-&gt;</span>
               <div className="route-map__branches">
                 <Link href="/walkthrough/red-tower-map-room"><span>Tower path</span><strong>Red Tower Map Room</strong></Link>
                 <Link href="/walkthrough/blue-tower-train"><span>Tower path</span><strong>Blue Tower Train</strong></Link>
@@ -112,7 +133,7 @@ export default function WalkthroughPage() {
                     <div><dt>Unlock result</dt><dd>{guide.goal}</dd></div>
                     <div><dt>Last verified</dt><dd>{guide.updated}</dd></div>
                   </dl>
-                  <Link className="route-center-card__link" href={`/${guide.slug}`}>Open this route <span aria-hidden="true">→</span></Link>
+                  <Link className="route-center-card__link" href={`/${guide.slug}`}>Open this route <span aria-hidden="true">-&gt;</span></Link>
                 </article>
               ))}
             </div>
@@ -126,7 +147,7 @@ export default function WalkthroughPage() {
                 <Link href={`/${guide.slug}#recovery-${guide.slug.replaceAll('/', '-')}`} key={`${guide.slug}-${failure.problem}`}>
                   <span>{guide.area}</span>
                   <strong>{failure.problem}</strong>
-                  <small>Open the checked recovery guidance <span aria-hidden="true">→</span></small>
+                  <small>Open the checked recovery guidance <span aria-hidden="true">-&gt;</span></small>
                 </Link>
               ))}
             </div>
