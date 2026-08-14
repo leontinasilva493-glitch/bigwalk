@@ -361,7 +361,7 @@ export function GuideToc({ guide }: { guide: Guide }) {
   const hasSources = guide.sources.length > 0;
 
   return (
-    <nav className="guide-toc" aria-label="On this page">
+    <nav id="guide-start" className="guide-toc" aria-label="On this page">
       <p>On this page</p>
       <a href="#hint-heading">Hint</a>
       {quickAnswerTarget ? <a href={quickAnswerTarget}>Quick answer</a> : null}
@@ -458,16 +458,33 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
 export function VideoEvidence({ guide }: { guide: Guide }) {
   if (!('video' in guide) || !guide.video) return null;
 
+  const videoSectionId = `video-${guide.slug.replaceAll('/', '-')}`;
+  const videoHeadingId = `video-heading-${guide.slug.replaceAll('/', '-')}`;
   const startAt = 'startAt' in guide.video ? guide.video.startAt : undefined;
-  const watchUrl = 'watchUrl' in guide.video ? guide.video.watchUrl : undefined;
+  const watchUrl = 'watchUrl' in guide.video ? guide.video.watchUrl : `https://www.youtube.com/watch?v=${guide.video.id}`;
   const linkLabel = 'linkLabel' in guide.video ? guide.video.linkLabel : 'Watch this evidence video on YouTube';
   return (
-    <section className="guide-video" aria-labelledby={`video-${guide.slug.replaceAll('/', '-')}`}>
-      <h3 id={`video-${guide.slug.replaceAll('/', '-')}`}>{guide.video.title}</h3>
+    <section id={videoSectionId} className="guide-video" aria-labelledby={videoHeadingId}>
+      <h3 id={videoHeadingId}>{guide.video.title}</h3>
       <p>{guide.video.note}</p>
       <YouTubeEmbed id={guide.video.id} title={guide.video.title} startAt={startAt} />
-      {watchUrl ? <p><a href={guide.video.watchUrl} target="_blank" rel="noreferrer">{linkLabel}</a></p> : null}
+      <VideoAfterLinks watchUrl={watchUrl} sourceLabel={linkLabel} />
     </section>
+  );
+}
+
+export function VideoJumpLink({ href }: { href: string }) {
+  return <a className="video-jump-link" href={href}>▶ Watch video ↓</a>;
+}
+
+export function VideoAfterLinks({ watchUrl, sourceLabel = 'Watch this evidence video on YouTube' }: { watchUrl?: string; sourceLabel?: string }) {
+  return (
+    <nav className="video-after-links" aria-label="After video">
+      <a className="video-back-link" href="#guide-top">↑ Back to guide</a>
+      {watchUrl ? (
+        <a className="video-source-link" href={watchUrl} target="_blank" rel="noreferrer" aria-label={`${sourceLabel} (opens in a new tab)`}>Watch this video on YouTube</a>
+      ) : null}
+    </nav>
   );
 }
 
@@ -493,7 +510,7 @@ export function RelatedGuides({ guide }: { guide: Guide }) {
   const previous = currentIndex > 0 ? sameKind[currentIndex - 1] : undefined;
   const next = currentIndex >= 0 && currentIndex < sameKind.length - 1 ? sameKind[currentIndex + 1] : undefined;
   const directory = guide.kind === 'puzzle'
-    ? { href: '/puzzles', title: 'Big Walk Puzzle Directory' }
+    ? { href: '/puzzles#visual-finder', title: 'Big Walk Visual Puzzle Finder' }
     : { href: '/walkthrough', title: 'Big Walk Walkthrough Route Center' };
 
   return (

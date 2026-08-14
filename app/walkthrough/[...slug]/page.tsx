@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, GreenRoomResearch, GuideToc, HintBlock, NextStepRecommendations, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence } from '../../../components/guides';
+import { Breadcrumbs, GreenRoomResearch, GuideToc, HintBlock, NextStepRecommendations, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence, VideoJumpLink } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -70,13 +70,14 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
       <main className="guide-page">
         <Breadcrumbs guide={guide} />
         <article className="guide-article">
-          <header className="guide-hero">
+          <header id="guide-top" className="guide-hero">
             <p className="verification-status" role="status">{guide.verificationLabel}</p>
             <p className="guide-kicker">{guide.category} walkthrough · {guide.area}</p>
             <h1>{guide.h1}</h1>
             <p className="guide-description">{guide.description}</p>
             {'introNote' in guide && guide.introNote ? <p className="guide-intro-note">{guide.introNote}</p> : null}
             <p className="guide-meta">{guide.readTime} · Updated {guide.updated} · {guide.lastVerified}</p>
+            {('video' in guide && guide.video) ? <VideoJumpLink href={`#video-${guide.slug.replaceAll('/', '-')}`} /> : null}
           </header>
           <GuideToc guide={guide} />
           <GreenRoomResearch guide={guide} />
