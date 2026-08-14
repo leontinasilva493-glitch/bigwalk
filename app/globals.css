@@ -479,6 +479,25 @@ h3 {
 .evidence-page__available { margin-top: 28px; }
 .evidence-page__available > p { margin: 10px 0 16px; color: var(--ink-2); font-size: .9375rem; }
 .evidence-page__lede { margin: 18px 0 0; color: var(--ink-2); font-size: 1.0625rem; }
+.lfg-section { margin-top: 44px; }
+.lfg-section > h2 { margin-top: 6px; font-size: 1.5rem; }
+.lfg-section > p:not(.hint-block__kicker) { margin: 12px 0 0; color: var(--ink-2); font-size: .9375rem; }
+.lfg-channel-grid { display: grid; gap: 14px; margin-top: 20px; }
+.lfg-channel-card { padding: 20px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.lfg-channel-card h3 { margin: 6px 0 0; font-size: 1.125rem; }
+.lfg-channel-card dl { display: grid; gap: 12px; margin: 18px 0 0; }
+.lfg-channel-card dl div { display: grid; grid-template-columns: 100px 1fr; gap: 12px; }
+.lfg-channel-card dt { color: var(--ink); font-size: .8125rem; font-weight: 800; }
+.lfg-channel-card dd { margin: 0; color: var(--ink-2); font-size: .875rem; line-height: 1.55; }
+.lfg-channel-card a { display: inline-flex; align-items: center; min-height: 44px; color: var(--forest); font-weight: 700; }
+.lfg-field-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+.lfg-field-list li { padding: 7px 10px; border: 1px solid var(--border); border-radius: 999px; background: var(--forest-tint); color: var(--ink); font-size: .8125rem; font-weight: 700; }
+.lfg-posting h3 { margin-top: 24px; font-size: 1rem; }
+.lfg-posting pre { margin: 10px 0 0; padding: 18px; overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--forest); color: #fff; white-space: pre-wrap; }
+.lfg-posting code { font-size: .875rem; line-height: 1.7; }
+.lfg-safety ul { display: grid; gap: 12px; margin: 18px 0 0; padding-left: 22px; color: var(--ink-2); }
+.lfg-safety li { padding-left: 4px; line-height: 1.6; }
+.lfg-safety strong { color: var(--ink); }
 .evidence-checklist { display: grid; gap: 10px; margin: 16px 0 0; padding-left: 22px; color: var(--ink-2); font-size: .9375rem; }
 .challenge-directory { margin-top: 32px; }
 .challenge-directory > h2 { margin-top: 6px; }
@@ -551,6 +570,7 @@ h3 {
 .guide-hero h1 { letter-spacing: -.03em; }
 .guide-description { margin: 18px 0 0; color: var(--ink-2); font-size: 1.0625rem; }
 .guide-meta { margin: 14px 0 0; color: var(--ink-2); font-size: .8125rem; }
+.video-jump-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: var(--forest); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
 
 .guide-toc {
   display: flex;
@@ -796,6 +816,13 @@ h3 {
 .guide-video p,
 .capture-list p { margin: 10px 0 0; }
 .guide-video a { color: var(--forest); font-weight: 700; text-underline-offset: 3px; }
+.guide-video,
+.beginner-video-section { scroll-margin-top: 24px; }
+.video-after-links { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; min-height: 44px; margin-top: 8px; white-space: nowrap; }
+.video-after-links a { display: inline-flex; align-items: center; min-height: 44px; text-underline-offset: 3px; }
+.video-back-link { flex: 0 0 auto; color: var(--forest); font-weight: 700; text-decoration: underline; }
+.video-after-links .video-source-link { flex: 0 0 auto; margin-left: auto; color: var(--ink-2); font-size: .8125rem; font-weight: 600; text-align: right; text-decoration: underline; }
+#guide-start { scroll-margin-top: 24px; }
 .video-frame { position: relative; aspect-ratio: 16 / 9; margin-top: 16px; overflow: hidden; border-radius: 8px; background: var(--ink); }
 .video-frame iframe { width: 100%; height: 100%; border: 0; }
 .video-frame--placeholder { display: grid; place-items: center; border: 1px solid var(--night-line); background: radial-gradient(circle at 78% 24%, rgb(242 182 76 / 18%), transparent 24%), linear-gradient(140deg, #20272f, var(--night)); }
@@ -1016,6 +1043,11 @@ h3 {
 }
 
 @media (max-width: 767px) {
+  .video-after-links { gap: 16px; }
+  .video-after-links a,
+  .video-after-links .video-source-link { font-size: .75rem; letter-spacing: -.02em; }
+  .beginner-video-section .video-frame,
+  .beginner-video-section .video-after-links { width: calc(100% + 40px); margin-inline: -20px; }
   .site-nav { width: min(100% - 40px, 1120px); }
   .site-brand { font-size: 1.0625rem; }
   .home-path-actions { display: grid; grid-template-columns: 1fr; }
@@ -1087,6 +1119,7 @@ h3 {
   .home-reference__grid article { padding: 20px; }
   .launch-page__illustration { width: 64px; height: 64px; margin-left: 16px; }
   .evidence-page__illustration { width: 64px; height: 64px; margin-left: 16px; }
+  .lfg-channel-card dl div { grid-template-columns: 1fr; gap: 4px; }
   .spoiler-gate summary { width: 100%; justify-content: center; }
   .guide-facts div { grid-template-columns: 1fr; gap: 4px; }
 }

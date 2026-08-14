@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { JsonLd } from './json-ld';
 import { SiteFooter, SiteHeader } from './site';
 import { Walker } from './game-elements';
+import { VideoAfterLinks, VideoJumpLink } from './guides';
 import { YouTubeEmbed } from './youtube-embed';
 import { site } from '../lib/content.mjs';
 
@@ -80,17 +81,18 @@ export function BeginnerGuideArticle({ page }: { page: BeginnerPage }) {
           <ol><li><Link href="/">Home</Link></li><li aria-current="page">Beginner Guide</li></ol>
         </nav>
         <article className="guide-article beginner-guide-article">
-          <header className="guide-hero beginner-guide-hero">
+          <header id="guide-top" className="guide-hero beginner-guide-hero">
             <div className="beginner-guide-hero__walker" aria-hidden="true"><Walker color="orange" pose="walk" /></div>
             <p className="verification-status" role="status">{page.verificationLabel}</p>
             <p className="guide-kicker">Spoiler-light first-session handbook</p>
             <h1>{page.h1}</h1>
             <p className="guide-description">{page.description}</p>
             <p className="guide-meta">Updated {page.updated} · No puzzle solutions · Official and community evidence separated</p>
+            <VideoJumpLink href="#official-video" />
             <div className="beginner-guide-intro">{content.intro.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
           </header>
 
-          <aside className="guide-toc" aria-label="On this page">
+          <aside id="guide-start" className="guide-toc" aria-label="On this page">
             <p>On this page</p>
             <a href="#before-you-invite">Before you invite</a>
             <a href="#official-video">Official video</a>
@@ -122,7 +124,8 @@ export function BeginnerGuideArticle({ page }: { page: BeginnerPage }) {
             <h2 id="official-video">Watch the official gameplay overview</h2>
             <p>{content.videoIntro}</p>
             <YouTubeEmbed id={content.officialVideo.id} title={content.officialVideo.title} />
-            <p className="beginner-video-meta"><EvidenceLabel status="Official-confirmed" /> {content.officialVideo.duration} · <a href={content.officialVideo.watchUrl} target="_blank" rel="noreferrer">Watch on YouTube</a></p>
+            <p className="beginner-video-meta"><EvidenceLabel status="Official-confirmed" /> {content.officialVideo.duration}</p>
+            <VideoAfterLinks watchUrl={content.officialVideo.watchUrl} sourceLabel="Watch the official gameplay overview on YouTube" />
           </section>
 
           <section className="beginner-section" aria-labelledby="hosting-and-world-size">

@@ -137,7 +137,7 @@ export default function MultiplayerPage() {
               Big Walk is for organized online groups, not public matchmaking. The official FAQ describes a 2-12 player
               range and says the game is meant to be played with a regular group across multiple sessions.
             </p>
-            <p><Link href="/multiplayer/how-to-find-players">How to find players</Link> remains a research page until active community sources are checked.</p>
+            <p><Link href="/multiplayer/how-to-find-players">Use the source-checked LFG directory</Link> to compare active community spaces and post without exposing personal details or a public Join Code.</p>
           </section>
 
           <section className="guide-section" aria-labelledby="hosting">

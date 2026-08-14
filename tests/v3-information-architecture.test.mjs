@@ -41,6 +41,7 @@ test('guide records expose the v3 evidence model and visual aliases', () => {
     'achievements',
     'beginner-guide',
     'multiplayer',
+    'multiplayer/how-to-find-players',
     'puzzles/purple-challenges',
     'walkthrough',
   ]);
