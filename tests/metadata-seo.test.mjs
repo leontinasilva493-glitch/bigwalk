@@ -99,14 +99,15 @@ test('homepage distinguishes source-checked solutions from later first-hand scre
 test('the root route includes original social and browser metadata assets', async () => {
   const [ogImage, icon] = await Promise.all([
     sourceFor('app/opengraph-image.tsx'),
-    sourceFor('app/icon.svg'),
+    readFile(new URL('app/icon.png', root)),
   ]);
 
   assert.match(ogImage, /ImageResponse/);
   assert.match(ogImage, /width:\s*1200/);
   assert.match(ogImage, /Big Walk Walkthrough/);
-  assert.match(icon, /<svg/);
-  assert.match(icon, /#1e5b40/i);
+  assert.deepEqual([...icon.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.equal(icon.readUInt32BE(16), 512);
+  assert.equal(icon.readUInt32BE(20), 512);
 });
 
 test('homepage summarizes the evidence policy and links to the noindex methodology route', async () => {

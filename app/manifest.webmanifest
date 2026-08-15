@@ -1,0 +1,21 @@
+{
+  "name": "Big Walk Walkthrough",
+  "short_name": "Big Walk Guide",
+  "description": "Spoiler-conscious Big Walk hints, walkthroughs, and evidence-checked puzzle guides.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf7f0",
+  "theme_color": "#1e5b40",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
