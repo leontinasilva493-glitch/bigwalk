@@ -568,6 +568,96 @@ h3 {
 .verification-status { color: var(--amber-text); }
 .guide-kicker { color: var(--forest); }
 .guide-hero h1 { letter-spacing: -.03em; }
+
+.editorial-artwork {
+  width: 100%;
+  margin: clamp(24px, 4vw, 36px) 0;
+}
+
+.editorial-artwork__media {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--amber-tint);
+  box-shadow: 0 16px 36px rgba(31, 36, 32, .09);
+}
+
+.editorial-artwork__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  object-position: center;
+}
+
+.editorial-artwork--methodology { max-width: 880px; }
+.editorial-artwork--lfg .editorial-artwork__media { background: var(--forest-tint); }
+.editorial-artwork--troubleshooting .editorial-artwork__media { background: #edf2f6; }
+.editorial-artwork--achievements .editorial-artwork__media { background: #f8eddb; }
+
+.editorial-page-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  margin-bottom: clamp(28px, 4vw, 44px);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--forest-tint);
+  box-shadow: 0 20px 48px rgba(31, 36, 32, .12);
+  isolation: isolate;
+}
+
+.editorial-page-hero--wide { max-width: 880px; }
+.guide-hero.editorial-page-hero { padding-bottom: 0; border-bottom: 0; }
+
+.editorial-page-hero__copy {
+  position: relative;
+  z-index: 2;
+  width: min(64%, 560px);
+  margin: 24px;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid rgba(255, 255, 255, .58);
+  border-left: 6px solid var(--forest);
+  border-radius: 12px;
+  background: rgba(250, 247, 240, .5);
+  box-shadow: 0 14px 34px rgba(31, 36, 32, .18);
+  backdrop-filter: blur(12px);
+}
+
+.editorial-page-hero__copy .section-intro,
+.editorial-page-hero__copy .guide-description,
+.editorial-page-hero__copy .evidence-page__lede { margin: 14px 0 0; }
+.editorial-page-hero__copy .compact-facts { margin-bottom: 0; }
+
+.editorial-artwork--hero {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  height: 100%;
+  margin: 0;
+}
+
+.editorial-artwork--hero .editorial-artwork__media {
+  height: 100%;
+  aspect-ratio: auto;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.editorial-artwork--hero .editorial-artwork__media img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  object-position: center;
+}
+
 .guide-description { margin: 18px 0 0; color: var(--ink-2); font-size: 1.0625rem; }
 .guide-meta { margin: 14px 0 0; color: var(--ink-2); font-size: .8125rem; }
 .video-jump-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: var(--forest); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
@@ -1042,7 +1132,63 @@ h3 {
   .mobile-nav-panel a[aria-current='page'] { color: var(--forest); }
 }
 
+@media (max-width: 900px) {
+  .editorial-page-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    aspect-ratio: auto;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .editorial-page-hero__copy {
+    order: 1;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 18px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .editorial-artwork--hero {
+    position: relative;
+    order: 2;
+    inset: auto;
+    height: auto;
+  }
+
+  .editorial-artwork--hero .editorial-artwork__media {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 14px 32px rgba(31, 36, 32, .1);
+  }
+
+  .editorial-artwork--hero .editorial-artwork__media img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-position: center;
+  }
+
+}
+
 @media (max-width: 767px) {
+  .editorial-artwork { margin-block: 22px 28px; }
+  .editorial-artwork--hero { margin: 0; }
+  .editorial-artwork__media { aspect-ratio: 4 / 3; border-radius: 10px; }
+  .editorial-artwork__media img {
+    aspect-ratio: 4 / 3;
+    object-position: center;
+  }
   .video-after-links { gap: 16px; }
   .video-after-links a,
   .video-after-links .video-source-link { font-size: .75rem; letter-spacing: -.02em; }

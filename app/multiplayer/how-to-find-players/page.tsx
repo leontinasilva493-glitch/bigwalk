@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { EditorialArtwork } from '../../../components/editorial-artwork';
 import { JsonLd } from '../../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { site, siteSectionBySlug } from '../../../lib/content.mjs';
@@ -50,8 +51,23 @@ export const metadata: Metadata = {
   description: page.description,
   alternates: { canonical: `/${page.slug}` },
   robots: { index: true, follow: true },
-  openGraph: { url: `/${page.slug}`, title: page.title, description: page.description },
-  twitter: { card: 'summary', title: page.title, description: page.description },
+  openGraph: {
+    url: `/${page.slug}`,
+    title: page.title,
+    description: page.description,
+    images: [{
+      url: '/images/editorial/big-walk-find-players-lfg-guide.webp',
+      width: 1536,
+      height: 1024,
+      alt: 'Big Walk find players LFG guide scene with four trail explorers planning a co-op group around a map',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: page.title,
+    description: page.description,
+    images: ['/images/editorial/big-walk-find-players-lfg-guide.webp'],
+  },
 };
 
 export default function FindPlayersPage() {
@@ -63,6 +79,7 @@ export default function FindPlayersPage() {
     description: page.description,
     dateModified: lastChecked,
     mainEntityOfPage: url,
+    image: `${site.url}/images/editorial/big-walk-find-players-lfg-guide.webp`,
     publisher: { '@type': 'Organization', name: site.name },
   };
   const breadcrumb = {
@@ -90,14 +107,23 @@ export default function FindPlayersPage() {
         </nav>
 
         <article className="guide-article">
-          <header className="guide-hero">
-            <p className="verification-status" role="status">Source-checked directory</p>
-            <p className="guide-kicker">BIG WALK LFG</p>
-            <h1>{page.h1}</h1>
-            <p className="guide-description">
-              Big Walk has no public matchmaking. You find teammates through community LFG spaces and join with a private Join Code — this page lists the active ones, when they were last checked, and how to post safely.
-            </p>
-            <p className="guide-meta">Community directory / LFG / Last checked: {lastChecked}</p>
+          <header className="guide-hero editorial-page-hero">
+            <div className="editorial-page-hero__copy">
+              <p className="verification-status" role="status">Source-checked directory</p>
+              <p className="guide-kicker">BIG WALK LFG</p>
+              <h1>{page.h1}</h1>
+              <p className="guide-description">
+                Big Walk has no public matchmaking. You find teammates through community LFG spaces and join with a private Join Code — this page lists the active ones, when they were last checked, and how to post safely.
+              </p>
+              <p className="guide-meta">Community directory / LFG / Last checked: {lastChecked}</p>
+            </div>
+            <EditorialArtwork
+              src="/images/editorial/big-walk-find-players-lfg-guide.webp"
+              alt="Big Walk find players LFG guide scene with four trail explorers planning a co-op group around a map"
+              variant="lfg"
+              placement="hero"
+              preload
+            />
           </header>
 
           <section className="lfg-section" aria-labelledby="active-lfg-heading">

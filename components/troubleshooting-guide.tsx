@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { EditorialArtwork } from './editorial-artwork';
 import { JsonLd } from './json-ld';
 import { SiteFooter, SiteHeader } from './site';
-import { MapIcon, RadioIcon } from './game-elements';
+import { RadioIcon } from './game-elements';
 import { site, siteSectionBySlug } from '../lib/content.mjs';
 import { troubleshootingBySlug, troubleshootingGuides } from '../lib/troubleshooting-content.mjs';
 
@@ -145,6 +146,7 @@ export function TroubleshootingHub() {
     name: page.h1,
     description: page.description,
     url,
+    primaryImageOfPage: `${site.url}/images/editorial/big-walk-troubleshooting-help-fixes-guide.webp`,
     hasPart: troubleshootingGuides.map((guide) => ({
       '@type': 'Article',
       name: guide.h1,
@@ -161,11 +163,21 @@ export function TroubleshootingHub() {
           <ol><li><Link href="/">Home</Link></li><li aria-current="page">Troubleshooting</li></ol>
         </nav>
         <article className="evidence-page__article">
-          <div className="evidence-page__illustration" aria-hidden="true"><MapIcon /></div>
-          <p className="verification-status" role="status">Symptom router — evidence still in progress</p>
-          <p className="guide-kicker">BIG WALK HELP</p>
-          <h1>{page.h1}</h1>
-          <p className="evidence-page__lede">Choose the point where the problem occurs. The pages below keep platform checks, product behavior, and community reports separate.</p>
+          <header className="guide-hero editorial-page-hero">
+            <div className="editorial-page-hero__copy">
+              <p className="verification-status" role="status">Symptom router — evidence still in progress</p>
+              <p className="guide-kicker">BIG WALK HELP</p>
+              <h1>{page.h1}</h1>
+              <p className="evidence-page__lede">Choose the point where the problem occurs. The pages below keep platform checks, product behavior, and community reports separate.</p>
+            </div>
+            <EditorialArtwork
+              src="/images/editorial/big-walk-troubleshooting-help-fixes-guide.webp"
+              alt="Big Walk troubleshooting help scene with explorers checking voice chat, reconnect, and startup paths"
+              variant="troubleshooting"
+              placement="hero"
+              preload
+            />
+          </header>
 
           <section className="hint-block" aria-labelledby="before-you-start">
             <p className="hint-block__kicker">BEFORE YOU START</p>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { EditorialArtwork } from '../../components/editorial-artwork';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../components/site';
 
 export const metadata: Metadata = {
@@ -15,12 +16,19 @@ export const metadata: Metadata = {
     title: 'Big Walk Methodology: Evidence Gate and Publishable Solutions',
     description:
       'How this Big Walk directory separates spoiler-light hints, source-checked routes, first-hand captures, and noindex evidence pages.',
+    images: [{
+      url: '/images/editorial/big-walk-methodology-guide-workflow.webp',
+      width: 1536,
+      height: 1024,
+      alt: 'Big Walk guide methodology workflow with source research, cross-checking, and local field verification on an island map',
+    }],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Big Walk Methodology: Evidence Gate and Publishable Solutions',
     description:
       'How this Big Walk directory separates spoiler-light hints, source-checked routes, first-hand captures, and noindex evidence pages.',
+    images: ['/images/editorial/big-walk-methodology-guide-workflow.webp'],
   },
 };
 
@@ -35,12 +43,24 @@ export default function MethodologyPage() {
               <ol><li><Link href="/">Home</Link></li><li aria-current="page">Methodology</li></ol>
             </nav>
 
-            <p className="eyebrow">EDITORIAL METHOD</p>
-            <h1 id="methodology-title">How to use this Big Walk directory</h1>
-            <p className="section-intro">
-              This page explains how the directory keeps spoiler-light hints, source-checked routes, first-hand
-              captures, and evidence-in-progress pages distinct.
-            </p>
+            <header className="editorial-page-hero editorial-page-hero--wide">
+              <div className="editorial-page-hero__copy">
+                <p className="eyebrow">EDITORIAL METHOD</p>
+                <h1 id="methodology-title">How to use this Big Walk directory</h1>
+                <p className="section-intro">
+                  This page explains how the directory keeps spoiler-light hints, source-checked routes, first-hand
+                  captures, and evidence-in-progress pages distinct.
+                </p>
+              </div>
+              <EditorialArtwork
+                src="/images/editorial/big-walk-methodology-guide-workflow.webp"
+                alt="Big Walk guide methodology workflow with source research, cross-checking, and local field verification on an island map"
+                variant="methodology"
+                placement="hero"
+                preload
+                sizes="(max-width: 900px) calc(100vw - 40px), 880px"
+              />
+            </header>
 
             <div className="home-reference__intro">
               <p>

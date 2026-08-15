@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { EditorialArtwork } from '../../components/editorial-artwork';
 import { JsonLd } from '../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../components/site';
 import { site } from '../../lib/content.mjs';
@@ -15,8 +16,23 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: '/achievements' },
   robots: { index: true, follow: true },
-  openGraph: { url: '/achievements', title, description },
-  twitter: { card: 'summary', title, description },
+  openGraph: {
+    url: '/achievements',
+    title,
+    description,
+    images: [{
+      url: '/images/editorial/big-walk-achievements-trophy-guide.webp',
+      width: 1536,
+      height: 1024,
+      alt: 'Big Walk achievements and trophy guide scene with four explorers surrounding a route-marker award and progress tokens',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title,
+    description,
+    images: ['/images/editorial/big-walk-achievements-trophy-guide.webp'],
+  },
 };
 
 const trophyRows = [
@@ -64,6 +80,7 @@ export default function AchievementsPage() {
     description,
     dateModified: lastChecked,
     mainEntityOfPage: url,
+    image: `${site.url}/images/editorial/big-walk-achievements-trophy-guide.webp`,
     publisher: { '@type': 'Organization', name: site.name },
   };
   const breadcrumb = {
@@ -85,21 +102,30 @@ export default function AchievementsPage() {
           <ol><li><Link href="/">Home</Link></li><li aria-current="page">Achievements</li></ol>
         </nav>
         <article className="guide-article">
-          <section className="guide-hero">
-            <p className="verification-status">Source-checked guide</p>
-            <p className="guide-kicker">TROPHY & ACHIEVEMENT GUIDE</p>
-            <h1>Big Walk Trophy & Achievement Guide</h1>
-            <p className="guide-description">{description}</p>
-            <p className="guide-meta">Trophy count / Platinum-Gold-Silver breakdown / Hidden trophies / Last checked: {lastChecked}</p>
-            <ul className="compact-facts">
-              <li>PS5: 13 trophies total: 1 Platinum, 10 Gold, 2 Silver, including 2 hidden trophies.</li>
-              <li>Steam: 12 achievements for the same core objectives, without the PlayStation Platinum.</li>
-            </ul>
-          </section>
+          <header className="guide-hero editorial-page-hero">
+            <div className="editorial-page-hero__copy">
+              <p className="verification-status">Source-checked guide</p>
+              <p className="guide-kicker">TROPHY & ACHIEVEMENT GUIDE</p>
+              <h1>Big Walk Trophy & Achievement Guide</h1>
+              <p className="guide-description">{description}</p>
+              <p className="guide-meta">Trophy count / Platinum-Gold-Silver breakdown / Hidden trophies / Last checked: {lastChecked}</p>
+            </div>
+            <EditorialArtwork
+              src="/images/editorial/big-walk-achievements-trophy-guide.webp"
+              alt="Big Walk achievements and trophy guide scene with four explorers surrounding a route-marker award and progress tokens"
+              variant="achievements"
+              placement="hero"
+              preload
+            />
+          </header>
 
           <section className="route-overview" aria-labelledby="route-at-a-glance">
             <p className="hint-block__kicker">Quick answer</p>
             <h2 id="route-at-a-glance">Route at a glance</h2>
+            <ul className="compact-facts">
+              <li>PS5: 13 trophies total: 1 Platinum, 10 Gold, 2 Silver, including 2 hidden trophies.</li>
+              <li>Steam: 12 achievements for the same core objectives, without the PlayStation Platinum.</li>
+            </ul>
             <div className="table-wrap">
               <table className="guide-table">
                 <thead><tr><th>Trophy</th><th>Requirement</th><th>Area</th><th>Difficulty</th></tr></thead>
