@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { guides, siteSectionBySlug, topicHubStatusLabel } from '../lib/content.mjs';
 import { SignalFlareIcon } from './game-elements';
@@ -98,6 +99,113 @@ export function SearchIntentPanel({ guide }: { guide: Guide }) {
         ))}
       </div>
     </section>
+  );
+}
+
+export function AnswerFirstPuzzleGuide({ guide }: { guide: Guide }) {
+  if (!('answerFirstMvp' in guide) || !guide.answerFirstMvp) return null;
+
+  const mvp = guide.answerFirstMvp;
+  const recoveryHeading = 'recoveryHeading' in guide && typeof guide.recoveryHeading === 'string'
+    ? guide.recoveryHeading
+    : 'If a peg is missing or rejected';
+
+  return (
+    <div className="answer-first-puzzle">
+      <section id="quick-answer" className="answer-first-quick" aria-labelledby="quick-answer-heading">
+        <p className="hint-block__kicker">QUICK ANSWER</p>
+        <h2 id="quick-answer-heading">{guide.quickAnswerHeading}</h2>
+        <p>{guide.directAnswer}</p>
+        <p className="answer-first-quick__warning"><strong>World-specific:</strong> use the slots shown by your host&apos;s console. Do not copy a fixed peg set or order from another session.</p>
+      </section>
+
+      <section id="console-location" className="answer-first-location" aria-labelledby="console-location-heading">
+        <div className="answer-first-location__copy">
+          <p className="hint-block__kicker">FIND THE RETURN POINT</p>
+          <h2 id="console-location-heading">{mvp.location.heading}</h2>
+          <p>{mvp.location.body}</p>
+          <p className="answer-first-location__note">{mvp.location.landmarkNote}</p>
+        </div>
+        <figure className="answer-first-reference">
+          <Image
+            src={mvp.referenceImage.src}
+            alt={mvp.referenceImage.alt}
+            width={mvp.referenceImage.width}
+            height={mvp.referenceImage.height}
+            sizes="(max-width: 767px) calc(100vw - 40px), 720px"
+          />
+          <figcaption>
+            <span>{mvp.referenceImage.caption}</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="missing-peg" className="missing-peg-finder" aria-labelledby="missing-peg-heading">
+        <p className="hint-block__kicker">DIAGNOSE THE EMPTY SLOT</p>
+        <h2 id="missing-peg-heading">Which peg are you missing?</h2>
+        <p>{mvp.missingPegIntro}</p>
+        <div className="missing-peg-grid">
+          {mvp.missingPegFinder.map((peg) => (
+            <article key={peg.label}>
+              <h3>{peg.label}</h3>
+              <p>{peg.cue}</p>
+              <p><strong>Check next:</strong> {peg.nextCheck}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="solution" className="answer-first-solution" aria-labelledby="solution-heading">
+        <p className="hint-block__kicker">SIX-STEP SOLUTION</p>
+        <h2 id="solution-heading">Complete Forget-Me-Not without assuming a fixed answer</h2>
+        <ol className="solution-steps">
+          {guide.solutionSteps.map((step, index) => (
+            <li key={step.title}>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <div><h3>{step.title}</h3><p>{step.body}</p></div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section id="community-leads" className="community-location-leads" aria-labelledby="community-leads-heading">
+        <p className="hint-block__kicker">LABELLED LOCATION LEADS</p>
+        <h2 id="community-leads-heading">Community-reported peg locations</h2>
+        <p>Use these to narrow a search, not as proof that every player-count world contains the same pegs.</p>
+        <div className="community-location-leads__grid">
+          {mvp.communityLocationLeads.map((lead) => (
+            <article key={lead.label}>
+              <p className="evidence-label">{lead.status}</p>
+              <h3>{lead.label}</h3>
+              <p>{lead.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="recovery" className="answer-first-recovery" aria-labelledby="recovery-heading">
+        <p className="hint-block__kicker">RECOVER BEFORE RESTARTING</p>
+        <h2 id="recovery-heading">{recoveryHeading}</h2>
+        <div className="route-recovery__table-wrap">
+          <table>
+            <thead><tr><th>Problem</th><th>What to do</th></tr></thead>
+            <tbody>
+              {guide.commonFailures.map((failure) => (
+                <tr key={failure.problem}><th scope="row">{failure.problem}</th><td>{failure.fix}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="route-recovery__mobile-list">
+          {guide.commonFailures.map((failure) => (
+            <details className="route-recovery__mobile-card" key={failure.problem}>
+              <summary>{failure.problem}</summary>
+              <p>{failure.fix}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -343,6 +451,21 @@ export function NextStepRecommendations({ guide }: { guide: Guide }) {
 }
 
 export function GuideToc({ guide }: { guide: Guide }) {
+  if ('answerFirstMvp' in guide && guide.answerFirstMvp) {
+    return (
+      <nav id="guide-start" className="guide-toc" aria-label="On this page">
+        <p>On this page</p>
+        <a href="#quick-answer-heading">Quick answer</a>
+        <a href="#console-location-heading">Console location</a>
+        <a href="#missing-peg-heading">Missing peg</a>
+        <a href="#solution-heading">Solution</a>
+        <a href="#community-leads-heading">Location leads</a>
+        <a href="#recovery-heading">Recovery</a>
+        <a href="#sources-heading">Sources</a>
+      </nav>
+    );
+  }
+
   const hasPuzzleOverview = 'directAnswer' in guide
     && Boolean(guide.directAnswer)
     && 'progressiveHints' in guide
@@ -369,6 +492,29 @@ export function GuideToc({ guide }: { guide: Guide }) {
       {hasRecovery ? <a href="#recovery-heading">Recovery</a> : null}
       {hasSources ? <a href="#sources-heading">Sources</a> : null}
     </nav>
+  );
+}
+
+export function GuideSources({ guide }: { guide: Guide }) {
+  return (
+    <section id="sources" className="guide-sources" aria-labelledby="sources-heading">
+      <p className="hint-block__kicker">CHECKED {guide.sourceCheckedAt}</p>
+      <h2 id="sources-heading">Source links and evidence boundary</h2>
+      <p>These links support the research trail. Community locations remain labelled, and the credited console image is not presented as an original capture from this site.</p>
+      <ul>
+        {guide.sources.map((source) => {
+          const purpose = 'purpose' in source ? source.purpose : undefined;
+          return (
+            <li key={source.url}>
+              <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>{' '}
+              <span>— {source.publisher}</span>
+              {purpose ? <p>{purpose}</p> : null}
+            </li>
+          );
+        })}
+      </ul>
+      <p className="guide-sources__updated"><strong>Last reviewed:</strong> {guide.lastVerified}</p>
+    </section>
   );
 }
 
@@ -427,22 +573,7 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
           </div>
         </section>
       ) : null}
-      <section className="guide-sources" aria-labelledby="sources-heading">
-        <h3 id="sources-heading">Source links</h3>
-        <p>These links support the research trail. Their video frames and screenshots are not republished here.</p>
-        <ul>
-          {guide.sources.map((source) => {
-            const purpose = 'purpose' in source ? source.purpose : undefined;
-            return (
-              <li key={source.url}>
-                <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>{' '}
-                <span>— {source.publisher}</span>
-                {purpose ? <p>{purpose}</p> : null}
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+      <GuideSources guide={guide} />
       {showVideo ? <VideoEvidence guide={guide} /> : null}
       <section className="capture-list" aria-labelledby={`captures-${guide.slug.replaceAll('/', '-')}`}>
         <h3 id={`captures-${guide.slug.replaceAll('/', '-')}`}>Original screenshot capture list</h3>

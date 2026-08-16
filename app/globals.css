@@ -780,6 +780,55 @@ h3 {
 .search-intent-panel td { padding: 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
 .search-intent-panel thead th { background: color-mix(in srgb, var(--forest) 10%, white); color: var(--ink); }
 .search-intent-panel tbody th { width: 22%; color: var(--ink); }
+.answer-first-puzzle { display: grid; gap: 28px; margin-top: 24px; }
+.answer-first-puzzle > section { scroll-margin-top: 24px; }
+.answer-first-quick,
+.answer-first-location,
+.missing-peg-finder,
+.answer-first-solution,
+.community-location-leads,
+.answer-first-recovery { padding: 26px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.answer-first-quick { border-left: 6px solid var(--forest); background: var(--forest-tint); }
+.answer-first-quick h2,
+.answer-first-location h2,
+.missing-peg-finder h2,
+.answer-first-solution h2,
+.community-location-leads h2,
+.answer-first-recovery h2,
+.guide-sources h2 { margin-top: 6px; font-size: 1.375rem; }
+.answer-first-quick > p:not(.hint-block__kicker),
+.answer-first-location__copy > p:not(.hint-block__kicker),
+.missing-peg-finder > p:not(.hint-block__kicker),
+.community-location-leads > p:not(.hint-block__kicker) { margin: 12px 0 0; color: var(--ink-2); }
+.answer-first-quick__warning { padding-top: 14px; border-top: 1px solid var(--border); }
+.answer-first-location { padding: 0; overflow: hidden; }
+.answer-first-location__copy { padding: 26px; }
+.answer-first-location__note { padding: 14px 16px; border-left: 4px solid var(--amber); background: var(--amber-tint); font-size: .9375rem; }
+.answer-first-reference { margin: 0; border-top: 1px solid var(--border); background: var(--night); }
+.answer-first-reference img { display: block; width: 100%; height: auto; }
+.answer-first-reference figcaption { display: grid; gap: 7px; padding: 14px 18px 16px; color: var(--night-text); font-size: .875rem; line-height: 1.55; }
+.answer-first-reference figcaption span { color: #fff; font-weight: 700; }
+.missing-peg-grid,
+.community-location-leads__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+.missing-peg-grid article,
+.community-location-leads__grid article { padding: 18px; border: 1px solid var(--border); border-radius: 7px; background: var(--forest-tint); }
+.missing-peg-grid h3,
+.community-location-leads__grid h3 { margin: 0; font-size: 1rem; }
+.missing-peg-grid p,
+.community-location-leads__grid article > p:not(.evidence-label) { margin: 8px 0 0; color: var(--ink-2); font-size: .9rem; }
+.answer-first-solution { border-top: 5px solid var(--spoiler); }
+.answer-first-solution .solution-steps h3 { margin: 0; font-family: var(--font-display), ui-sans-serif, sans-serif; font-size: 1rem; }
+.answer-first-solution .solution-steps p { color: var(--ink-2); }
+.community-location-leads { background: var(--amber-tint); }
+.community-location-leads__grid article { background: rgb(255 255 255 / 58%); }
+.community-location-leads .evidence-label { margin: 0 0 8px; color: var(--amber-text); font-size: .7rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.answer-first-recovery { background: #fbedea; }
+.answer-first-recovery .route-recovery__table-wrap { margin-top: 18px; }
+.answer-first-recovery table { width: 100%; min-width: 520px; border-collapse: collapse; background: rgb(255 255 255 / 45%); font-size: .875rem; }
+.answer-first-recovery th,
+.answer-first-recovery td { padding: 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+.answer-first-recovery thead th { background: color-mix(in srgb, var(--spoiler) 11%, white); color: var(--ink); }
+.answer-first-recovery tbody th { width: 34%; color: var(--ink); }
 .coordinates-first-screen { display: grid; gap: 18px; margin-top: 24px; }
 .number-confirmation,
 .player-roles,
@@ -903,6 +952,8 @@ h3 {
 .guide-sources ul,
 .capture-list ol { display: grid; gap: 10px; margin: 14px 0 0; padding-left: 20px; color: var(--ink-2); font-size: .9375rem; }
 .guide-sources a { color: var(--forest); text-underline-offset: 3px; }
+.guide-sources > p { margin: 10px 0 0; color: var(--ink-2); }
+.guide-sources__updated { padding-top: 14px; border-top: 1px solid var(--border); font-size: .875rem; }
 .guide-video p,
 .capture-list p { margin: 10px 0 0; }
 .guide-video a { color: var(--forest); font-weight: 700; text-underline-offset: 3px; }
@@ -1215,7 +1266,13 @@ h3 {
   .guide-checklist,
   .progressive-hints,
   .quick-answer,
-  .navigation-methods { padding: 20px; }
+  .navigation-methods,
+  .answer-first-quick,
+  .missing-peg-finder,
+  .answer-first-solution,
+  .community-location-leads,
+  .answer-first-recovery { padding: 20px; }
+  .answer-first-location__copy { padding: 20px; }
   .navigation-method-grid,
   .player-role-grid,
   .research-card-grid,
@@ -1227,7 +1284,9 @@ h3 {
   .route-map__branches,
   .route-map__references,
   .route-center-card dl,
-  .stuck-finder__grid { grid-template-columns: 1fr; }
+  .stuck-finder__grid,
+  .missing-peg-grid,
+  .community-location-leads__grid { grid-template-columns: 1fr; }
   .next-step-card { min-height: 0; }
   .route-map__flow { grid-template-columns: 1fr; }
   .route-map__connector { transform: rotate(90deg); }

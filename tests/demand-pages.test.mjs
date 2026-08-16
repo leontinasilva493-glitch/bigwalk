@@ -30,10 +30,10 @@ test('peg-puzzle page disambiguates the visual query without creating an items h
 
   assert.ok(guide);
   assert.equal(guide.kind, 'puzzle');
-  assert.equal(guide.indexable, false);
-  assert.equal(guide.status, 'research');
+  assert.equal(guide.indexable, true);
+  assert.equal(guide.status, 'published');
   assert.equal(guide.evidenceLevel, 'corroborated');
-  assert.match(guide.title, /Peg Puzzle/i);
+  assert.match(guide.title, /Forget-Me-Not Puzzle.*Peg Locations/i);
   assert.match(guide.description, /Forget-Me-Not/i);
   assert.ok(guide.aliases.includes('three finger puzzle'));
   assert.ok(guide.aliases.includes('sound peg'));
@@ -47,7 +47,7 @@ test('peg-puzzle page disambiguates the visual query without creating an items h
   assert.ok(guide.screenshotRequests.length >= 3);
 });
 
-test('demand pages are discoverable through curated catalogue links while staying outside the sitemap', async () => {
+test('demand pages stay curated while the useful Forget-Me-Not MVP enters the sitemap', async () => {
   const trueEnding = guideBySlug('walkthrough/true-ending');
   const pegPuzzle = guideBySlug('puzzles/peg-puzzle');
   const [sitemap, home] = await Promise.all([
@@ -66,7 +66,7 @@ test('demand pages are discoverable through curated catalogue links while stayin
   assert.match(home, /demandGuides\.map/);
   assert.match(home, /True ending and peg puzzle/i);
   assert.equal(trueEnding.indexable, false);
-  assert.equal(pegPuzzle.indexable, false);
+  assert.equal(pegPuzzle.indexable, true);
 });
 
 test('indexed achievements page has concrete guidance for every previously unfinished trophy', async () => {

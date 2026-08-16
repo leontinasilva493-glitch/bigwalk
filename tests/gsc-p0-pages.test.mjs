@@ -2,12 +2,23 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as content from '../lib/content.mjs';
 
-test('Forget-Me-Not answers the visual query while remaining evidence-gated', () => {
+test('Forget-Me-Not ships an indexed answer-first MVP with an attributed reference image', () => {
   const guide = content.guideBySlug('puzzles/peg-puzzle');
 
   assert.ok(guide);
   assert.match(guide.h1, /Forget-Me-Not Puzzle/i);
-  assert.equal(guide.indexable, false);
+  assert.equal(guide.indexable, true);
+  assert.equal(guide.status, 'published');
+  assert.ok(content.guides.filter((entry) => entry.indexable).some((entry) => entry.slug === guide.slug));
+  assert.ok(guide.answerFirstMvp);
+  assert.equal(guide.answerFirstMvp.location.heading, 'Where is the Forget-Me-Not console?');
+  assert.equal(guide.answerFirstMvp.referenceImage.src, '/images/reference/big-walk-wiki-forget-me-not-console.jpg');
+  assert.equal(guide.answerFirstMvp.referenceImage.width, 640);
+  assert.equal(guide.answerFirstMvp.referenceImage.height, 360);
+  assert.equal(guide.answerFirstMvp.referenceImage.creditUrl, 'https://big-walkwiki.wiki/puzzles/forget-me-not');
+  assert.match(guide.answerFirstMvp.referenceImage.usageNote, /third-party reference/i);
+  assert.equal(guide.answerFirstMvp.missingPegFinder.length, 4);
+  assert.ok(guide.answerFirstMvp.communityLocationLeads.length >= 2);
   assert.ok(guide.searchIntent);
   assert.match(guide.searchIntent.answer, /across the island/i);
   assert.match(guide.searchIntent.answer, /no universal fixed (set|order)/i);
