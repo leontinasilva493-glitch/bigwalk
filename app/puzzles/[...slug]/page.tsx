@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, CoordinatesFirstScreen, GuideRoleAssignments, GuideToc, HintBlock, NextStepRecommendations, PuzzleMvpOverview, RelatedGuides, SearchIntentPanel, VerificationPanel, VideoEvidence, VideoJumpLink } from '../../../components/guides';
+import { AnswerFirstPuzzleGuide, Breadcrumbs, CoordinatesFirstScreen, GuideRoleAssignments, GuideSources, GuideToc, HintBlock, NextStepRecommendations, PuzzleMvpOverview, RelatedGuides, SearchIntentPanel, VerificationPanel, VideoEvidence, VideoJumpLink } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -61,6 +61,7 @@ export default async function PuzzleGuidePage({ params }: PageProps) {
       { '@type': 'ListItem', position: 3, name: guide.h1, item: `${site.url}/${guide.slug}` },
     ],
   };
+  const usesAnswerFirstMvp = 'answerFirstMvp' in guide && Boolean(guide.answerFirstMvp);
 
   return (
     <>
@@ -79,14 +80,24 @@ export default async function PuzzleGuidePage({ params }: PageProps) {
             {('video' in guide && guide.video) ? <VideoJumpLink href={`#video-${guide.slug.replaceAll('/', '-')}`} /> : null}
           </header>
           <GuideToc guide={guide} />
-          <SearchIntentPanel guide={guide} />
-          <GuideRoleAssignments guide={guide} />
-          <CoordinatesFirstScreen guide={guide} />
-          <HintBlock guide={guide} />
-          <PuzzleMvpOverview guide={guide} />
-          <NextStepRecommendations guide={guide} />
-          <VideoEvidence guide={guide} />
-          <VerificationPanel guide={guide} showVideo={false} />
+          {!usesAnswerFirstMvp ? (
+            <>
+              <SearchIntentPanel guide={guide} />
+              <GuideRoleAssignments guide={guide} />
+              <CoordinatesFirstScreen guide={guide} />
+              <HintBlock guide={guide} />
+              <PuzzleMvpOverview guide={guide} />
+              <NextStepRecommendations guide={guide} />
+              <VideoEvidence guide={guide} />
+              <VerificationPanel guide={guide} showVideo={false} />
+            </>
+          ) : (
+            <>
+              <AnswerFirstPuzzleGuide guide={guide} />
+              <NextStepRecommendations guide={guide} />
+              <GuideSources guide={guide} />
+            </>
+          )}
           <RelatedGuides guide={guide} />
         </article>
       </main>
