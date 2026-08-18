@@ -32,7 +32,7 @@ test('indexable discovery pages distinguish source-checked solutions from unreso
   }
 
   assert.match(home, /Source-checked solutions/i);
-  assert.match(home, /original marked screenshots are added after local capture/i);
+  assert.match(home, /clear route checkpoints/i);
   assert.match(home, /Need a solution\?/);
   assert.match(home, /Need the next unlock\?/);
   assert.match(home, /How to use this Big Walk directory/);

@@ -15,20 +15,20 @@ import { WalkerStack } from '../components/game-elements';
 export const metadata: Metadata = {
   title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
   description:
-    'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
+    'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location, with clear route context and source links.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     url: '/',
     title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
     description:
-      'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
+      'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location, with clear route context and source links.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
     description:
-      'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
+      'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location, with clear route context and source links.',
   },
 };
 
@@ -38,7 +38,7 @@ const websiteJsonLd = {
   name: site.name,
   url: site.url,
   description:
-    'A spoiler-conscious directory of Big Walk puzzle hints, source-checked solutions, evidence status, and original-capture requirements.',
+    'A spoiler-conscious directory of Big Walk puzzle hints, source-checked solutions, evidence status, and route context.',
 };
 
 function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }) {
@@ -102,7 +102,7 @@ export default function HomePage() {
             <h1 id="home-title">Big Walk Walkthrough: Hints &amp; Puzzle Guides</h1>
             <p className="home-hero__lede">
               Browse spoiler-free hints by tower, item, or location. Source-checked solutions come with their research
-              trail; original marked screenshots are added after local capture.
+              trail and clear route checkpoints.
             </p>
             <div className="home-path-actions" aria-label="Choose a guide path">
               <Link className="home-path-action" href="/puzzles">
@@ -175,8 +175,8 @@ export default function HomePage() {
           <SectionHeading kicker="NEW DEMAND PAGES" title="True ending and peg puzzle" />
           <p className="section-intro">
             These two focused pages answer distinct search intents without creating duplicate item or ending hubs.
-            They are source-labelled and available for review, but remain outside search indexing until first-hand
-            captures confirm the current-version route.
+            They are source-labelled and available for review, but remain outside search indexing while their evidence
+            review continues.
           </p>
           <div className="puzzle-list">
             {demandGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
@@ -207,8 +207,8 @@ export default function HomePage() {
                 Big Walk is built around the conversations a group has while exploring. A useful guide should help you
                 get unstuck without turning the whole island into a checklist. Start with the visible clue your group
                 has, use the closest tower, area, item, or achievement entry, and check the evidence status before
-                opening spoilers so source-checked routes, first-hand captures, and unresolved reports stay clearly
-                separated in a player-count-sensitive co-op game.
+                opening spoilers so source-checked routes and unresolved reports stay clearly separated in a
+                player-count-sensitive co-op game.
               </p>
             </div>
             <Link className="text-link" href="/methodology">
