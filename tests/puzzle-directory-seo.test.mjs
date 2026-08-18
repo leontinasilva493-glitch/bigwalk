@@ -13,7 +13,7 @@ test('the puzzle directory exposes its requested search title, H1, and collectio
   );
   assert.equal(
     content.site.puzzleDirectory?.description,
-    'Browse Big Walk hints and source-checked solutions by tower, item, or location. Original marked screenshots are added after local capture.',
+    'Browse Big Walk hints and source-checked solutions by tower, item, or location. Each guide includes clear route context and source links.',
   );
   assert.equal(typeof content.buildPuzzleDirectoryJsonLd, 'function');
 

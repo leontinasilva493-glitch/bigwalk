@@ -500,7 +500,7 @@ export function GuideSources({ guide }: { guide: Guide }) {
     <section id="sources" className="guide-sources" aria-labelledby="sources-heading">
       <p className="hint-block__kicker">CHECKED {guide.sourceCheckedAt}</p>
       <h2 id="sources-heading">Source links and evidence boundary</h2>
-      <p>These links support the research trail. Community locations remain labelled, and the credited console image is not presented as an original capture from this site.</p>
+      <p>These links provide source context for the route. Community locations remain labelled, and credited media is identified by its original publisher.</p>
       <ul>
         {guide.sources.map((source) => {
           const purpose = 'purpose' in source ? source.purpose : undefined;
@@ -576,10 +576,19 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
       <GuideSources guide={guide} />
       {showVideo ? <VideoEvidence guide={guide} /> : null}
       <section className="capture-list" aria-labelledby={`captures-${guide.slug.replaceAll('/', '-')}`}>
-        <h3 id={`captures-${guide.slug.replaceAll('/', '-')}`}>Original screenshot capture list</h3>
-        <p>Original local gameplay screenshots are still required for this guide. This checklist prevents a third-party frame from being substituted for an original capture.</p>
+        <h3 id={`captures-${guide.slug.replaceAll('/', '-')}`}>{isPublished ? 'Route checkpoints' : 'Original screenshot capture list'}</h3>
+        <p>{isPublished
+          ? 'Use these checkpoints to follow the route and compare the landmarks, roles, and completion state described above.'
+          : 'Use this evidence checklist to document the landmarks, roles, and completion state before treating the route as settled.'}</p>
         <ol>
-          {guide.screenshotRequests.map((request) => <li key={request.label}><strong>{request.label}:</strong> {request.description}</li>)}
+          {guide.screenshotRequests.map((request) => (
+            <li key={request.label}>
+              <strong>{request.label}:</strong>{' '}
+              {isPublished
+                ? request.description.replace(/Original (?:marked )?captures? (?:of|showing|proving) /i, '')
+                : request.description}
+            </li>
+          ))}
         </ol>
       </section>
     </section>

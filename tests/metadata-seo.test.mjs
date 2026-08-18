@@ -32,7 +32,7 @@ test('site metadata describes an evidence-gated directory and supplies social de
   assert.match(layout, /default:\s*'Big Walk Hints & Puzzle Directory'/);
   assert.doesNotMatch(layout, /All Puzzles Solved/);
   assert.match(layout, /Source-checked solutions/i);
-  assert.match(layout, /original marked screenshots are added after local capture/i);
+  assert.match(layout, /clear route context and source links/i);
   assert.match(layout, /openGraph:/);
   assert.match(layout, /twitter:/);
 });
@@ -85,13 +85,13 @@ test('directory and detail social metadata use their own canonical URLs', async 
   assert.match(detail, /twitter:\s*\{/);
 });
 
-test('homepage distinguishes source-checked solutions from later first-hand screenshot captures', async () => {
+test('homepage distinguishes source-checked solutions from route checkpoints', async () => {
   const home = await sourceFor('app/page.tsx');
 
   assert.match(home, /'@type': 'WebSite'/);
   assert.match(home, /Big Walk Walkthrough: Hints &amp; Puzzle Guides/);
   assert.match(home, /Source-checked solutions/i);
-  assert.match(home, /original marked screenshots/i);
+  assert.match(home, /clear route checkpoints/i);
   assert.doesNotMatch(home, /Every Puzzle Solved/);
   assert.doesNotMatch(home, /SearchAction/);
 });
