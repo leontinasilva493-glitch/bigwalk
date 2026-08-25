@@ -2,17 +2,21 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
+  guides,
   guideBySlug,
   homepageDemandGuideSlugs,
+  siteSections,
 } from '../lib/content.mjs';
+import { buildSitemapEntries } from '../lib/sitemap-content.mjs';
 
-test('true-ending demand page is complete but remains evidence-gated', () => {
+test('true-ending demand page is a source-checked same-host completion route', () => {
   const guide = guideBySlug('walkthrough/true-ending');
 
   assert.ok(guide);
   assert.equal(guide.kind, 'walkthrough');
-  assert.equal(guide.indexable, false);
-  assert.equal(guide.status, 'research');
+  assert.equal(guide.indexable, true);
+  assert.equal(guide.status, 'published');
+  assert.equal(guide.verificationStatus, 'source_checked');
   assert.equal(guide.evidenceLevel, 'corroborated');
   assert.match(guide.title, /True Ending/i);
   assert.match(guide.description, /Big Game/i);
@@ -50,22 +54,23 @@ test('peg-puzzle page disambiguates the visual query without creating an items h
 test('demand pages stay curated while the useful Forget-Me-Not MVP enters the sitemap', async () => {
   const trueEnding = guideBySlug('walkthrough/true-ending');
   const pegPuzzle = guideBySlug('puzzles/peg-puzzle');
-  const [sitemap, home] = await Promise.all([
-    readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8'),
-    readFile(new URL('../app/page.tsx', import.meta.url), 'utf8'),
-  ]);
+  const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
+  const home = await readFile(new URL('../app/page.tsx', import.meta.url), 'utf8');
 
   assert.deepEqual(homepageDemandGuideSlugs, [
+    'walkthrough/black-tower',
     'walkthrough/true-ending',
+    'puzzles/colored-pegboard',
     'puzzles/peg-puzzle',
   ]);
   assert.ok(trueEnding.relatedSlugs.some((related) => related.slug === 'puzzles/peg-puzzle'));
   assert.ok(pegPuzzle.relatedSlugs.some((related) => related.slug === 'walkthrough/true-ending'));
-  assert.match(sitemap, /guides\s*\.filter\(\(guide\)\s*=>\s*guide\.indexable\)/);
+  assert.ok(sitemapPaths.includes('/walkthrough/true-ending'));
+  assert.ok(sitemapPaths.includes('/puzzles/peg-puzzle'));
   assert.match(home, /homepageDemandGuideSlugs/);
   assert.match(home, /demandGuides\.map/);
-  assert.match(home, /True ending and peg puzzle/i);
-  assert.equal(trueEnding.indexable, false);
+  assert.match(home, /Black Tower, true ending, and peg puzzles/i);
+  assert.equal(trueEnding.indexable, true);
   assert.equal(pegPuzzle.indexable, true);
 });
 

@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { guideBySlug, guides } from '../lib/content.mjs';
+import { guideBySlug, guides, siteSections } from '../lib/content.mjs';
+import { buildSitemapEntries } from '../lib/sitemap-content.mjs';
 
 const slug = 'puzzles/4166-1899-coordinates';
 
@@ -47,14 +48,14 @@ test('4166 1899 guide cites the supplied video without republishing its frames',
   assert.ok(guide.screenshotRequests.every((request) => /Original/i.test(request.description)));
 });
 
-test('4166 1899 guide is connected to the map-room route and generated sitemap', async () => {
+test('4166 1899 guide is connected to the map-room route and generated sitemap', () => {
   const guide = guideBySlug(slug);
-  const sitemapSource = await readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8');
+  const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
 
   assert.ok(guide.relatedSlugs.some((related) => related.slug === 'walkthrough/red-tower-map-room'));
   assert.ok(guideBySlug('walkthrough/red-tower-map-room').relatedSlugs.some((related) => related.slug === slug));
   assert.ok(guides.filter((item) => item.indexable).some((item) => item.slug === slug));
-  assert.match(sitemapSource, /guides\s*\.filter\(\(guide\)\s*=>\s*guide\.indexable\)/);
+  assert.ok(sitemapPaths.includes(`/${slug}`));
 });
 
 test('puzzle template renders the MVP sections and timestamped click-to-load video embed', async () => {

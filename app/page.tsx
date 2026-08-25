@@ -88,6 +88,18 @@ const quickAnswers = [
     answer: 'It is on PS5, PC, Mac, and Switch 2. It is not listed for Xbox or the original Switch.',
     href: '/multiplayer',
   },
+  {
+    label: 'Current version',
+    question: 'What is the latest Big Walk update?',
+    answer: 'House House currently lists version 1.4.10, focused on connection, server, error-message, and voice stability.',
+    href: '/patch-notes',
+  },
+  {
+    label: 'Interactive map',
+    question: 'Where is the tower, puzzle, or item we missed?',
+    answer: 'Search and filter the spoiler-controlled field map, then keep a local completion checklist.',
+    href: '/map',
+  },
 ];
 export default function HomePage() {
   return (
@@ -112,6 +124,10 @@ export default function HomePage() {
               <Link className="home-path-action" href="/walkthrough">
                 <span>Need the next unlock?</span>
                 <strong>Browse routes <span aria-hidden="true">→</span></strong>
+              </Link>
+              <Link className="home-path-action" href="/map">
+                <span>Need a landmark?</span>
+                <strong>Open the map <span aria-hidden="true">→</span></strong>
               </Link>
             </div>
             <div className="popular-links" aria-label="Featured guide links">
@@ -172,11 +188,10 @@ export default function HomePage() {
         </section>
 
         <section className="discovery-section page-shell" aria-labelledby="demand-guides-title">
-          <SectionHeading kicker="NEW DEMAND PAGES" title="True ending and peg puzzle" />
+          <SectionHeading kicker="NEW DEMAND PAGES" title="Black Tower, true ending, and peg puzzles" />
           <p className="section-intro">
-            These two focused pages answer distinct search intents without creating duplicate item or ending hubs.
-            They are source-labelled and available for review, but remain outside search indexing while their evidence
-            review continues.
+            These focused pages separate the Black Tower vision, 100% White Key route, circular colored pegboard, and
+            Forget-Me-Not console. Each answer keeps official facts and current player reports visibly separated.
           </p>
           <div className="puzzle-list">
             {demandGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
