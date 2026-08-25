@@ -5,11 +5,11 @@ import { JsonLd } from '../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../components/site';
 import { site } from '../../lib/content.mjs';
 
-const lastChecked = '2026-08-11';
+const lastChecked = '2026-08-25';
 
 const title = 'Big Walk Trophy Guide - All 13 Achievements & Trophies';
 const description =
-  'Unlock every Big Walk trophy and achievement: 1 Platinum, 10 Gold, 2 Silver including 2 hidden trophies. Requirements, areas, and related walkthrough links.';
+  'Use a source-checked Big Walk Platinum roadmap for all 13 PS5 trophies and 12 Steam achievements, with route order, same-host completion notes, ending cleanup, and linked walkthroughs.';
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -41,7 +41,7 @@ const trophyRows = [
   { name: 'Big Sit', grade: 'Gold', requirement: 'Ride the chairlift.', area: 'Green Tower chairlift', difficulty: 'Easy', href: '/walkthrough/green-tower-chairlift' },
   { name: 'Big Ride', grade: 'Gold', requirement: 'Ride the train.', area: 'Blue Tower train', difficulty: 'Easy', href: '/walkthrough/blue-tower-train' },
   { name: 'Big Tunnel', grade: 'Gold', requirement: 'Enter a big tunnel.', area: 'Yellow Tower tunnels', difficulty: 'Easy', href: '/walkthrough/yellow-tower-tunnels' },
-  { name: 'Big Wall', grade: 'Gold', requirement: 'Go beyond the wall.', area: 'Wall gate', difficulty: 'Medium', href: '/walkthrough/crosswalk' },
+  { name: 'Big Wall', grade: 'Gold', requirement: 'Go beyond the wall.', area: 'Wall gate', difficulty: 'Medium', href: '/walkthrough/black-tower' },
 ];
 
 const trophies = [
@@ -56,6 +56,8 @@ const trophies = [
 ];
 
 const sources = [
+  { title: 'Big Walk on Steam', publisher: 'Valve / House House', url: 'https://store.steampowered.com/app/1478500/Big_Walk/' },
+  { title: 'Big Walk FAQ', publisher: 'House House and Panic', url: 'https://bigwalk.game/faq/' },
   { title: 'Big Walk Trophy List', publisher: 'Gamer Social Club', url: 'https://gamersocialclub.ca/2026/06/17/big-walk-trophy-list/' },
   { title: 'Big Walk - Trophy List and Achievements Guide', publisher: 'KeenGamer', url: 'https://www.keengamer.com/articles/guides/big-walk-trophy-list-and-achievements-guide/' },
   { title: 'Complete Big Walk Trophy List', publisher: 'Insider Gaming', url: 'https://insider-gaming.com/big-walk-trophy-list/' },
@@ -108,7 +110,7 @@ export default function AchievementsPage() {
               <p className="guide-kicker">TROPHY & ACHIEVEMENT GUIDE</p>
               <h1>Big Walk Trophy & Achievement Guide</h1>
               <p className="guide-description">{description}</p>
-              <p className="guide-meta">Trophy count / Platinum-Gold-Silver breakdown / Hidden trophies / Last checked: {lastChecked}</p>
+              <p className="guide-meta">13 PS5 trophies / 12 Steam achievements / Version 1.4.10 / Last checked: {lastChecked}</p>
             </div>
             <EditorialArtwork
               src="/images/editorial/big-walk-achievements-trophy-guide.webp"
@@ -150,6 +152,18 @@ export default function AchievementsPage() {
               Most trophies unlock through normal progression: complete every tower route and you will earn the majority.
               The item trophies and post-game completion trophies are the ones to track deliberately.
             </p>
+          </section>
+
+          <section className="trophy-roadmap" aria-labelledby="platinum-roadmap-heading">
+            <p className="hint-block__kicker">PLATINUM ROADMAP</p>
+            <h2 id="platinum-roadmap-heading">One same-host route to every trophy</h2>
+            <p>Keep the same host save from the opening through both endings. Guests can change, but the official FAQ says the host owns the world progress. There are 13 PS5 trophies and 12 Steam achievements; PlayStation adds the Big Trophy Platinum after the other twelve objectives.</p>
+            <div className="roadmap-grid">
+              <article><span>Phase 1</span><h3>Opening and equipment</h3><p>Cross the drawbridge, wear a backpack and hip item, and keep the original host save.</p><Link href="/walkthrough/crosswalk">Open the Crosswalk route</Link></article>
+              <article><span>Phase 2</span><h3>Four coloured towers</h3><p>Visit the map, ride the chairlift and train, and enter the tunnel after completing their tower routes.</p><Link href="/walkthrough">Compare tower routes</Link></article>
+              <article><span>Phase 3</span><h3>Wall and first ending</h3><p>Finish Black Tower, take its key to the Wall, then complete the Black Sphere route for Big Goodbye.</p><Link href="/walkthrough/black-tower">Open the Black Tower guide</Link></article>
+              <article><span>Phase 4</span><h3>100% and Big Game</h3><p>Clear every remaining standard and purple challenge, make the White Key, and finish the split-sphere route.</p><Link href="/walkthrough/true-ending">Open the true-ending checklist</Link></article>
+            </div>
           </section>
 
           <section className="route-recovery" aria-labelledby="ending-trophy-split">

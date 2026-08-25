@@ -19,6 +19,9 @@ type SectionRecord = {
   indexable: boolean;
   updated?: string;
   verificationLabel?: string;
+  quickAnswer?: string;
+  rewardUse?: string;
+  completionSteps?: string[];
   challenges?: Array<{
     name: string;
     href?: string;
@@ -40,6 +43,7 @@ function relatedTitle(slug: string) {
   if (section) return section.h1;
   if (slug === 'puzzles') return 'Big Walk Puzzle Directory';
   if (slug === 'beginner-guide') return 'Big Walk Beginner Guide';
+  if (slug === 'map') return 'Big Walk Interactive Map';
   return slug;
 }
 
@@ -100,6 +104,23 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
             <p>{page.scope}</p>
           </section>
 
+          {page.quickAnswer ? (
+            <section className="answer-first-quick" aria-labelledby="purple-quick-answer-heading">
+              <p className="hint-block__kicker">QUICK ANSWER</p>
+              <h2 id="purple-quick-answer-heading">What the seven purple challenges unlock</h2>
+              <p>{page.quickAnswer}</p>
+            </section>
+          ) : null}
+
+          {page.rewardUse && page.completionSteps?.length ? (
+            <section className="route-overview" aria-labelledby="purple-completion-heading">
+              <p className="hint-block__kicker">PURPLE REWARD CHECKLIST</p>
+              <h2 id="purple-completion-heading">From seven purple rewards to the White Key</h2>
+              <p>{page.rewardUse}</p>
+              <ol className="route-summary">{page.completionSteps.map((step) => <li key={step}>{step}</li>)}</ol>
+            </section>
+          ) : null}
+
           {page.challenges?.length ? (
             <section className="challenge-directory" aria-labelledby="challenge-directory-heading">
               <p className="hint-block__kicker">PURPLE CHALLENGE DIRECTORY</p>
@@ -129,7 +150,7 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
           ) : null}
 
           <section className="verification-panel" aria-labelledby="evidence-heading">
-            <h2 id="evidence-heading">What we still need to verify</h2>
+            <h2 id="evidence-heading">Evidence and source notes</h2>
             <p>{page.indexable
               ? 'This directory is publishable because its names, visual cues, and mapped positions are source-labelled. The following gameplay conclusions still require current first-hand evidence.'
               : 'This page is deliberately not a completed answer yet. It stays out of search indexing until current, first-hand evidence supports the guidance.'}</p>

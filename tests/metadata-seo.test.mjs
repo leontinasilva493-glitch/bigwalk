@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { guideBySlug } from '../lib/content.mjs';
-import { guides } from '../lib/content.mjs';
+import { guideBySlug, guides, siteSections } from '../lib/content.mjs';
+import { buildSitemapEntries } from '../lib/sitemap-content.mjs';
 
 const root = new URL('../', import.meta.url);
 
@@ -60,11 +60,15 @@ test('unmatched routes have accurate noindex metadata', async () => {
   assert.match(notFound, /robots:\s*\{\s*index:\s*false/);
 });
 
-test('sitemap derives detail URLs only from indexable guide entries', async () => {
-  const sitemap = await sourceFor('app/sitemap.ts');
+test('sitemap derives detail URLs only from indexable guide entries', () => {
+  const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
 
-  assert.match(sitemap, /guides\s*\.filter\(\(guide\)\s*=>\s*guide\.indexable\)/);
-  assert.doesNotMatch(sitemap, /const publicPaths\s*=/);
+  for (const guide of guides.filter((entry) => entry.indexable)) {
+    assert.ok(sitemapPaths.includes(`/${guide.slug}`));
+  }
+  for (const guide of guides.filter((entry) => !entry.indexable)) {
+    assert.ok(!sitemapPaths.includes(`/${guide.slug}`));
+  }
 });
 
 test('detail metadata receives both indexable and evidence-conflict guide states from its catalogue record', async () => {

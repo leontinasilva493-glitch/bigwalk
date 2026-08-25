@@ -30,7 +30,7 @@ test('the homepage keeps discovery links but replaces the long methodology body 
   const browseDirectory = home.indexOf('Browse the directory');
   const currentEntries = home.indexOf('Browse available hints');
   const unlockRoutes = home.indexOf('Browse available walkthroughs');
-  const demandPages = home.indexOf('True ending and peg puzzle');
+  const demandPages = home.indexOf('Black Tower, true ending, and peg puzzles');
   const visualFinder = home.indexOf('Start with what you can see');
   const methodologyTeaser = home.indexOf('How to use this Big Walk directory');
 

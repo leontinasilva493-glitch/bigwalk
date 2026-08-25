@@ -5,6 +5,7 @@ import { LanternWalker } from './game-elements';
 const navigation = [
   { href: '/puzzles', label: 'Puzzles', key: 'puzzles' },
   { href: '/walkthrough', label: 'Walkthroughs', key: 'walkthrough' },
+  { href: '/map', label: 'Map', key: 'map' },
   { href: '/beginner-guide', label: 'Beginner Guide', key: 'beginner' },
   { href: '/multiplayer', label: 'Multiplayer', key: 'multiplayer' },
   { href: '/troubleshooting', label: 'Help & Fixes', key: 'help' },
@@ -13,6 +14,7 @@ const navigation = [
 const secondaryNavigation = [
   { href: '/achievements', label: 'Achievements', key: 'achievements' },
   { href: '/puzzles/purple-challenges', label: 'Purple Challenges', key: 'purple-challenges' },
+  { href: '/patch-notes', label: 'Patch Notes', key: 'patch-notes' },
 ] as const;
 
 type NavigationKey = (typeof navigation)[number]['key'] | (typeof secondaryNavigation)[number]['key'];
@@ -71,10 +73,12 @@ export function SiteFooter() {
       <div className="site-footer__links">
         <Link href="/puzzles">Puzzles</Link>
         <Link href="/walkthrough">Walkthroughs</Link>
+        <Link href="/map">Map</Link>
         <Link href="/beginner-guide">Beginner Guide</Link>
         <Link href="/multiplayer">Multiplayer</Link>
         <Link href="/troubleshooting">Help &amp; Fixes</Link>
         <Link href="/achievements">Achievements</Link>
+        <Link href="/patch-notes">Patch Notes</Link>
       </div>
       <p>Evidence status: first-hand verification in progress.</p>
       <LanternWalker />

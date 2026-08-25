@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { guideBySlug, siteSectionBySlug } from '../lib/content.mjs';
+import { guideBySlug, guides, siteSectionBySlug, siteSections } from '../lib/content.mjs';
+import { buildSitemapEntries } from '../lib/sitemap-content.mjs';
 
 test('purple challenges is an indexable seven-challenge directory with evidence-gated facts', () => {
   const page = siteSectionBySlug('puzzles/purple-challenges');
@@ -9,7 +10,7 @@ test('purple challenges is an indexable seven-challenge directory with evidence-
   assert.equal(page.indexable, true);
   assert.equal(page.status, 'published');
   assert.equal(page.title, 'Purple Challenges in Big Walk — All 7 Listed with Locations');
-  assert.equal(page.updated, '2026-08-10');
+  assert.equal(page.updated, '2026-08-25');
   assert.equal(page.challenges.length, 7);
   assert.ok(page.challenges.every((challenge) => (
     challenge.name
@@ -23,22 +24,24 @@ test('purple challenges is an indexable seven-challenge directory with evidence-
   assert.ok(page.challenges.filter((challenge) => challenge.position !== 'Position TBD').length >= 3);
   assert.deepEqual(
     page.pendingFirstHand.map((fact) => fact.label),
-    ['Total', 'Rewards', 'Player-count differences'],
+    ['Purple set', 'Completion handoff', 'Result'],
   );
-  assert.ok(page.pendingFirstHand.every((fact) => fact.value === 'Pending first-hand verification'));
+  assert.deepEqual(page.pendingFirstHand.map((fact) => fact.value), [
+    '7 challenge rewards',
+    '7 purple + 8 unused red rewards',
+    'White Key for the split-sphere route',
+  ]);
 });
 
 test('purple challenges keeps the shared evidence skeleton and enters generated sitemap discovery', async () => {
-  const [component, sitemap] = await Promise.all([
-    readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8'),
-    readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8'),
-  ]);
+  const component = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
+  const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
 
   assert.match(component, /challenge-directory/);
   assert.match(component, /page\.challenges/);
   assert.match(component, /page\.indexable/);
   assert.match(component, /page\.updated/);
-  assert.match(sitemap, /siteSections\s*\.filter\(\(section\)\s*=>\s*section\.indexable\)/);
+  assert.ok(sitemapPaths.includes('/puzzles/purple-challenges'));
 });
 
 test('green room is a complete noindex research route with disambiguation and conflict labels', () => {
@@ -63,15 +66,15 @@ test('green room is a complete noindex research route with disambiguation and co
 });
 
 test('green room renders its ordered research sections and remains outside the sitemap', async () => {
-  const [route, components, sitemap] = await Promise.all([
+  const [route, components] = await Promise.all([
     readFile(new URL('../app/walkthrough/[...slug]/page.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
-    readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8'),
   ]);
+  const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
 
   assert.match(route, /GreenRoomResearch/);
   assert.ok(route.indexOf('<GreenRoomResearch') < route.indexOf('<RouteOverview'));
   assert.match(components, /sections\.slots/);
   assert.match(components, /sections\.itemConflict/);
-  assert.doesNotMatch(sitemap, /walkthrough\/green-room/);
+  assert.ok(!sitemapPaths.includes('/walkthrough/green-room'));
 });

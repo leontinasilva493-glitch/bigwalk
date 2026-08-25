@@ -65,7 +65,7 @@ test('walkthrough hub starts with the opening route and separates research route
   assert.ok(firstResearchIndex > 0);
   assert.ok(ordered.slice(0, firstResearchIndex).every((guide) => guide.indexable));
   assert.ok(ordered.slice(firstResearchIndex).every((guide) => !guide.indexable));
-  assert.ok(ordered.findIndex((guide) => guide.slug === 'walkthrough/true-ending') >= firstResearchIndex);
+  assert.ok(ordered.findIndex((guide) => guide.slug === 'walkthrough/true-ending') < firstResearchIndex);
 
   const hub = content.siteSectionBySlug('walkthrough');
   assert.deepEqual(hub.startPaths.map((path) => path.label), [

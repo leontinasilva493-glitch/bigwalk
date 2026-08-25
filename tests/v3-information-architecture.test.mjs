@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { access, readFile } from 'node:fs/promises';
 import { guides, siteSections } from '../lib/content.mjs';
+import { buildSitemapEntries } from '../lib/sitemap-content.mjs';
 
 const routeFiles = [
   '../app/puzzles/purple-challenges/page.tsx',
@@ -50,23 +51,23 @@ test('guide records expose the v3 evidence model and visual aliases', () => {
     .every((section) => section.indexable === false));
 });
 
-test('walkthrough directory has publishable metadata and enters generated sitemap discovery', async () => {
+test('walkthrough directory has publishable metadata and enters generated sitemap discovery', () => {
   const walkthrough = siteSections.find((section) => section.slug === 'walkthrough');
-  const sitemap = await readFile(new URL('../app/sitemap.ts', import.meta.url), 'utf8');
+  const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
 
   assert.equal(walkthrough?.status, 'published');
   assert.equal(walkthrough?.evidenceLevel, 'corroborated');
   assert.equal(walkthrough?.verificationLabel, 'Source-checked walkthrough directory');
   assert.match(walkthrough?.title ?? '', /Walkthroughs/);
   assert.doesNotMatch(walkthrough?.title ?? '', /Verification in Progress/i);
-  assert.match(sitemap, /siteSections\s*\.filter\(\(section\)\s*=>\s*section\.indexable\)/);
+  assert.ok(sitemapPaths.includes('/walkthrough'));
 });
 
 test('new topic pages use the shared evidence template and derive indexing from evidence state', async () => {
   const source = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
   assert.match(source, /robots: \{ index: page\.indexable, follow: true \}/);
   assert.match(source, /page\.verificationLabel/);
-  assert.match(source, /What we still need to verify/);
+  assert.match(source, /Evidence and source notes/);
 });
 
 test('primary navigation leads with player intents and keeps lower-priority topics secondary', async () => {

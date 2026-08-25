@@ -5,8 +5,10 @@ import {
   guides,
   homepageDirectoryStats,
   homepageFeaturedGuideSlugs,
+  siteSections,
   walkthroughHubGuides,
 } from '../lib/content.mjs';
+import { buildSitemapEntries } from '../lib/sitemap-content.mjs';
 
 const pageFiles = {
   home: '../app/page.tsx',
@@ -56,13 +58,15 @@ test('indexable discovery pages distinguish source-checked solutions from unreso
 });
 
 test('public discovery is crawlable while placeholder detail URLs stay out of generated discovery', async () => {
-  const [sitemap, robots] = await Promise.all([sourceFor('sitemap'), sourceFor('robots')]);
+  const robots = await sourceFor('robots');
+  const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
 
-  assert.match(sitemap, /path:\s*'\//);
-  assert.match(sitemap, /path:\s*'\/puzzles'/);
-  assert.match(sitemap, /guides\s*\.filter\(\(guide\)\s*=>\s*guide\.indexable\)/);
-  assert.match(sitemap, /siteSections\s*\.filter\(\(section\)\s*=>\s*section\.indexable\)/);
-  assert.doesNotMatch(sitemap, /green-chair-headphones|purple-things|4166-1899|red-tower-map-room/);
+  assert.ok(sitemapPaths.includes('/'));
+  assert.ok(sitemapPaths.includes('/puzzles'));
+  assert.ok(sitemapPaths.includes('/puzzles/green-chair-headphones'));
+  assert.ok(sitemapPaths.includes('/puzzles/4166-1899-coordinates'));
+  assert.ok(sitemapPaths.includes('/walkthrough/red-tower-map-room'));
+  assert.ok(!sitemapPaths.includes('/puzzles/purple-things-where-to-use'));
   assert.match(robots, /allow:\s*['"]\/['"]/);
   assert.match(robots, /sitemap/);
 });
@@ -104,8 +108,8 @@ test('directory cards keep puzzle answers distinct from route walkthroughs', asy
   assert.ok(orderedWalkthroughs.every((guide) => guide.kind === 'walkthrough'));
   assert.equal(orderedWalkthroughs[0]?.slug, 'walkthrough/crosswalk');
   assert.ok(
-    orderedWalkthroughs.findIndex((guide) => guide.slug === 'walkthrough/true-ending') >
-      orderedWalkthroughs.findIndex((guide) => guide.slug === 'walkthrough/green-room'),
+    orderedWalkthroughs.findIndex((guide) => guide.slug === 'walkthrough/black-tower') <
+      orderedWalkthroughs.findIndex((guide) => guide.slug === 'walkthrough/true-ending'),
   );
   assert.ok(
     orderedWalkthroughs.findLastIndex((guide) => guide.indexable) <
@@ -134,9 +138,9 @@ test('homepage counts are derived from the current catalogue and featured links 
   const featuredGuides = homepageFeaturedGuideSlugs.map((slug) => guides.find((guide) => guide.slug === slug));
 
   assert.deepEqual(stats, {
-    puzzleEntries: 4,
-    walkthroughEntries: 8,
-    visualEntries: 4,
+    puzzleEntries: 5,
+    walkthroughEntries: 9,
+    visualEntries: 5,
     achievements: 13,
   });
   assert.equal(homepageFeaturedGuideSlugs.length, 5);

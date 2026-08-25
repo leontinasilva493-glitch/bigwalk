@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { guides, siteSections, siteSectionBySlug } from '../lib/content.mjs';
+import { buildSitemapEntries } from '../lib/sitemap-content.mjs';
 
 async function sourceFor(path) {
   try {
@@ -128,10 +129,10 @@ test('mobile readers get an inline table of contents and semantic recovery cards
   assert.match(components, /<summary>\{failure\.problem\}<\/summary>/);
 });
 
-test('the published beginner guide enters sitemap discovery through indexable sections', async () => {
-  const sitemap = await sourceFor('app/sitemap.ts');
+test('the published beginner guide enters sitemap discovery through indexable sections', () => {
   const beginner = siteSectionBySlug('beginner-guide');
+  const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
 
   assert.equal(beginner.indexable, true);
-  assert.match(sitemap, /siteSections\s*\.filter\(\(section\)\s*=>\s*section\.indexable\)/);
+  assert.ok(sitemapPaths.includes('/beginner-guide'));
 });
