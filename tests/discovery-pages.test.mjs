@@ -138,9 +138,9 @@ test('homepage counts are derived from the current catalogue and featured links 
   const featuredGuides = homepageFeaturedGuideSlugs.map((slug) => guides.find((guide) => guide.slug === slug));
 
   assert.deepEqual(stats, {
-    puzzleEntries: 5,
+    puzzleEntries: 8,
     walkthroughEntries: 9,
-    visualEntries: 5,
+    visualEntries: 8,
     achievements: 13,
   });
   assert.equal(homepageFeaturedGuideSlugs.length, 5);

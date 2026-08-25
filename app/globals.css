@@ -732,12 +732,17 @@ h3 {
 }
 
 .trophy-list { margin-top: 40px; }
+.achievement-jump-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 22px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.achievement-jump-links span { color: var(--ink-2); font-size: .78rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.achievement-jump-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 12px; border-radius: 999px; background: var(--forest-tint); color: var(--forest-dark); font-size: .875rem; font-weight: 800; text-decoration: none; }
+.achievement-jump-links a:hover { background: color-mix(in srgb, var(--forest) 18%, white); }
 .trophy-entry {
   margin-top: 18px;
   padding: 22px;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
+  scroll-margin-top: 96px;
 }
 .trophy-entry h3 { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; font-size: 1.125rem; }
 .trophy-entry h3 span { color: var(--amber-text); font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
@@ -752,6 +757,8 @@ h3 {
 
 .route-overview h2 { margin-top: 6px; font-size: 1.375rem; }
 .route-overview > p:not(.hint-block__kicker) { margin: 12px 0 0; color: var(--ink-2); }
+.route-notice { margin-top: 20px; background: var(--amber-tint); }
+.route-notice h3 { margin-top: 6px; font-size: 1.12rem; }
 .route-summary { display: grid; gap: 10px; margin: 20px 0 0; padding: 0; counter-reset: route-stage; list-style: none; }
 .route-summary li { display: grid; grid-template-columns: 30px minmax(0, 1fr); align-items: center; gap: 10px; color: var(--ink); font-weight: 700; }
 .route-summary li::before { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--forest); color: #fff; content: counter(route-stage); counter-increment: route-stage; font-size: .75rem; }
@@ -847,6 +854,16 @@ h3 {
 .research-card-grid article { padding: 18px; border: 1px solid var(--border); border-radius: 6px; background: var(--forest-tint); }
 .player-role-grid h3,
 .research-card-grid h4 { margin: 0; font-size: 1rem; }
+.coordinate-mechanic { padding: 24px; border: 1px solid var(--border); border-radius: 8px; background: var(--forest-tint); }
+.coordinate-mechanic h2 { margin-top: 6px; font-size: 1.3rem; }
+.coordinate-mechanic > p:not(.hint-block__kicker) { margin-top: 10px; color: var(--ink-2); }
+.coordinate-mechanic .research-card-grid article { background: rgb(255 255 255 / 72%); }
+.coordinate-mechanic .research-card-grid article > span { color: var(--amber-text); font-size: .72rem; font-weight: 900; letter-spacing: .08em; }
+.coordinate-mechanic .research-card-grid h3 { margin: 7px 0 0; font-size: 1rem; }
+.coordinate-mechanic .research-card-grid p { margin: 8px 0 0; color: var(--ink-2); font-size: .9rem; }
+.guide-locator { margin: 32px 0 0; padding: 14px; border: 1px solid color-mix(in srgb, var(--forest) 28%, var(--border)); border-radius: 12px; background: #f4f0e5; box-shadow: 0 16px 38px rgba(32, 53, 40, .09); }
+.guide-locator img { display: block; width: 100%; height: auto; border-radius: 8px; }
+.guide-locator figcaption { padding: 12px 4px 2px; color: var(--ink-2); font-size: .84rem; font-weight: 700; line-height: 1.55; }
 .lost-reward { border-color: var(--amber); background: var(--amber-tint); }
 .guide-checklist,
 .progressive-hints,

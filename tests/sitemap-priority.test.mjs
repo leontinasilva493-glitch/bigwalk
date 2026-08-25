@@ -11,6 +11,8 @@ const p0Paths = [
   '/puzzles',
   '/walkthrough',
   '/achievements',
+  '/puzzles/blue-platform-four-piece',
+  '/puzzles/heavy-ball',
   '/walkthrough/black-tower',
   '/walkthrough/true-ending',
   '/puzzles/colored-pegboard',
@@ -24,6 +26,7 @@ const p1Paths = [
   '/puzzles/peg-puzzle',
   '/puzzles/green-chair-headphones',
   '/puzzles/4166-1899-coordinates',
+  '/puzzles/black-sphere',
   '/walkthrough/red-tower-map-room',
   '/walkthrough/blue-tower-train',
   '/walkthrough/green-tower-chairlift',
@@ -67,7 +70,7 @@ test('sitemap includes every indexable canonical exactly once and excludes noind
     '/methodology',
   ];
 
-  assert.equal(entries.length, 22);
+  assert.equal(entries.length, 25);
   assert.equal(new Set(paths).size, entries.length);
   for (const path of expectedContentPaths) assert.ok(paths.includes(path), `${path} should be discoverable`);
   for (const path of noindexPaths) assert.ok(!paths.includes(path), `${path} must stay out of sitemap`);

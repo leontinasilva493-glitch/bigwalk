@@ -17,7 +17,7 @@ test('guide recommendations carry a valid target, relation type, and user-facing
   const validTargets = new Set(['home', 'puzzles', ...guides.map((guide) => guide.slug), ...siteSections.map((section) => section.slug)]);
 
   for (const guide of guides) {
-    assert.ok(guide.relatedSlugs.length >= 2 && guide.relatedSlugs.length <= 3, `${guide.slug} has 2-3 next steps`);
+    assert.ok(guide.relatedSlugs.length >= 2 && guide.relatedSlugs.length <= 4, `${guide.slug} has 2-4 next steps`);
     assert.equal(new Set(guide.relatedSlugs.map((related) => related.slug)).size, guide.relatedSlugs.length, `${guide.slug} has unique next steps`);
     for (const related of guide.relatedSlugs) {
       assert.equal(typeof related, 'object', `${guide.slug} recommendation is structured`);

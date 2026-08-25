@@ -44,7 +44,7 @@ test('Black Tower and colored pegboard are separate publishable guide records', 
   const coloredPegboard = guideBySlug('puzzles/colored-pegboard');
   const forgetMeNot = guideBySlug('puzzles/peg-puzzle');
 
-  assert.equal(guides.length, 14);
+  assert.equal(guides.length, 17);
   for (const guide of [blackTower, coloredPegboard]) {
     assert.ok(guide);
     assert.equal(guide.verificationStatus, 'source_checked');

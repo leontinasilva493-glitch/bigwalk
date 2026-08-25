@@ -17,7 +17,7 @@ test('4166 1899 guide is a complete, indexable source-checked MVP', () => {
   assert.match(guide.description, /Red Tower Map Room/);
   assert.match(guide.directAnswer, /map coordinates, not a keypad code/i);
   assert.equal(guide.sourceCheckedAt, '2026-08-10');
-  assert.equal(guide.updated, '2026-08-10');
+  assert.equal(guide.updated, '2026-08-25');
 
   assert.equal(guide.numberConfirmation.heading, 'Confirm the numbers first');
   assert.equal(

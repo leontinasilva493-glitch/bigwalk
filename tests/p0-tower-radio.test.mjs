@@ -62,7 +62,7 @@ test('radio channels guide lists seven official soundtrack groups and locations'
   assert.equal(guide.status, 'published');
   assert.equal(guide.evidenceLevel, 'corroborated');
   assert.equal(guide.indexable, true);
-  assert.equal(guide.updated, today);
+  assert.equal(guide.updated, '2026-08-25');
   assert.equal(guide.radioChannels.length, 7);
   assert.deepEqual(guide.radioChannels.map((channel) => channel.number), [1, 2, 3, 4, 5, 6, 7]);
   assert.ok(guide.radioChannels.every((channel) => (

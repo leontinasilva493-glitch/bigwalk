@@ -121,6 +121,14 @@ export default function AchievementsPage() {
             />
           </header>
 
+          <nav className="achievement-jump-links" aria-label="Jump to an achievement">
+            <span>Jump to:</span>
+            <Link href="#trophy-big-makeover">Big Shiny searches → Big Makeover</Link>
+            <Link href="#trophy-big-goodbye">Big Goodbye</Link>
+            <Link href="#trophy-big-game">Big Game</Link>
+            <Link href="#trophy-big-trophy">Big Trophy / Platinum</Link>
+          </nav>
+
           <section className="route-overview" aria-labelledby="route-at-a-glance">
             <p className="hint-block__kicker">Quick answer</p>
             <h2 id="route-at-a-glance">Route at a glance</h2>

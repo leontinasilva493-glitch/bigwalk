@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { AnswerFirstPuzzleGuide, Breadcrumbs, CoordinatesFirstScreen, GuideRoleAssignments, GuideSources, GuideToc, HintBlock, NextStepRecommendations, PuzzleMvpOverview, RelatedGuides, SearchIntentPanel, VerificationPanel, VideoEvidence, VideoJumpLink } from '../../../components/guides';
+import { AnswerFirstPuzzleGuide, Breadcrumbs, CoordinatesFirstScreen, GuideLocatorImage, GuideRoleAssignments, GuideSources, GuideToc, HintBlock, NextStepRecommendations, PuzzleMvpOverview, RelatedGuides, SearchIntentPanel, VerificationPanel, VideoEvidence, VideoJumpLink } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -83,6 +83,7 @@ export default async function PuzzleGuidePage({ params }: PageProps) {
           {!usesAnswerFirstMvp ? (
             <>
               <SearchIntentPanel guide={guide} />
+              <GuideLocatorImage guide={guide} />
               <GuideRoleAssignments guide={guide} />
               <CoordinatesFirstScreen guide={guide} />
               <HintBlock guide={guide} />
