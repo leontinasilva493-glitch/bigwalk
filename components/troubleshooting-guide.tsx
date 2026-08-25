@@ -89,17 +89,28 @@ export function TroubleshootingGuide({ guide }: { guide: TroubleshootingRecord }
             <h2 id="diagnostic-path">Diagnostic path</h2>
             <div className="route-recovery__table-wrap">
               <table>
-                <thead><tr><th>Check</th><th>What to do</th><th>Why it matters</th></tr></thead>
+                <thead><tr><th>Check</th><th>Evidence</th><th>What to do</th><th>Why it matters</th></tr></thead>
                 <tbody>
                   {guide.diagnosticSteps.map((step) => (
                     <tr key={step.title}>
                       <th scope="row">{step.title}</th>
+                      <td><span className="evidence-label">{step.evidence}</span></td>
                       <td>{step.action}</td>
                       <td>{step.reason}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+            <div className="route-recovery__mobile-list">
+              {guide.diagnosticSteps.map((step) => (
+                <details className="route-recovery__mobile-card" key={step.title}>
+                  <summary>{step.title}</summary>
+                  <p><span className="evidence-label">{step.evidence}</span></p>
+                  <p><strong>What to do:</strong> {step.action}</p>
+                  <p><strong>Why it matters:</strong> {step.reason}</p>
+                </details>
+              ))}
             </div>
           </section>
 
