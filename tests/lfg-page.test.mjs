@@ -13,13 +13,13 @@ test('LFG directory publishes the approved search intent and index state', () =>
   assert.equal(page.h1, 'How to Find Big Walk Players (LFG Guide)');
   assert.equal(
     page.description,
-    'No public matchmaking in Big Walk? Find teammates via the daily Reddit LFG thread, Steam discussions, and community Discord — with a safe posting template.',
+    'No public matchmaking in Big Walk? Find teammates via the current Reddit LFG thread and Steam discussions, then share version, host, and session details safely.',
   );
   assert.equal(page.verificationLabel, 'Source-checked directory');
   assert.equal(page.status, 'published');
   assert.equal(page.evidenceLevel, 'corroborated');
   assert.equal(page.indexable, true);
-  assert.equal(page.updated, '2026-08-14');
+  assert.equal(page.updated, '2026-08-25');
   assert.deepEqual(page.relatedSlugs, [
     'multiplayer',
     'multiplayer/best-group-size',
@@ -27,7 +27,7 @@ test('LFG directory publishes the approved search intent and index state', () =>
   ]);
 });
 
-test('LFG page renders the three checked channels before the posting and safety guidance', async () => {
+test('LFG page renders current source-checked channels before the posting and safety guidance', async () => {
   const source = await readFile(new URL('app/multiplayer/how-to-find-players/page.tsx', root), 'utf8');
 
   const channels = source.indexOf('Active LFG channels');
@@ -39,11 +39,11 @@ test('LFG page renders the three checked channels before the posting and safety 
   assert.ok(template > channels, 'posting template follows the channels');
   assert.ok(safety > template, 'safety guidance follows the template');
   assert.ok(related > safety, 'related journeys finish the page');
-  assert.match(source, /Looking for Group Megathread \(13 August 2026\)/);
+  assert.match(source, /Looking for Group Megathread \(23 August 2026\)/);
   assert.match(source, /steamcommunity\.com\/app\/1478500\/discussions/);
-  assert.match(source, /discord\.com\/invite\/Xmqf4cGA9G/);
-  assert.match(source, /UNOFFICIAL — not run by the developers/);
-  assert.match(source, /Platform.*Region.*Language.*Age range.*Mic preference.*Current progress.*Goal/s);
+  assert.doesNotMatch(source, /discord\.com\/invite/);
+  assert.match(source, /public Discord|invite scam|untrusted invite/i);
+  assert.match(source, /Platform.*Region.*Language.*Age range.*Mic preference.*Current progress.*Goal.*Game version.*Host preference/s);
   assert.match(source, /do not post your exact age/i);
   assert.match(source, /Join Code.*private/i);
   assert.match(source, /harassment/i);

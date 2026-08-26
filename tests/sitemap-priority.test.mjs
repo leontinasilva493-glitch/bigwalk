@@ -11,6 +11,8 @@ const p0Paths = [
   '/puzzles',
   '/walkthrough',
   '/achievements',
+  '/puzzles/blue-platform-four-piece',
+  '/puzzles/heavy-ball',
   '/walkthrough/black-tower',
   '/walkthrough/true-ending',
   '/puzzles/colored-pegboard',
@@ -24,6 +26,7 @@ const p1Paths = [
   '/puzzles/peg-puzzle',
   '/puzzles/green-chair-headphones',
   '/puzzles/4166-1899-coordinates',
+  '/puzzles/black-sphere',
   '/walkthrough/red-tower-map-room',
   '/walkthrough/blue-tower-train',
   '/walkthrough/green-tower-chairlift',
@@ -67,17 +70,18 @@ test('sitemap includes every indexable canonical exactly once and excludes noind
     '/methodology',
   ];
 
-  assert.equal(entries.length, 22);
+  assert.equal(entries.length, 25);
   assert.equal(new Set(paths).size, entries.length);
   for (const path of expectedContentPaths) assert.ok(paths.includes(path), `${path} should be discoverable`);
   for (const path of noindexPaths) assert.ok(!paths.includes(path), `${path} must stay out of sitemap`);
 });
 
-test('significantly updated P0 pages publish an accurate August 25 lastmod', () => {
+test('significantly updated P0 pages publish accurate lastmod dates', () => {
   const entries = buildSitemapEntries({ guides, siteSections });
   const lastModifiedByPath = new Map(entries.map((entry) => [entry.path, entry.lastModified]));
 
   for (const path of p0Paths) {
-    assert.equal(lastModifiedByPath.get(path), '2026-08-25', `${path} should advertise its significant update`);
+    const expected = path === '/patch-notes' ? '2026-08-26' : '2026-08-25';
+    assert.equal(lastModifiedByPath.get(path), expected, `${path} should advertise its significant update`);
   }
 });

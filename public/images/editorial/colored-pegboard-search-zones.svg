@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Colored Pegboard search-zone locator</title>
+  <desc id="desc">An original schematic dividing the pegboard arena into high route, low and outer route, central board keeper, and final sweep search zones. Search zones are not exact spawn points.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffaf0"/>
+      <stop offset="1" stop-color="#f0eadb"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#24372c" flood-opacity=".18"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#345441"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="760" rx="32" fill="url(#paper)"/>
+  <path d="M58 590C175 493 245 625 362 544c132-91 196 83 334-2 126-77 239 28 446-65v214H58Z" fill="#dce7d2"/>
+  <path d="M74 205c128-53 193 25 310-25 128-55 239 25 352-16 137-51 247 0 398-45" fill="none" stroke="#d6dfcf" stroke-width="28" stroke-linecap="round"/>
+
+  <text x="64" y="66" fill="#253c30" font-family="Trebuchet MS, sans-serif" font-size="30" font-weight="800">COLORED PEGBOARD — SEARCH-ZONE LOCATOR</text>
+  <text x="64" y="101" fill="#647469" font-family="Trebuchet MS, sans-serif" font-size="18">Original schematic · search zones, not exact spawn points</text>
+
+  <g filter="url(#shadow)">
+    <rect x="370" y="220" width="460" height="360" rx="36" fill="#f9f4e8" stroke="#345441" stroke-width="5"/>
+    <circle cx="600" cy="402" r="124" fill="#e7dfcd" stroke="#263e32" stroke-width="13"/>
+    <circle cx="600" cy="402" r="84" fill="#fffaf0" stroke="#263e32" stroke-width="4" stroke-dasharray="8 10"/>
+    <circle cx="600" cy="402" r="18" fill="#cf624c"/>
+    <circle cx="545" cy="360" r="12" fill="#e4b745"/>
+    <circle cx="655" cy="360" r="12" fill="#4e8f68"/>
+    <circle cx="545" cy="444" r="12" fill="#4f80a9"/>
+    <circle cx="655" cy="444" r="12" fill="#cf624c"/>
+    <text x="600" y="394" text-anchor="middle" fill="#263e32" font-family="Trebuchet MS, sans-serif" font-size="21" font-weight="800">BOARD</text>
+    <text x="600" y="421" text-anchor="middle" fill="#637369" font-family="Trebuchet MS, sans-serif" font-size="15">9 / 9 / 9 / 9</text>
+  </g>
+
+  <g fill="none" stroke="#b2762f" stroke-width="18" stroke-linecap="round">
+    <path d="M300 270C421 135 650 152 887 251"/>
+    <path d="M410 235 478 170M558 208l60-76M710 211l44-63"/>
+  </g>
+  <g fill="#fff4d6" stroke="#b2762f" stroke-width="4">
+    <circle cx="410" cy="235" r="15"/><circle cx="558" cy="208" r="15"/><circle cx="710" cy="211" r="15"/><circle cx="887" cy="251" r="15"/>
+  </g>
+  <rect x="846" y="121" width="282" height="90" rx="18" fill="#fff4d6" stroke="#b2762f" stroke-width="3"/>
+  <text x="871" y="158" fill="#87551d" font-family="Trebuchet MS, sans-serif" font-size="20" font-weight="800">HIGH ROUTE</text>
+  <text x="871" y="185" fill="#6c5a3e" font-family="Trebuchet MS, sans-serif" font-size="15">beams · bridge · columns · cliff lips</text>
+  <path d="M849 193c-66 13-103 30-145 65" fill="none" stroke="#b2762f" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g fill="#a8c89a" stroke="#48684d" stroke-width="3">
+    <path d="M227 544c26-63 80-88 131-52-10 54-56 84-131 52Z"/>
+    <path d="M878 548c43-60 104-71 143-27-31 52-78 65-143 27Z"/>
+    <circle cx="336" cy="608" r="32"/><circle cx="870" cy="619" r="39"/><circle cx="972" cy="604" r="26"/>
+  </g>
+  <g fill="#b9b5a7" stroke="#65675f" stroke-width="3">
+    <path d="m188 606 45-63 58 72Z"/><path d="m930 620 42-71 66 71Z"/>
+  </g>
+  <rect x="73" y="478" width="332" height="90" rx="18" fill="#e4f0df" stroke="#48684d" stroke-width="3"/>
+  <text x="99" y="516" fill="#345441" font-family="Trebuchet MS, sans-serif" font-size="20" font-weight="800">LOW + OUTER ROUTE</text>
+  <text x="99" y="543" fill="#596a5d" font-family="Trebuchet MS, sans-serif" font-size="15">rocks · bushes · wall backs · lower supports</text>
+  <path d="M405 536c48-11 82-25 118-61" fill="none" stroke="#48684d" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="875" y="330" width="255" height="110" rx="18" fill="#e3edf3" stroke="#4f7184" stroke-width="3"/>
+  <text x="900" y="368" fill="#36596b" font-family="Trebuchet MS, sans-serif" font-size="20" font-weight="800">BOARD KEEPER</text>
+  <text x="900" y="396" fill="#526a75" font-family="Trebuchet MS, sans-serif" font-size="15">record each colour</text>
+  <text x="900" y="420" fill="#526a75" font-family="Trebuchet MS, sans-serif" font-size="15">stop returned pegs rolling away</text>
+  <path d="M875 397H747" fill="none" stroke="#4f7184" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="65" y="300" width="278" height="112" rx="18" fill="#f7e4df" stroke="#a75042" stroke-width="3"/>
+  <text x="91" y="338" fill="#8b3f34" font-family="Trebuchet MS, sans-serif" font-size="20" font-weight="800">FINAL SWEEP</text>
+  <text x="91" y="366" fill="#725750" font-family="Trebuchet MS, sans-serif" font-size="15">look from corners and below</text>
+  <text x="91" y="390" fill="#725750" font-family="Trebuchet MS, sans-serif" font-size="15">recheck any colour below 9</text>
+  <path d="M343 363c69 6 107 18 146 55" fill="none" stroke="#a75042" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g transform="translate(64 683)">
+    <rect width="1072" height="43" rx="14" fill="#263e32"/>
+    <text x="536" y="28" text-anchor="middle" fill="#fffaf0" font-family="Trebuchet MS, sans-serif" font-size="16" font-weight="700">SEARCH ZONES, NOT EXACT SPAWN POINTS · placements may vary by world size</text>
+  </g>
+</svg>

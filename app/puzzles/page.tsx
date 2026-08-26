@@ -3,6 +3,7 @@ import { CategoryCard, EvidenceRouteCard, PuzzleCard } from '../../components/gu
 import { JsonLd } from '../../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../components/site';
 import { buildPuzzleDirectoryJsonLd, guides, site, siteSections } from '../../lib/content.mjs';
+import { puzzleIdentifierChoices } from '../../lib/gameplay-demand-content.mjs';
 
 const puzzleDirectorySeo = site.puzzleDirectory;
 
@@ -91,6 +92,23 @@ export default function PuzzlesPage() {
                 <small>{guide.aliases.join(' / ')}</small>
               </a>
             ))}
+          </div>
+        </section>
+
+        <section id="puzzle-or-landmark" className="discovery-section discovery-section--tint" aria-labelledby="puzzle-or-landmark-heading">
+          <div className="page-shell">
+            <SectionHeading kicker="PUZZLE OR LANDMARK?" title="Check the reward state before searching for a solution" />
+            <p className="section-intro" id="puzzle-or-landmark-heading">Use the clamp, speaker panels, and Map Room marker state to choose the right guide without spoiling an unrelated area.</p>
+            <div className="evidence-route-grid">
+              {puzzleIdentifierChoices.map((choice) => (
+                <article className="evidence-route-card" key={choice.id}>
+                  <p className="guide-card-category">{choice.eyebrow}</p>
+                  <h3>{choice.title}</h3>
+                  <p>{choice.answer}</p>
+                  <a href={choice.href}>{choice.linkLabel} →</a>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

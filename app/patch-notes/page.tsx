@@ -4,6 +4,7 @@ import { JsonLd } from '../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../components/site';
 import { site } from '../../lib/content.mjs';
 import { currentVersion, updates, updateSources } from '../../lib/updates-content.mjs';
+import { buildArticleJsonLd } from '../../lib/article-json-ld.mjs';
 
 const title = 'Big Walk Patch Notes — Current Version & Update History';
 const description = 'Check the current Big Walk version, official patch notes, update history, and what each network, voice, save, and settings change means for your group.';
@@ -19,15 +20,14 @@ export const metadata: Metadata = {
 
 export default function PatchNotesPage() {
   const url = `${site.url}/patch-notes`;
-  const article = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+  const article = buildArticleJsonLd({
+    site,
     headline: title,
     description,
+    datePublished: currentVersion.pagePublishedAt,
     dateModified: currentVersion.checkedAt,
-    mainEntityOfPage: url,
-    publisher: { '@type': 'Organization', name: site.name },
-  };
+    url,
+  });
   const breadcrumb = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -63,7 +63,13 @@ export default function PatchNotesPage() {
           <section className="answer-first-quick" aria-labelledby="update-today-heading">
             <p className="hint-block__kicker">QUICK ANSWER</p>
             <h2 id="update-today-heading">Was Big Walk updated today?</h2>
-            <p>As checked on {currentVersion.checkedAt}, House House lists <strong>{currentVersion.version}</strong> as the newest official version. The latest listed patch is a maintenance update, not a new island or puzzle pack.</p>
+            <p>{currentVersion.directAnswer}</p>
+            <ul className="compact-facts">{currentVersion.conditions.map((condition) => <li key={condition}>{condition}</li>)}</ul>
+            <p className="guide-sources__updated">
+              <strong>Official evidence checked {currentVersion.checkedAt}:</strong>{' '}
+              <a href={currentVersion.officialUrl} target="_blank" rel="noreferrer">Version History</a>{' · '}
+              <a href={currentVersion.faqUrl} target="_blank" rel="noreferrer">version compatibility FAQ</a>
+            </p>
           </section>
 
           <section aria-labelledby="compatibility-heading">
@@ -78,7 +84,7 @@ export default function PatchNotesPage() {
             <div className="update-timeline">
               {updates.map((update) => (
                 <article className="update-entry" id={`version-${update.version.replaceAll('.', '-')}`} key={update.version}>
-                  <div className="update-entry__meta"><strong>Version {update.version}</strong><span>{update.releaseDate}</span></div>
+                  <div className="update-entry__meta"><strong>Version {update.version}</strong><span>{update.releaseDate ?? `Official history checked ${currentVersion.checkedAt}`}</span></div>
                   <h3>{update.label}</h3>
                   <ul>{update.changes.map((change) => <li key={change}>{change}</li>)}</ul>
                   <p><strong>What this means:</strong> {update.playerImpact}</p>

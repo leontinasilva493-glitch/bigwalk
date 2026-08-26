@@ -2,10 +2,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { guides, siteSectionBySlug, topicHubStatusLabel } from '../lib/content.mjs';
+import { answerEvidenceFor } from '../lib/answer-evidence.mjs';
 import { SignalFlareIcon } from './game-elements';
 import { YouTubeEmbed } from './youtube-embed';
 
 type Guide = (typeof guides)[number];
+type SphereRoom = {
+  name: string;
+  visualCue: string;
+  communication: string;
+  hint: string;
+  status: string;
+};
+type LocatorImageData = { src: string; width: number; height: number; alt: string; caption: string };
+type CoordinateMechanic = {
+  heading: string;
+  answer: string;
+  steps: Array<{ title: string; body: string }>;
+};
 
 type EvidenceRoute = {
   slug: string;
@@ -99,6 +113,18 @@ export function SearchIntentPanel({ guide }: { guide: Guide }) {
         ))}
       </div>
     </section>
+  );
+}
+
+export function GuideLocatorImage({ guide }: { guide: Guide }) {
+  const locator = 'locatorImage' in guide ? guide.locatorImage as LocatorImageData : undefined;
+  if (!locator) return null;
+
+  return (
+    <figure className="guide-locator" aria-labelledby="guide-locator-caption">
+      <Image src={locator.src} width={locator.width} height={locator.height} alt={locator.alt} sizes="(max-width: 760px) 100vw, 760px" />
+      <figcaption id="guide-locator-caption">{locator.caption}</figcaption>
+    </figure>
   );
 }
 
@@ -229,12 +255,16 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
   const directAnswer = 'directAnswer' in guide ? guide.directAnswer : undefined;
   const progressiveHints = 'progressiveHints' in guide ? guide.progressiveHints : undefined;
   const navigationMethods = 'navigationMethods' in guide ? guide.navigationMethods : undefined;
+  const sphereRooms = 'sphereRooms' in guide && Array.isArray(guide.sphereRooms)
+    ? guide.sphereRooms as SphereRoom[]
+    : undefined;
   const quickAnswerHeading = 'quickAnswerHeading' in guide
     ? guide.quickAnswerHeading
     : 'What 4166, 1899 means';
   const navigationHeading = 'navigationHeading' in guide
     ? guide.navigationHeading
     : 'Two ways to reach the coordinates';
+  const answerEvidence = answerEvidenceFor(guide);
 
   if (!directAnswer || !progressiveHints?.length || !navigationMethods?.length) return null;
 
@@ -259,6 +289,14 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
         <details>
           <summary>Reveal the short solution</summary>
           <p>{guide.directAnswer}</p>
+          {answerEvidence ? (
+            <p className="guide-sources__updated">
+              <strong>Answer evidence checked {answerEvidence.checkedAt}:</strong>{' '}
+              {answerEvidence.sources.map((source, index) => (
+                <span key={source.url}>{index ? ', ' : ''}<a href={source.url} target="_blank" rel="noreferrer">{source.publisher}</a></span>
+              ))}
+            </p>
+          ) : null}
         </details>
       </section>
 
@@ -274,15 +312,57 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
           ))}
         </div>
       </section>
+      {sphereRooms?.length ? (
+        <section className="challenge-directory" aria-labelledby="sphere-rooms-heading">
+          <p className="hint-block__kicker">CORROBORATED ROOM ARCHETYPES</p>
+          <h2 id="sphere-rooms-heading">What to expect inside the Black Sphere</h2>
+          <p>Room order and layouts can vary with the selected world size. These are source-checked mechanics, not an official universal floor list.</p>
+          <div className="challenge-directory__table-wrap">
+            <table>
+              <thead><tr><th>Room</th><th>Visual cue</th><th>Communication</th><th>Progressive hint</th><th>Status</th></tr></thead>
+              <tbody>
+                {sphereRooms.map((room) => (
+                  <tr key={room.name}>
+                    <th scope="row">{room.name}</th>
+                    <td>{room.visualCue}</td>
+                    <td>{room.communication}</td>
+                    <td>{room.hint}</td>
+                    <td><span className="evidence-label">{room.status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }
 
 export function CoordinatesFirstScreen({ guide }: { guide: Guide }) {
   if (!('numberConfirmation' in guide) || !guide.numberConfirmation) return null;
+  const coordinateMechanic = 'coordinateMechanic' in guide
+    ? guide.coordinateMechanic as CoordinateMechanic
+    : undefined;
 
   return (
     <div className="coordinates-first-screen">
+      {coordinateMechanic ? (
+        <section className="coordinate-mechanic" aria-labelledby="coordinate-mechanic-heading">
+          <p className="hint-block__kicker">REUSABLE MECHANIC</p>
+          <h2 id="coordinate-mechanic-heading">{coordinateMechanic.heading}</h2>
+          <p>{coordinateMechanic.answer}</p>
+          <div className="research-card-grid">
+            {coordinateMechanic.steps.map((step, index) => (
+              <article key={step.title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
       <section className="number-confirmation" aria-labelledby="number-confirmation-heading">
         <p className="hint-block__kicker">CHECK THE CLUE</p>
         <h2 id="number-confirmation-heading">{guide.numberConfirmation.heading}</h2>
@@ -292,7 +372,7 @@ export function CoordinatesFirstScreen({ guide }: { guide: Guide }) {
 
       <section id="before-you-start" className="guide-checklist" aria-labelledby="before-you-start-heading">
         <p className="hint-block__kicker">BEFORE YOU START</p>
-        <h2 id="before-you-start-heading">Unlock the map and compass first</h2>
+        <h2 id="before-you-start-heading">Choose a navigation tool before the final split</h2>
         <ul>
           {guide.prerequisites.map((item) => {
             const text = typeof item === 'string' ? item : item.text;
@@ -382,6 +462,7 @@ export function GreenRoomResearch({ guide }: { guide: Guide }) {
 export function RouteOverview({ guide }: { guide: Guide }) {
   const routeSummary = 'routeSummary' in guide ? guide.routeSummary : undefined;
   const radioChannels = 'radioChannels' in guide ? guide.radioChannels : undefined;
+  const answerEvidence = answerEvidenceFor(guide);
   if (!routeSummary?.length && !radioChannels?.length) return null;
 
   return (
@@ -389,6 +470,22 @@ export function RouteOverview({ guide }: { guide: Guide }) {
       <p className="hint-block__kicker">Quick answer</p>
       <h2 id="route-overview-heading">Route at a glance</h2>
       <p>{guide.goal}</p>
+      {answerEvidence ? (
+        <p className="guide-sources__updated">
+          <strong>Answer evidence checked {answerEvidence.checkedAt}:</strong>{' '}
+          {answerEvidence.sources.map((source, index) => (
+            <span key={source.url}>{index ? ', ' : ''}<a href={source.url} target="_blank" rel="noreferrer">{source.publisher}</a></span>
+          ))}
+        </p>
+      ) : null}
+      {'routeNotice' in guide && guide.routeNotice ? (
+        <aside className="hint-block route-notice" aria-labelledby="route-notice-heading">
+          <p className="hint-block__kicker">QUICK CLARIFICATION</p>
+          <h3 id="route-notice-heading">{guide.routeNotice.heading}</h3>
+          <p>{guide.routeNotice.answer}</p>
+          <p><Link href={guide.routeNotice.relatedHref}>{guide.routeNotice.relatedLabel} →</Link></p>
+        </aside>
+      ) : null}
       {radioChannels?.length ? (
         <div className="route-recovery__table-wrap">
           <table>

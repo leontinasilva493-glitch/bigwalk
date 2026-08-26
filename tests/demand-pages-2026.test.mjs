@@ -30,10 +30,10 @@ test('patch notes owns current update intent with official version history', asy
   ]);
 
   assert.ok(updates, 'updates content module should exist');
-  assert.equal(updates.currentVersion.version, '1.4.10');
-  assert.equal(updates.currentVersion.checkedAt, '2026-08-25');
+  assert.equal(updates.currentVersion.version, '1.5.0');
+  assert.equal(updates.currentVersion.checkedAt, '2026-08-26');
   assert.match(updates.currentVersion.officialUrl, /bigwalk\.game\/history/);
-  assert.deepEqual(updates.updates.map((entry) => entry.version), ['1.4.10', '1.4.9', '1.4.8', '1.4.7']);
+  assert.deepEqual(updates.updates.map((entry) => entry.version), ['1.5.0', '1.4.10', '1.4.9', '1.4.8', '1.4.7']);
   assert.match(page, /canonical:\s*'\/patch-notes'/);
   assert.match(page, /robots:\s*\{\s*index:\s*true/);
   assert.match(page, /Big Walk Patch Notes/);
@@ -44,7 +44,7 @@ test('Black Tower and colored pegboard are separate publishable guide records', 
   const coloredPegboard = guideBySlug('puzzles/colored-pegboard');
   const forgetMeNot = guideBySlug('puzzles/peg-puzzle');
 
-  assert.equal(guides.length, 14);
+  assert.equal(guides.length, 17);
   for (const guide of [blackTower, coloredPegboard]) {
     assert.ok(guide);
     assert.equal(guide.verificationStatus, 'source_checked');

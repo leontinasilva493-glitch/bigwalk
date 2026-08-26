@@ -6,31 +6,24 @@ import { SiteFooter, SiteHeader } from '../../../components/site';
 import { site, siteSectionBySlug } from '../../../lib/content.mjs';
 
 const page = siteSectionBySlug('multiplayer/how-to-find-players')!;
-const lastChecked = '2026-08-14';
+const lastChecked = '2026-08-25';
 
 const channels = [
   {
     name: 'Reddit r/BigWalk daily LFG Megathread',
-    href: 'https://www.reddit.com/r/BigWalk/comments/1vn1bdo/looking_for_group_megathread_13_august_2026/',
-    linkLabel: 'Looking for Group Megathread (13 August 2026)',
-    activity: 'Active on check: the daily thread was receiving new group requests and replies. If this dated thread is closed, use the newest pinned LFG thread on r/BigWalk.',
+    href: 'https://www.reddit.com/r/BigWalk/comments/1vvy13a/looking_for_group_megathread_23_august_2026/',
+    linkLabel: 'Looking for Group Megathread (23 August 2026)',
+    activity: 'Active on check: new rooms, 100% runs, first playthroughs, and crash-restart codes were still appearing. If this dated thread is closed, use the newest pinned LFG thread on r/BigWalk.',
   },
   {
     name: 'Steam Discussions — Looking for Group board',
     href: 'https://steamcommunity.com/app/1478500/discussions/',
     linkLabel: 'Open Big Walk Steam Discussions',
-    activity: 'Highest observed activity: about 54 of 60 recently active topics in the checked sample were player-finding posts, with new topics appearing within minutes.',
-  },
-  {
-    name: 'Community Discord',
-    label: 'UNOFFICIAL — not run by the developers',
-    href: 'https://discord.com/invite/Xmqf4cGA9G',
-    linkLabel: 'Open the Big Walk Community invite',
-    activity: 'Available on check: the invite resolved and was linked from the r/BigWalk community bookmarks. Live member activity was not independently measured.',
+    activity: 'Still active on check, but use the owner icon and forum context before following off-site invitations. A current Steam PSA warns about untrusted Discord invite scams.',
   },
 ];
 
-const postingFields = ['Platform', 'Region', 'Language', 'Age range', 'Mic preference', 'Current progress', 'Goal'];
+const postingFields = ['Platform', 'Region', 'Language', 'Age range', 'Mic preference', 'Current progress', 'Goal', 'Game version', 'Host preference'];
 
 const postingExample = `Platform: PC / Mac
 Region: Europe (UTC+2)
@@ -38,7 +31,9 @@ Language: English
 Age range: 18+
 Mic preference: Mic preferred, text okay
 Current progress: Fresh world
-Goal: Relaxed, spoiler-light first playthrough`;
+Goal: Relaxed, spoiler-light first playthrough
+Game version: 1.4.10
+Host preference: I can host / need a host`;
 
 const relatedPages = [
   { href: '/multiplayer', title: 'Big Walk multiplayer guide' },
@@ -113,7 +108,7 @@ export default function FindPlayersPage() {
               <p className="guide-kicker">BIG WALK LFG</p>
               <h1>{page.h1}</h1>
               <p className="guide-description">
-                Big Walk has no public matchmaking. You find teammates through community LFG spaces and join with a private Join Code — this page lists the active ones, when they were last checked, and how to post safely.
+                Big Walk has no public matchmaking. Find teammates in the current Reddit LFG thread or Steam Discussions, then exchange a private Join Code and Session Password after checking version, host, and group fit.
               </p>
               <p className="guide-meta">Community directory / LFG / Last checked: {lastChecked}</p>
             </div>
@@ -132,7 +127,6 @@ export default function FindPlayersPage() {
             <div className="lfg-channel-grid">
               {channels.map((channel) => (
                 <article className="lfg-channel-card" key={channel.name}>
-                  {channel.label ? <p className="evidence-label">{channel.label}</p> : null}
                   <h3>{channel.name}</h3>
                   <dl>
                     <div>
@@ -170,6 +164,7 @@ export default function FindPlayersPage() {
             <ul>
               <li><strong>If you are under 18:</strong> do not post your exact age, school, location, real name, contact details, or other personal information in a public LFG thread. Use a broad group preference instead.</li>
               <li><strong>Keep the Join Code private:</strong> agree on the group first, then send the room code by direct message rather than leaving it in a public post.</li>
+              <li><strong>Treat public Discord links as untrusted:</strong> the current r/BigWalk LFG thread does not allow public server links, and a Steam forum PSA warns about invite scams. Do not sign in through an unfamiliar invite or give anyone your Steam credentials.</li>
               <li><strong>Set boundaries:</strong> state your spoiler preference, block or report harassment, and leave any group that ignores your limits.</li>
             </ul>
           </section>

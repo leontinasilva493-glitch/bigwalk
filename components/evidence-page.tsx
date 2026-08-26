@@ -20,6 +20,12 @@ type SectionRecord = {
   updated?: string;
   verificationLabel?: string;
   quickAnswer?: string;
+  accessRoute?: {
+    answer: string;
+    gate: string;
+    checkpoints: string[];
+    relatedHref: string;
+  };
   rewardUse?: string;
   completionSteps?: string[];
   challenges?: Array<{
@@ -103,6 +109,20 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
             <h2 id="scope-heading">A focused place for one question</h2>
             <p>{page.scope}</p>
           </section>
+
+          {page.accessRoute ? (
+            <section className="route-overview" aria-labelledby="purple-access-heading">
+              <p className="hint-block__kicker">START HERE</p>
+              <h2 id="purple-access-heading">How to reach the Purple Challenges</h2>
+              <p>{page.accessRoute.answer}</p>
+              <ol className="route-summary">
+                {page.accessRoute.checkpoints.map((checkpoint) => <li key={checkpoint}>{checkpoint}</li>)}
+              </ol>
+              <p className="evidence-label">Progression gate</p>
+              <p>{page.accessRoute.gate}</p>
+              <p><Link href={page.accessRoute.relatedHref}>Open the Purple Heavy Ball route →</Link></p>
+            </section>
+          ) : null}
 
           {page.quickAnswer ? (
             <section className="answer-first-quick" aria-labelledby="purple-quick-answer-heading">

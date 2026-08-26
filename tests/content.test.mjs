@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { guides, guideBySlug, site } from '../lib/content.mjs';
 
 test('the catalogue exposes the current puzzle and walkthrough records', () => {
-  assert.equal(guides.length, 14);
+  assert.equal(guides.length, 17);
   assert.equal(
     guideBySlug('puzzles/green-chair-headphones').h1,
     'Big Walk Sound Check Puzzle: Chair and Headphones Solution',
@@ -36,6 +36,8 @@ test('every guide declares its tower evidence state', () => {
       'Yellow Tower area',
       'Late-game completion area',
       'Red Tower map room',
+      'Blue platform side puzzle',
+      'Purple challenge ridge',
       'Red Tower',
       'Blue Tower',
       'Opening area',
@@ -44,6 +46,7 @@ test('every guide declares its tower evidence state', () => {
       'Island radio network',
       'Green Room research',
       'Black Tower',
+      'Black Sphere finale',
       'Post-game completion route',
       'Colored pegboard arena',
       'Island peninsula',
@@ -63,6 +66,8 @@ test('source-checked P0 guides declare complete publishable content and provenan
     [
       'puzzles/green-chair-headphones',
       'puzzles/4166-1899-coordinates',
+      'puzzles/blue-platform-four-piece',
+      'puzzles/heavy-ball',
       'walkthrough/red-tower-map-room',
       'walkthrough/blue-tower-train',
       'walkthrough/crosswalk',
@@ -70,6 +75,7 @@ test('source-checked P0 guides declare complete publishable content and provenan
       'walkthrough/yellow-tower-tunnels',
       'walkthrough/radio-channels',
       'walkthrough/black-tower',
+      'puzzles/black-sphere',
       'walkthrough/true-ending',
       'puzzles/colored-pegboard',
     ],
