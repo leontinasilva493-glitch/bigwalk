@@ -4,6 +4,7 @@ import { AnswerFirstPuzzleGuide, Breadcrumbs, CoordinatesFirstScreen, GuideLocat
 import { JsonLd } from '../../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
+import { buildArticleJsonLd } from '../../../lib/article-json-ld.mjs';
 
 type PageProps = { params: Promise<{ slug: string[] }> };
 
@@ -43,15 +44,14 @@ export default async function PuzzleGuidePage({ params }: PageProps) {
   const guide = getGuide(await params);
   if (!guide || guide.kind !== 'puzzle') notFound();
 
-  const articleJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+  const articleJsonLd = buildArticleJsonLd({
+    site,
     headline: guide.h1,
     description: guide.description,
+    datePublished: 'datePublished' in guide ? guide.datePublished : undefined,
     dateModified: guide.updated,
-    mainEntityOfPage: `${site.url}/${guide.slug}`,
-    publisher: { '@type': 'Organization', name: site.name },
-  };
+    url: `${site.url}/${guide.slug}`,
+  });
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

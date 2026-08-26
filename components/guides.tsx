@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { guides, siteSectionBySlug, topicHubStatusLabel } from '../lib/content.mjs';
+import { answerEvidenceFor } from '../lib/answer-evidence.mjs';
 import { SignalFlareIcon } from './game-elements';
 import { YouTubeEmbed } from './youtube-embed';
 
@@ -263,6 +264,7 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
   const navigationHeading = 'navigationHeading' in guide
     ? guide.navigationHeading
     : 'Two ways to reach the coordinates';
+  const answerEvidence = answerEvidenceFor(guide);
 
   if (!directAnswer || !progressiveHints?.length || !navigationMethods?.length) return null;
 
@@ -287,6 +289,14 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
         <details>
           <summary>Reveal the short solution</summary>
           <p>{guide.directAnswer}</p>
+          {answerEvidence ? (
+            <p className="guide-sources__updated">
+              <strong>Answer evidence checked {answerEvidence.checkedAt}:</strong>{' '}
+              {answerEvidence.sources.map((source, index) => (
+                <span key={source.url}>{index ? ', ' : ''}<a href={source.url} target="_blank" rel="noreferrer">{source.publisher}</a></span>
+              ))}
+            </p>
+          ) : null}
         </details>
       </section>
 
@@ -452,6 +462,7 @@ export function GreenRoomResearch({ guide }: { guide: Guide }) {
 export function RouteOverview({ guide }: { guide: Guide }) {
   const routeSummary = 'routeSummary' in guide ? guide.routeSummary : undefined;
   const radioChannels = 'radioChannels' in guide ? guide.radioChannels : undefined;
+  const answerEvidence = answerEvidenceFor(guide);
   if (!routeSummary?.length && !radioChannels?.length) return null;
 
   return (
@@ -459,6 +470,14 @@ export function RouteOverview({ guide }: { guide: Guide }) {
       <p className="hint-block__kicker">Quick answer</p>
       <h2 id="route-overview-heading">Route at a glance</h2>
       <p>{guide.goal}</p>
+      {answerEvidence ? (
+        <p className="guide-sources__updated">
+          <strong>Answer evidence checked {answerEvidence.checkedAt}:</strong>{' '}
+          {answerEvidence.sources.map((source, index) => (
+            <span key={source.url}>{index ? ', ' : ''}<a href={source.url} target="_blank" rel="noreferrer">{source.publisher}</a></span>
+          ))}
+        </p>
+      ) : null}
       {'routeNotice' in guide && guide.routeNotice ? (
         <aside className="hint-block route-notice" aria-labelledby="route-notice-heading">
           <p className="hint-block__kicker">QUICK CLARIFICATION</p>

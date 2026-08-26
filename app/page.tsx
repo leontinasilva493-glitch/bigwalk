@@ -91,7 +91,7 @@ const quickAnswers = [
   {
     label: 'Current version',
     question: 'What is the latest Big Walk update?',
-    answer: 'House House currently lists version 1.4.10, focused on connection, server, error-message, and voice stability.',
+    answer: 'House House currently lists version 1.5.0, a maintenance patch that fixes missing collision in one patch of trees.',
     href: '/patch-notes',
   },
   {

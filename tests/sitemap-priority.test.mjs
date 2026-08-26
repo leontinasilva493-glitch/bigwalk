@@ -76,11 +76,12 @@ test('sitemap includes every indexable canonical exactly once and excludes noind
   for (const path of noindexPaths) assert.ok(!paths.includes(path), `${path} must stay out of sitemap`);
 });
 
-test('significantly updated P0 pages publish an accurate August 25 lastmod', () => {
+test('significantly updated P0 pages publish accurate lastmod dates', () => {
   const entries = buildSitemapEntries({ guides, siteSections });
   const lastModifiedByPath = new Map(entries.map((entry) => [entry.path, entry.lastModified]));
 
   for (const path of p0Paths) {
-    assert.equal(lastModifiedByPath.get(path), '2026-08-25', `${path} should advertise its significant update`);
+    const expected = path === '/patch-notes' ? '2026-08-26' : '2026-08-25';
+    assert.equal(lastModifiedByPath.get(path), expected, `${path} should advertise its significant update`);
   }
 });
