@@ -34,7 +34,7 @@ export function PuzzleCard({ guide }: { guide: Guide }) {
       <p className="guide-card-category">{guide.category}</p>
       <h3><Link href={`/${guide.slug}`}>{guide.h1}</Link></h3>
       <p>{guide.description}</p>
-      <p className="guide-card-meta">{guide.area} · {guide.readTime} · {guide.indexable ? 'Source-checked' : 'Evidence in progress'}</p>
+      <p className="guide-card-meta">{guide.area} · {guide.readTime} · {guide.indexable ? 'Sources linked' : 'Research notes'}</p>
     </article>
   );
 }
@@ -196,7 +196,7 @@ export function AnswerFirstPuzzleGuide({ guide }: { guide: Guide }) {
 
       <section id="community-leads" className="community-location-leads" aria-labelledby="community-leads-heading">
         <p className="hint-block__kicker">LABELLED LOCATION LEADS</p>
-        <h2 id="community-leads-heading">Community-reported peg locations</h2>
+        <h2 id="community-leads-heading">Player-reported peg locations</h2>
         <p>Use these to narrow a search, not as proof that every player-count world contains the same pegs.</p>
         <div className="community-location-leads__grid">
           {mvp.communityLocationLeads.map((lead) => (
@@ -316,7 +316,7 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
         <section className="challenge-directory" aria-labelledby="sphere-rooms-heading">
           <p className="hint-block__kicker">CORROBORATED ROOM ARCHETYPES</p>
           <h2 id="sphere-rooms-heading">What to expect inside the Black Sphere</h2>
-          <p>Room order and layouts can vary with the selected world size. These are source-checked mechanics, not an official universal floor list.</p>
+          <p>Room order and layouts can vary with the selected world size. The linked sources describe these mechanics, but House House does not publish a universal floor list.</p>
           <div className="challenge-directory__table-wrap">
             <table>
               <thead><tr><th>Room</th><th>Visual cue</th><th>Communication</th><th>Progressive hint</th><th>Status</th></tr></thead>
@@ -595,9 +595,9 @@ export function GuideToc({ guide }: { guide: Guide }) {
 export function GuideSources({ guide }: { guide: Guide }) {
   return (
     <section id="sources" className="guide-sources" aria-labelledby="sources-heading">
-      <p className="hint-block__kicker">CHECKED {guide.sourceCheckedAt}</p>
-      <h2 id="sources-heading">Source links and evidence boundary</h2>
-      <p>These links provide source context for the route. Community locations remain labelled, and credited media is identified by its original publisher.</p>
+      <p className="hint-block__kicker">SOURCES REVIEWED {guide.sourceCheckedAt}</p>
+      <h2 id="sources-heading">Sources and version context</h2>
+      <p>Official pages, publisher material, guide articles, and player discussions are named separately so you can judge each route from its original context.</p>
       <ul>
         {guide.sources.map((source) => {
           const purpose = 'purpose' in source ? source.purpose : undefined;
@@ -623,17 +623,17 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
 
   return (
     <section className="verification-panel" aria-labelledby="verification-heading">
-      <div className="spoiler-gate__title"><SignalFlareIcon className="spoiler-gate__icon" /><div><p className="hint-block__kicker">{isPublished ? 'SPOILER WARNING' : 'EVIDENCE STATUS'}</p><h2 id="verification-heading">{isPublished ? 'Source-checked solution' : 'What the available evidence does and does not prove'}</h2></div></div>
+      <div className="spoiler-gate__title"><SignalFlareIcon className="spoiler-gate__icon" /><div><p className="hint-block__kicker">{isPublished ? 'SPOILER WARNING' : 'RESEARCH NOTES'}</p><h2 id="verification-heading">{isPublished ? 'Full solution' : 'What the available sources agree on'}</h2></div></div>
       <dl className="guide-facts">
-        <div><dt>Source check</dt><dd>{guide.sourceCheckedAt}</dd></div>
+        <div><dt>Sources reviewed</dt><dd>{guide.sourceCheckedAt}</dd></div>
         <div><dt>Platforms</dt><dd>{guide.platforms.join('; ')}</dd></div>
         <div><dt>Player count</dt><dd>{guide.playerCount}</dd></div>
       </dl>
       <p>{guide.evidenceNote}</p>
       <section className="guide-solution" aria-labelledby="solution-heading">
-        <h3 id="solution-heading">{isPublished ? 'Solution' : 'Evidence trail'}</h3>
+        <h3 id="solution-heading">{isPublished ? 'Solution' : 'Reported route'}</h3>
         <details className="spoiler-gate">
-          <summary>{isPublished ? 'Reveal the full solution' : 'Read the current evidence trail'}</summary>
+          <summary>{isPublished ? 'Reveal the full solution' : 'Read the linked reports'}</summary>
           <ol className="solution-steps">
             {guide.solutionSteps.map((step, index) => (
               <li key={step.title}>
@@ -672,22 +672,20 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
       ) : null}
       <GuideSources guide={guide} />
       {showVideo ? <VideoEvidence guide={guide} /> : null}
-      <section className="capture-list" aria-labelledby={`captures-${guide.slug.replaceAll('/', '-')}`}>
-        <h3 id={`captures-${guide.slug.replaceAll('/', '-')}`}>{isPublished ? 'Route checkpoints' : 'Original screenshot capture list'}</h3>
-        <p>{isPublished
-          ? 'Use these checkpoints to follow the route and compare the landmarks, roles, and completion state described above.'
-          : 'Use this evidence checklist to document the landmarks, roles, and completion state before treating the route as settled.'}</p>
-        <ol>
-          {guide.screenshotRequests.map((request) => (
-            <li key={request.label}>
-              <strong>{request.label}:</strong>{' '}
-              {isPublished
-                ? request.description.replace(/Original (?:marked )?captures? (?:of|showing|proving) /i, '')
-                : request.description}
-            </li>
-          ))}
-        </ol>
-      </section>
+      {isPublished ? (
+        <section className="capture-list" aria-labelledby={`captures-${guide.slug.replaceAll('/', '-')}`}>
+          <h3 id={`captures-${guide.slug.replaceAll('/', '-')}`}>Route checkpoints</h3>
+          <p>Use these checkpoints to compare the landmarks, roles, and completion state described above.</p>
+          <ol>
+            {guide.screenshotRequests.map((request) => (
+              <li key={request.label}>
+                <strong>{request.label}:</strong>{' '}
+                {request.description.replace(/Original (?:marked )?captures? (?:of|showing|proving) /i, '')}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
     </section>
   );
 }
@@ -699,7 +697,7 @@ export function VideoEvidence({ guide }: { guide: Guide }) {
   const videoHeadingId = `video-heading-${guide.slug.replaceAll('/', '-')}`;
   const startAt = 'startAt' in guide.video ? guide.video.startAt : undefined;
   const watchUrl = 'watchUrl' in guide.video ? guide.video.watchUrl : `https://www.youtube.com/watch?v=${guide.video.id}`;
-  const linkLabel = 'linkLabel' in guide.video ? guide.video.linkLabel : 'Watch this evidence video on YouTube';
+  const linkLabel = 'linkLabel' in guide.video ? guide.video.linkLabel : 'Watch the referenced video on YouTube';
   return (
     <section id={videoSectionId} className="guide-video" aria-labelledby={videoHeadingId}>
       <h3 id={videoHeadingId}>{guide.video.title}</h3>
@@ -714,7 +712,7 @@ export function VideoJumpLink({ href }: { href: string }) {
   return <a className="video-jump-link" href={href}>▶ Watch video ↓</a>;
 }
 
-export function VideoAfterLinks({ watchUrl, sourceLabel = 'Watch this evidence video on YouTube' }: { watchUrl?: string; sourceLabel?: string }) {
+export function VideoAfterLinks({ watchUrl, sourceLabel = 'Watch the referenced video on YouTube' }: { watchUrl?: string; sourceLabel?: string }) {
   return (
     <nav className="video-after-links" aria-label="After video">
       <a className="video-back-link" href="#guide-top">↑ Back to guide</a>

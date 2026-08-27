@@ -66,7 +66,6 @@ export default function MultiplayerPage() {
         </nav>
         <article className="guide-article">
           <section className="guide-hero">
-            <p className="verification-status">Source-checked guide</p>
             <p className="guide-kicker">MULTIPLAYER GUIDE</p>
             <h1>Big Walk Multiplayer: Crossplay, Platforms & Co-op</h1>
             <p className="guide-description">{description}</p>
@@ -137,7 +136,7 @@ export default function MultiplayerPage() {
               Big Walk is for organized online groups, not public matchmaking. The official FAQ describes a 2-12 player
               range and says the game is meant to be played with a regular group across multiple sessions.
             </p>
-            <p><Link href="/multiplayer/how-to-find-players">Use the source-checked LFG directory</Link> to compare active community spaces and post without exposing personal details or a public Join Code.</p>
+            <p><Link href="/multiplayer/how-to-find-players">Use the LFG directory with current source links</Link> to compare active community spaces and post without exposing personal details or a public Join Code.</p>
           </section>
 
           <section className="guide-section" aria-labelledby="hosting">

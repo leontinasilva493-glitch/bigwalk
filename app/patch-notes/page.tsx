@@ -48,7 +48,6 @@ export default function PatchNotesPage() {
         </nav>
         <article className="guide-article update-history">
           <header className="guide-hero update-history__hero">
-            <p className="verification-status">Official version history checked {currentVersion.checkedAt}</p>
             <p className="guide-kicker">CURRENT VERSION &amp; PATCH NOTES</p>
             <h1>Big Walk Patch Notes</h1>
             <p className="guide-description">{description}</p>

@@ -7,7 +7,7 @@ import { site } from '../../lib/content.mjs';
 import { mapCategories, mapPoints, mapSources } from '../../lib/map-content.mjs';
 
 const title = 'Big Walk Interactive Map — Towers, Puzzles & Checklist';
-const description = 'Use a searchable Big Walk schematic map to filter towers, puzzles, transport, items, and ending locations, open source-checked guides, and track completion locally.';
+const description = 'Use a searchable Big Walk schematic map to filter towers, puzzles, transport, items, and ending locations, open guides with linked sources, and track completion locally.';
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -50,7 +50,6 @@ export default function MapPage() {
       <main className="map-page">
         <nav className="breadcrumbs page-shell" aria-label="Breadcrumb"><ol><li><Link href="/">Home</Link></li><li aria-current="page">Interactive Map</li></ol></nav>
         <header className="map-hero page-shell">
-          <p className="verification-status">Original field-map interface · updated 2026-08-25</p>
           <p className="guide-kicker">TOWERS · PUZZLES · TRANSPORT · CHECKLIST</p>
           <h1>Big Walk Interactive Map</h1>
           <p>{description}</p>

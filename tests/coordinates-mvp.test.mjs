@@ -26,7 +26,7 @@ test('4166 1899 guide is a complete, indexable source-checked MVP', () => {
   );
   assert.equal(guide.roleAssignments.length, 2);
   assert.deepEqual(guide.roleAssignments.map((role) => role.title), ['Player A', 'Player B']);
-  assert.equal(guide.lostReward.status, 'To verify');
+  assert.equal(guide.lostReward.status, 'Check current version');
   assert.ok(guide.prerequisites.some((item) => item.href === '/walkthrough/red-tower-map-room'));
 
   assert.ok(guide.prerequisites.length >= 4);

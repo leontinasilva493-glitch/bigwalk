@@ -56,7 +56,6 @@ export default function WalkthroughPage() {
           </nav>
 
           <header className="walkthrough-hub__hero">
-            <p className="verification-status">ROUTE CENTER | SOURCE-CHECKED CHILD GUIDES</p>
             <h1>{page.h1}</h1>
             <p>{page.description}</p>
             <dl>
@@ -99,7 +98,7 @@ export default function WalkthroughPage() {
           <section className="route-map" aria-labelledby="route-map-heading">
             <p className="hint-block__kicker">ROUTE MAP</p>
             <h2 id="route-map-heading">Route map</h2>
-            <p>This map shows the current source-checked guide paths. It is a navigation aid, not a claim that every tower must be completed in one universal order.</p>
+            <p>This map shows the currently documented guide paths and links their sources. It is a navigation aid, not a claim that every tower must be completed in one universal order.</p>
             <div className="route-map__flow" aria-label="Current walkthrough route paths">
               <Link href="/walkthrough/crosswalk"><span>Start here</span><strong>Crosswalk opening route</strong></Link>
               <span className="route-map__connector" aria-hidden="true">-&gt;</span>
@@ -112,7 +111,7 @@ export default function WalkthroughPage() {
             </div>
             <div className="route-map__references" aria-label="Island reference routes">
               <Link href="/walkthrough/radio-channels"><span>Island reference</span><strong>All Radio Channels</strong></Link>
-              <Link href="/walkthrough/green-room"><span>Evidence in progress</span><strong>Green Room research</strong></Link>
+              <Link href="/walkthrough/green-room"><span>Research notes</span><strong>Green Room research</strong></Link>
             </div>
           </section>
 

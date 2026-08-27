@@ -66,8 +66,8 @@ export default function PuzzlesPage() {
             <p className="eyebrow">THE BIG WALK FIELD DIRECTORY</p>
             <h1>{puzzleDirectorySeo.h1}</h1>
             <p>
-              Browse hints and source-checked solutions by tower, item, or location, with clear route context and
-              source links; unresolved reports stay out of search indexing.
+              Browse hints and detailed solutions by tower, item, or location, with clear route context and
+              links to official pages, guide articles, or original player discussions.
             </p>
           </div>
         </section>

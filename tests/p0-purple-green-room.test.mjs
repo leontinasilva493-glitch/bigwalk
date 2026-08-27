@@ -54,8 +54,8 @@ test('green room is a complete noindex research route with disambiguation and co
   assert.equal(guide.verificationStatus, 'evidence_conflict');
   assert.match(guide.description, /^This is NOT the green chair and headphones \(Sound Check\) puzzle/);
   assert.equal(guide.greenRoomSections.routes.length, 2);
-  assert.match(guide.greenRoomSections.entrance.body, /position to be verified/i);
-  assert.equal(guide.greenRoomSections.slots.status, 'Community-reported');
+  assert.match(guide.greenRoomSections.entrance.body, /do not agree on the exact wall or entrance position/i);
+  assert.equal(guide.greenRoomSections.slots.status, 'Player report');
   assert.equal(guide.greenRoomSections.itemConflict.status, 'Evidence conflict');
   assert.equal(guide.greenRoomSections.itemConflict.sources.length, 2);
   assert.deepEqual(guide.plannedLinks, [

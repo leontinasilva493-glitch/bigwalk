@@ -83,7 +83,9 @@ export function SiteFooter() {
           <Link href="/achievements">Achievements</Link>
           <Link href="/patch-notes">Patch Notes</Link>
         </div>
-        <p>Evidence status: first-hand verification in progress.</p>
+        <p className="site-footer__official">
+          Official game information: <a href="https://bigwalk.game/" target="_blank" rel="noreferrer">Big Walk by House House</a>.
+        </p>
         <LanternWalker />
       </footer>
     </>

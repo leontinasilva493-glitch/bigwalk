@@ -67,7 +67,6 @@ export function TroubleshootingGuide({ guide }: { guide: TroubleshootingRecord }
         </nav>
         <article className="evidence-page__article">
           <div className="evidence-page__illustration" aria-hidden="true"><RadioIcon /></div>
-          <p className="verification-status" role="status">{guide.verificationLabel}</p>
           <p className="guide-kicker">SYMPTOM-FIRST TROUBLESHOOTING</p>
           <h1>{guide.h1}</h1>
           <p className="evidence-page__lede">{guide.description}</p>
@@ -115,17 +114,13 @@ export function TroubleshootingGuide({ guide }: { guide: TroubleshootingRecord }
           </section>
 
           <section className="verification-panel" aria-labelledby="evidence-boundary">
-            <h2 id="evidence-boundary">Evidence boundary</h2>
+            <h2 id="evidence-boundary">Sources and limits</h2>
             <p>
-              This page remains <strong>noindex, follow</strong>. Official or publisher-attributed behavior is separated
-              from community symptoms, and no community workaround is presented as a confirmed universal fix.
+              Official or publisher-attributed behavior is separated from player symptoms. Forum workarounds are
+              presented as symptom-specific experiments, not universal fixes, and this page remains <strong>noindex, follow</strong>.
             </p>
-            <h3>What still needs first-hand verification</h3>
-            <ul className="evidence-checklist">
-              {guide.evidenceNeeds.map((need) => <li key={need}>{need}</li>)}
-            </ul>
             <div className="guide-sources">
-              <h3>Source links and limits</h3>
+              <h3>Official pages and original discussions</h3>
               <ul>{guide.sources.map(sourceBoundary)}</ul>
             </div>
           </section>
@@ -176,7 +171,6 @@ export function TroubleshootingHub() {
         <article className="evidence-page__article">
           <header className="guide-hero editorial-page-hero">
             <div className="editorial-page-hero__copy">
-              <p className="verification-status" role="status">Symptom router — evidence still in progress</p>
               <p className="guide-kicker">BIG WALK HELP</p>
               <h1>{page.h1}</h1>
               <p className="evidence-page__lede">Choose the point where the problem occurs. The pages below keep platform checks, product behavior, and community reports separate.</p>
@@ -211,7 +205,7 @@ export function TroubleshootingHub() {
                 <p className="guide-card-category">PLATFORM CHECK</p>
                 <h3><Link href={`/${crossplay.slug}`}>{crossplay.h1}</Link></h3>
                 <p>{crossplay.description}</p>
-                <p className="guide-card-meta">Awaiting official or first-hand confirmation</p>
+                <p className="guide-card-meta">Official platform list and source notes</p>
               </article>
             </div>
           </section>

@@ -58,17 +58,12 @@ export function LaunchPageTemplate({ page }: { page: LaunchPage }) {
             {page.illustration === 'trophy' ? <TrophyIcon /> : null}
             {page.illustration === 'map' ? <MapIcon /> : null}
           </div>
-          <p className="verification-status" role="status">Verification in progress</p>
           <h1>{page.h1}</h1>
           <p className="launch-page__lede">{page.description}</p>
           <section className="hint-block" aria-labelledby="launch-scope-title">
-            <p className="hint-block__kicker">WHAT THIS PAGE WILL COVER</p>
-            <h2 id="launch-scope-title">A first-hand guide is being prepared</h2>
+            <p className="hint-block__kicker">PAGE SCOPE</p>
+            <h2 id="launch-scope-title">What this topic covers</h2>
             <p>{page.scope}</p>
-          </section>
-          <section className="verification-panel" aria-labelledby="launch-verification-title">
-            <h2 id="launch-verification-title">What is still needed</h2>
-            <p>This page will be completed with first-hand playthrough notes, version-checked details, and original annotated screenshots. No gameplay advice is published until it is verified.</p>
           </section>
           <p className="launch-page__back"><Link href="/puzzles">Browse the puzzle directory</Link></p>
         </article>
