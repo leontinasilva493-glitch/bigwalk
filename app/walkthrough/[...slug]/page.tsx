@@ -71,7 +71,6 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
         <Breadcrumbs guide={guide} />
         <article className="guide-article">
           <header id="guide-top" className="guide-hero">
-            <p className="verification-status" role="status">{guide.verificationLabel}</p>
             <p className="guide-kicker">{guide.category} walkthrough · {guide.area}</p>
             <h1>{guide.h1}</h1>
             <p className="guide-description">{guide.description}</p>

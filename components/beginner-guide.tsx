@@ -6,7 +6,7 @@ import { VideoAfterLinks, VideoJumpLink } from './guides';
 import { YouTubeEmbed } from './youtube-embed';
 import { site } from '../lib/content.mjs';
 
-type Status = 'Official-confirmed' | 'Source-checked' | 'Community-reported' | 'To verify';
+type Status = 'Official source' | 'Linked sources' | 'Player report' | 'Check current version';
 type LabelledItem = { title: string; body: string; status: Status };
 
 export type BeginnerPage = {
@@ -83,11 +83,10 @@ export function BeginnerGuideArticle({ page }: { page: BeginnerPage }) {
         <article className="guide-article beginner-guide-article">
           <header id="guide-top" className="guide-hero beginner-guide-hero">
             <div className="beginner-guide-hero__walker" aria-hidden="true"><Walker color="orange" pose="walk" /></div>
-            <p className="verification-status" role="status">{page.verificationLabel}</p>
             <p className="guide-kicker">Spoiler-light first-session handbook</p>
             <h1>{page.h1}</h1>
             <p className="guide-description">{page.description}</p>
-            <p className="guide-meta">Updated {page.updated} · No puzzle solutions · Official and community evidence separated</p>
+            <p className="guide-meta">Updated {page.updated} · No puzzle solutions · Official pages and player discussions linked</p>
             <VideoJumpLink href="#official-video" />
             <div className="beginner-guide-intro">{content.intro.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
           </header>
@@ -124,7 +123,7 @@ export function BeginnerGuideArticle({ page }: { page: BeginnerPage }) {
             <h2 id="official-video">Watch the official gameplay overview</h2>
             <p>{content.videoIntro}</p>
             <YouTubeEmbed id={content.officialVideo.id} title={content.officialVideo.title} />
-            <p className="beginner-video-meta"><EvidenceLabel status="Official-confirmed" /> {content.officialVideo.duration}</p>
+            <p className="beginner-video-meta"><EvidenceLabel status="Official source" /> {content.officialVideo.duration}</p>
             <VideoAfterLinks watchUrl={content.officialVideo.watchUrl} sourceLabel="Watch the official gameplay overview on YouTube" />
           </section>
 
@@ -203,8 +202,8 @@ export function BeginnerGuideArticle({ page }: { page: BeginnerPage }) {
           </section>
 
           <section className="beginner-section beginner-evidence" aria-labelledby="sources-and-verification">
-            <p className="hint-block__kicker">EVIDENCE STATUS</p>
-            <h2 id="sources-and-verification">Sources, videos, and what still needs testing</h2>
+            <p className="hint-block__kicker">SOURCES AND VERSION NOTES</p>
+            <h2 id="sources-and-verification">Sources, videos, and current-version notes</h2>
             <div className="beginner-card-grid">
               {content.evidenceNotes.map((note) => <article key={note.title}><EvidenceLabel status={note.status} /><h3>{note.title}</h3><p>{note.body}</p></article>)}
             </div>

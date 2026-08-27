@@ -86,10 +86,10 @@ test('topic hub cards report their real search-index status', () => {
   assert.equal(typeof content.topicHubStatusLabel, 'function');
   assert.equal(
     content.topicHubStatusLabel(content.siteSectionBySlug('walkthrough')),
-    'Source-checked directory / indexed',
+    'Sources linked / included in search',
   );
   assert.equal(
     content.topicHubStatusLabel(content.siteSectionBySlug('troubleshooting')),
-    'Evidence in progress / not indexed',
+    'Research notes / not indexed',
   );
 });

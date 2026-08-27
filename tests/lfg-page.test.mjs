@@ -15,7 +15,7 @@ test('LFG directory publishes the approved search intent and index state', () =>
     page.description,
     'No public matchmaking in Big Walk? Find teammates via the current Reddit LFG thread and Steam discussions, then share version, host, and session details safely.',
   );
-  assert.equal(page.verificationLabel, 'Source-checked directory');
+  assert.equal(page.verificationLabel, 'Reddit and Steam sources linked');
   assert.equal(page.status, 'published');
   assert.equal(page.evidenceLevel, 'corroborated');
   assert.equal(page.indexable, true);

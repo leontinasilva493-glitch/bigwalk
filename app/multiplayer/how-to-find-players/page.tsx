@@ -104,7 +104,6 @@ export default function FindPlayersPage() {
         <article className="guide-article">
           <header className="guide-hero editorial-page-hero">
             <div className="editorial-page-hero__copy">
-              <p className="verification-status" role="status">Source-checked directory</p>
               <p className="guide-kicker">BIG WALK LFG</p>
               <h1>{page.h1}</h1>
               <p className="guide-description">

@@ -57,17 +57,17 @@ test('walkthrough directory has publishable metadata and enters generated sitema
 
   assert.equal(walkthrough?.status, 'published');
   assert.equal(walkthrough?.evidenceLevel, 'corroborated');
-  assert.equal(walkthrough?.verificationLabel, 'Source-checked walkthrough directory');
+  assert.equal(walkthrough?.verificationLabel, 'Published routes with linked sources');
   assert.match(walkthrough?.title ?? '', /Walkthroughs/);
   assert.doesNotMatch(walkthrough?.title ?? '', /Verification in Progress/i);
   assert.ok(sitemapPaths.includes('/walkthrough'));
 });
 
-test('new topic pages use the shared evidence template and derive indexing from evidence state', async () => {
+test('new topic pages use the shared source template and derive indexing from evidence state', async () => {
   const source = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
   assert.match(source, /robots: \{ index: page\.indexable, follow: true \}/);
-  assert.match(source, /page\.verificationLabel/);
-  assert.match(source, /Evidence and source notes/);
+  assert.doesNotMatch(source, /page\.verificationLabel/);
+  assert.match(source, /Sources and version notes/);
 });
 
 test('primary navigation leads with player intents and keeps lower-priority topics secondary', async () => {

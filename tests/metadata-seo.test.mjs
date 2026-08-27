@@ -26,13 +26,13 @@ test('guide metadata only makes completed-solution claims for indexable source-c
   }
 });
 
-test('site metadata describes an evidence-gated directory and supplies social defaults', async () => {
+test('site metadata describes a source-linked directory and supplies social defaults', async () => {
   const layout = await sourceFor('app/layout.tsx');
 
   assert.match(layout, /default:\s*'Big Walk Hints & Puzzle Directory'/);
   assert.doesNotMatch(layout, /All Puzzles Solved/);
-  assert.match(layout, /Source-checked solutions/i);
-  assert.match(layout, /clear route context and source links/i);
+  assert.match(layout, /Detailed solutions/i);
+  assert.match(layout, /official, editorial, or player sources/i);
   assert.match(layout, /openGraph:/);
   assert.match(layout, /twitter:/);
 });
@@ -89,13 +89,13 @@ test('directory and detail social metadata use their own canonical URLs', async 
   assert.match(detail, /twitter:\s*\{/);
 });
 
-test('homepage distinguishes source-checked solutions from route checkpoints', async () => {
+test('homepage distinguishes detailed solutions from route checkpoints', async () => {
   const home = await sourceFor('app/page.tsx');
 
   assert.match(home, /'@type': 'WebSite'/);
   assert.match(home, /Big Walk Walkthrough: Hints &amp; Puzzle Guides/);
-  assert.match(home, /Source-checked solutions/i);
-  assert.match(home, /clear route checkpoints/i);
+  assert.match(home, /Detailed solutions include clear route/i);
+  assert.match(home, /official pages, guide articles, or player discussions/i);
   assert.doesNotMatch(home, /Every Puzzle Solved/);
   assert.doesNotMatch(home, /SearchAction/);
 });

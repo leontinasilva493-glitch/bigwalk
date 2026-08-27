@@ -5,17 +5,17 @@ import { SectionHeading, SiteFooter, SiteHeader } from '../../components/site';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Big Walk Methodology: Evidence Gate and Publishable Solutions',
+    absolute: 'Big Walk Guide Methodology: Sources, Spoilers and Updates',
   },
   description:
-    'How this Big Walk directory separates spoiler-light hints, source-checked routes, first-hand captures, and noindex evidence pages.',
+    'How this Big Walk directory cites official game information, guide articles, and original player discussions while keeping spoilers and disputed reports clear.',
   alternates: { canonical: '/methodology' },
   robots: { index: false, follow: true },
   openGraph: {
     url: '/methodology',
-    title: 'Big Walk Methodology: Evidence Gate and Publishable Solutions',
+    title: 'Big Walk Guide Methodology: Sources, Spoilers and Updates',
     description:
-      'How this Big Walk directory separates spoiler-light hints, source-checked routes, first-hand captures, and noindex evidence pages.',
+      'How this Big Walk directory cites official game information, guide articles, and original player discussions while keeping spoilers and disputed reports clear.',
     images: [{
       url: '/images/editorial/big-walk-methodology-guide-workflow.webp',
       width: 1536,
@@ -25,9 +25,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Big Walk Methodology: Evidence Gate and Publishable Solutions',
+    title: 'Big Walk Guide Methodology: Sources, Spoilers and Updates',
     description:
-      'How this Big Walk directory separates spoiler-light hints, source-checked routes, first-hand captures, and noindex evidence pages.',
+      'How this Big Walk directory cites official game information, guide articles, and original player discussions while keeping spoilers and disputed reports clear.',
     images: ['/images/editorial/big-walk-methodology-guide-workflow.webp'],
   },
 };
@@ -48,8 +48,8 @@ export default function MethodologyPage() {
                 <p className="eyebrow">EDITORIAL METHOD</p>
                 <h1 id="methodology-title">How to use this Big Walk directory</h1>
                 <p className="section-intro">
-                  This page explains how the directory keeps spoiler-light hints, source-checked routes, first-hand
-                  captures, and evidence-in-progress pages distinct.
+                  This page explains how the directory uses official game information, guide articles, and original
+                  player discussions without hiding source limits or spoiling more than you asked for.
                 </p>
               </div>
               <EditorialArtwork
@@ -71,18 +71,16 @@ export default function MethodologyPage() {
                 can follow the vocabulary your group is already using rather than guess an in-game puzzle name.
               </p>
               <p>
-                The first thing to read on a guide is its status. A spoiler-free hint is meant to restore momentum: it
-                points your group back toward a clue or interaction without stating an answer. A source-checked
-                walkthrough shows its current sources, player-count context, and limits. A first-hand walkthrough adds
-                our own repeatable run and original annotated screenshots. Pages with unresolved reports stay visibly
-                pending and out of search indexing.
+                Start with the spoiler-free hint: it points your group back toward a clue or interaction without stating
+                an answer. Detailed walkthroughs name their official, editorial, or player sources and include relevant
+                player-count and version context. Pages whose source reports disagree stay out of search indexing.
               </p>
               <p>
                 That distinction matters in an open-world co-op game. A good hint lets players keep communicating and
                 experimenting together. A premature solution can be wrong for the session type, hide an important
                 discovery, or send a group across the map for an object that is not available in their version of the
                 world. Use the hint first, decide together how much help you want, then return for the detailed guide
-                only when its evidence panel explains which level of checking it has completed.
+                only when its source notes explain where the route comes from and what can vary.
               </p>
             </div>
 
@@ -116,7 +114,7 @@ export default function MethodologyPage() {
                 <p>
                   Start from the page title and its small hint. Read the spoiler section only when your group agrees to
                   it. This keeps the directory useful for both players who want a nudge and players who actively want a
-                  checked, step-by-step route.
+                  linked, step-by-step route.
                 </p>
               </article>
             </div>
@@ -124,10 +122,9 @@ export default function MethodologyPage() {
             <div className="home-reference__body">
               <h2>What makes a solution publishable?</h2>
               <p>
-                A publishable source-checked solution on this site is not a paraphrase of a comment thread. It needs a
-                clear starting state, a current source trail, a reproducible route, and an explicit player-count
-                context. A first-hand upgrade adds an original run and confirms the result again in the current game
-                version. Reports that cannot meet the source-checked bar remain noindex evidence pages.
+                A publishable solution on this site is not a paraphrase of a single comment. It needs a clear starting
+                state, named source links, a reproducible route, and relevant player-count or version context. Reports
+                that conflict or lack enough detail remain noindex research pages until stronger sources resolve them.
               </p>
               <p>
                 Original screenshots follow the same rule. They are captured for this guide, show the relevant landmark
@@ -138,15 +135,14 @@ export default function MethodologyPage() {
               <p>
                 This process is intentionally slower than publishing a quick answer. Big Walk supports two to twelve
                 players, has player-count-sensitive worlds, and asks groups to solve problems through communication.
-                Evidence labels keep useful discovery pages online without confusing a source-checked route, a theory,
-                an older recording, and a finished first-hand capture. They also make it clear what must be rechecked
-                when the game is updated.
+                Source names and review dates help readers distinguish official rules, guide-writer routes, player
+                reports, and older recordings. Version notes identify details that may have changed after a game update.
               </p>
               <p>
                 For general setup, saving, accessibility, joining a host, cross-play, and the game&apos;s communication
                 model, read the <a href="https://bigwalk.game/faq/">official Big Walk FAQ</a>. This directory links to
                 the same practical questions in its beginner, multiplayer, and troubleshooting hubs, while reserving
-                puzzle-answer claims for pages that have completed the evidence gate.
+                puzzle-answer claims for pages with enough linked support to describe a stable route.
               </p>
             </div>
           </div>
@@ -167,14 +163,14 @@ export default function MethodologyPage() {
                 <span>02</span>
                 <div>
                   <h3>Read a small hint</h3>
-                  <p>Use the available hint as orientation; unverified solutions are not presented as fact.</p>
+                  <p>Use the available hint as orientation; disputed solutions stay in research notes rather than being presented as fact.</p>
                 </div>
               </li>
               <li>
                 <span>03</span>
                 <div>
-                  <h3>Return when verified</h3>
-                  <p>Verified solutions and original marked screenshots are being added only after first-hand verification.</p>
+                  <h3>Open the full route</h3>
+                  <p>Read the detailed steps, then use the named source links and review date when a result differs in your world.</p>
                 </div>
               </li>
             </ol>

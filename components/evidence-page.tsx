@@ -100,7 +100,6 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
             {page.illustration === 'trophy' ? <TrophyIcon /> : null}
             {page.illustration === 'map' ? <MapIcon /> : null}
           </div>
-          <p className="verification-status" role="status">{page.verificationLabel ?? 'Verification in progress'}</p>
           <h1>{page.h1}</h1>
           <p className="evidence-page__lede">{page.description}</p>
 
@@ -145,11 +144,11 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
             <section className="challenge-directory" aria-labelledby="challenge-directory-heading">
               <p className="hint-block__kicker">PURPLE CHALLENGE DIRECTORY</p>
               <h2 id="challenge-directory-heading">Seven reported purple challenges</h2>
-              <p>Names are community working names, not official labels. “Source-checked” means the listed cue or map marker appears in the cited sources; it does not promote an untested reward or unlock mechanism to fact.</p>
+              <p>Names are player working names, not official labels. Each listed cue or map marker links back to its source; disputed reward or unlock mechanics are not presented as settled facts.</p>
               <div className="challenge-directory__table-wrap">
                 <table>
                   <thead>
-                    <tr><th>Community name</th><th>Visual cues</th><th>Position / coordinates</th><th>Prerequisite item</th><th>Transport</th><th>Players</th><th>Status</th></tr>
+                    <tr><th>Player name</th><th>Visual cues</th><th>Position / coordinates</th><th>Prerequisite item</th><th>Transport</th><th>Players</th><th>Source type</th></tr>
                   </thead>
                   <tbody>
                     {page.challenges.map((challenge) => (
@@ -170,18 +169,10 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
           ) : null}
 
           <section className="verification-panel" aria-labelledby="evidence-heading">
-            <h2 id="evidence-heading">Evidence and source notes</h2>
+            <h2 id="evidence-heading">Sources and version notes</h2>
             <p>{page.indexable
-              ? 'This directory is publishable because its names, visual cues, and mapped positions are source-labelled. The following gameplay conclusions still require current first-hand evidence.'
-              : 'This page is deliberately not a completed answer yet. It stays out of search indexing until current, first-hand evidence supports the guidance.'}</p>
-            {page.pendingFirstHand?.length ? (
-              <dl className="pending-facts">
-                {page.pendingFirstHand.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
-              </dl>
-            ) : null}
-            <ul className="evidence-checklist">
-              {page.evidenceNeeds.map((need) => <li key={need}>{need}</li>)}
-            </ul>
+              ? 'The directory uses the linked sources for names, visual cues, and mapped positions. Player wording and layouts can differ by group and selected world size.'
+              : 'The linked reports do not support a stable answer yet, so this page stays out of search indexing. Use the original discussions below to review the disputed details.'}</p>
             {page.sources?.length ? (
               <div className="guide-sources">
                 <h3>Source links</h3>
@@ -193,7 +184,7 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
           {featuredGuides.length ? (
             <section className="evidence-page__available" aria-labelledby="available-routes-heading">
               <h2 id="available-routes-heading">Available routes</h2>
-              <p>These cards distinguish source-checked routes from evidence-in-progress research. Each evidence panel states what still needs a local capture.</p>
+              <p>Published routes link their sources. Research pages remain outside search indexing when reports disagree.</p>
               <div className="puzzle-list">
                 {featuredGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
               </div>

@@ -14,7 +14,7 @@ export default function NotFound() {
       <SiteHeader />
       <main className="launch-page page-shell">
         <article className="launch-page__article">
-          <p className="verification-status">404</p>
+          <p className="guide-kicker">404</p>
           <h1>Page not found</h1>
           <p className="launch-page__lede">This guide page does not exist or has not been published yet.</p>
           <p className="launch-page__back"><Link href="/puzzles">Browse available hints</Link></p>

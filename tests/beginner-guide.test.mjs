@@ -63,7 +63,7 @@ test('beginner guide pairs one official embed with labelled community video refe
   assert.ok(content.communityVideos.length >= 2);
   assert.ok(content.communityVideos.every((video) => (
     video.url.startsWith('https://www.youtube.com/watch?v=')
-    && video.status === 'Community-reported'
+    && video.status === 'Player report'
     && video.note
   )));
 });
@@ -72,14 +72,14 @@ test('beginner guide keeps official facts and community tactics visibly separate
   const page = siteSectionBySlug('beginner-guide');
   const content = page.beginnerGuide;
   const statuses = new Set(textValues(content).filter((value) => (
-    ['Official-confirmed', 'Source-checked', 'Community-reported', 'To verify'].includes(value)
+    ['Official source', 'Linked sources', 'Player report', 'Check current version'].includes(value)
   )));
 
   assert.deepEqual([...statuses].sort(), [
-    'Community-reported',
-    'Official-confirmed',
-    'Source-checked',
-    'To verify',
+    'Check current version',
+    'Linked sources',
+    'Official source',
+    'Player report',
   ]);
   assert.ok(content.sources.length >= 6);
   assert.ok(content.sources.some((source) => source.publisher === 'House House'));

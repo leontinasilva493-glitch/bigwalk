@@ -9,7 +9,7 @@ const lastChecked = '2026-08-25';
 
 const title = 'Big Walk Trophy Guide - All 13 Achievements & Trophies';
 const description =
-  'Use a source-checked Big Walk Platinum roadmap for all 13 PS5 trophies and 12 Steam achievements, with route order, same-host completion notes, ending cleanup, and linked walkthroughs.';
+  'Use a Big Walk Platinum roadmap for all 13 PS5 trophies and 12 Steam achievements, with linked sources, route order, same-host completion notes, ending cleanup, and walkthroughs.';
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -106,7 +106,6 @@ export default function AchievementsPage() {
         <article className="guide-article">
           <header className="guide-hero editorial-page-hero">
             <div className="editorial-page-hero__copy">
-              <p className="verification-status">Source-checked guide</p>
               <p className="guide-kicker">TROPHY & ACHIEVEMENT GUIDE</p>
               <h1>Big Walk Trophy & Achievement Guide</h1>
               <p className="guide-description">{description}</p>

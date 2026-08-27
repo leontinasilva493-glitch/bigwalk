@@ -24,7 +24,7 @@ async function sourceFor(name) {
   return readFile(new URL(pageFiles[name], import.meta.url), 'utf8');
 }
 
-test('indexable discovery pages distinguish source-checked solutions from unresolved reports and expose the directory structure', async () => {
+test('indexable discovery pages link concrete sources and expose the directory structure', async () => {
   const [home, puzzles] = await Promise.all([sourceFor('home'), sourceFor('puzzles')]);
 
   for (const source of [home, puzzles]) {
@@ -33,8 +33,8 @@ test('indexable discovery pages distinguish source-checked solutions from unreso
     assert.doesNotMatch(source, /Every Big Walk puzzle solved/);
   }
 
-  assert.match(home, /Source-checked solutions/i);
-  assert.match(home, /clear route checkpoints/i);
+  assert.match(home, /Detailed solutions include clear route/i);
+  assert.match(home, /official pages, guide articles, or player discussions/i);
   assert.match(home, /Need a solution\?/);
   assert.match(home, /Need the next unlock\?/);
   assert.match(home, /How to use this Big Walk directory/);
@@ -48,9 +48,9 @@ test('indexable discovery pages distinguish source-checked solutions from unreso
   assert.equal((home.match(/PuzzleCard/g) ?? []).length, 4);
 
   assert.match(puzzles, /puzzleDirectorySeo\.h1/);
-  assert.match(puzzles, /source-checked solutions/i);
+  assert.match(puzzles, /detailed solutions/i);
   assert.match(puzzles, /puzzleDirectorySeo\.description/);
-  assert.match(puzzles, /unresolved reports stay out of search indexing/i);
+  assert.match(puzzles, /links to official pages, guide articles, or original player discussions/i);
   assert.match(puzzles, /<h2[^>]*id="browse-guide-categories"[^>]*>Browse guide categories<\/h2>/);
   assert.match(puzzles, /aria-labelledby="browse-guide-categories"/);
   assert.match(puzzles, /<h2>\{tower\}<\/h2>/);
@@ -116,7 +116,8 @@ test('directory cards keep puzzle answers distinct from route walkthroughs', asy
       orderedWalkthroughs.findIndex((guide) => !guide.indexable),
   );
   const evidencePage = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
-  assert.match(evidencePage, /source-checked routes from evidence-in-progress research/i);
+  assert.match(evidencePage, /Published routes link their sources/i);
+  assert.match(evidencePage, /Research pages remain outside search indexing/i);
 });
 
 test('homepage discovery controls route visitors to real puzzle and walkthrough destinations', async () => {
@@ -153,7 +154,7 @@ test('homepage counts are derived from the current catalogue and featured links 
   assert.doesNotMatch(home, /\.\.\.puzzleGuides\.slice|\.\.\.walkthroughGuides/);
 });
 
-test('homepage quick answers route trophy and platform demand to source-checked hubs', async () => {
+test('homepage quick answers route trophy and platform demand to sourced hubs', async () => {
   const home = await sourceFor('home');
 
   assert.match(home, /Quick Answers/i);
@@ -169,7 +170,8 @@ test('achievements and multiplayer hubs are source-checked and indexable', async
     sourceFor('multiplayer'),
   ]);
 
-  assert.match(achievements, /Source-checked guide/);
+  assert.doesNotMatch(achievements, /verification-status/);
+  assert.match(achievements, /linked sources/);
   assert.match(achievements, /Big Walk Trophy & Achievement Guide/);
   assert.match(achievements, /Gamer Social Club/);
   assert.match(achievements, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true\s*\}/);
@@ -178,7 +180,7 @@ test('achievements and multiplayer hubs are source-checked and indexable', async
   assert.match(achievements, /href: '\/walkthrough\/yellow-tower-tunnels'/);
   assert.doesNotMatch(achievements, /\[planned:\s*\/walkthrough\//);
 
-  assert.match(multiplayer, /Source-checked guide/);
+  assert.doesNotMatch(multiplayer, /verification-status/);
   assert.match(multiplayer, /Quick compatibility table/);
   assert.match(multiplayer, /House House/);
   assert.match(multiplayer, /robots:\s*\{\s*index:\s*true,\s*follow:\s*true\s*\}/);

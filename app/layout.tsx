@@ -20,20 +20,20 @@ export const metadata: Metadata = {
     template: '%s | Big Walk Walkthrough',
   },
   description:
-    'Find Big Walk puzzle hints by tower, item, or location. Source-checked solutions include clear route context and source links.',
+    'Find Big Walk puzzle hints by tower, item, or location. Detailed solutions include clear route context and links to their official, editorial, or player sources.',
   openGraph: {
     type: 'website',
     url: '/',
     siteName: 'Big Walk Walkthrough',
     title: 'Big Walk Hints & Puzzle Directory',
     description:
-      'Find Big Walk puzzle hints by tower, item, or location. Source-checked solutions include clear route context and source links.',
+      'Find Big Walk puzzle hints by tower, item, or location. Detailed solutions include clear route context and links to their official, editorial, or player sources.',
   },
   twitter: {
     card: 'summary',
     title: 'Big Walk Hints & Puzzle Directory',
     description:
-      'Find Big Walk puzzle hints by tower, item, or location. Source-checked solutions include clear route context and source links.',
+      'Find Big Walk puzzle hints by tower, item, or location. Detailed solutions include clear route context and links to their official, editorial, or player sources.',
   },
 };
 

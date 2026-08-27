@@ -43,27 +43,28 @@ test('walkthrough details link back to the published walkthrough directory', asy
   assert.match(guidesSource, /<li aria-current="page">\{guide\.h1\}<\/li>/);
 });
 
-test('detail heroes show source status before catalogue copy', async () => {
+test('detail heroes lead with guide context without an editorial status badge', async () => {
   for (const route of detailRoutes) {
     const source = await readFile(new URL(route, import.meta.url), 'utf8');
-    const statusIndex = source.indexOf('guide.verificationLabel');
     const kickerIndex = source.indexOf('guide-kicker');
 
-    assert.ok(statusIndex >= 0, `${route} visibly states the guide evidence status`);
-    assert.ok(statusIndex < kickerIndex, `${route} shows evidence status before the hero copy`);
+    assert.ok(kickerIndex >= 0, `${route} keeps its useful guide context`);
+    assert.doesNotMatch(source, /guide\.verificationLabel/);
+    assert.doesNotMatch(source, /verification-status/);
   }
 });
 
-test('published guide pages render provenance, spoiler-gated steps, source links, capture requests, and a private embed', async () => {
+test('published guide pages render named sources, spoiler-gated steps, route checkpoints, and a private embed', async () => {
   const [source, player] = await Promise.all([
     readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
     readFile(new URL('../components/youtube-embed.tsx', import.meta.url), 'utf8'),
   ]);
 
-  assert.match(source, /Source check/);
+  assert.match(source, /Sources reviewed/);
   assert.match(source, /solutionSteps/);
-  assert.match(source, /Source links/);
-  assert.match(source, /Original screenshot capture list/);
+  assert.match(source, /Sources and version context/);
+  assert.match(source, /Route checkpoints/);
+  assert.doesNotMatch(source, /Original screenshot capture list/);
   assert.match(source, /<YouTubeEmbed/);
   assert.match(player, /youtube-nocookie\.com/);
   assert.match(player, /Load video/);

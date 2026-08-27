@@ -15,20 +15,20 @@ import { WalkerStack } from '../components/game-elements';
 export const metadata: Metadata = {
   title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
   description:
-    'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location, with clear route context and source links.',
+    'Stuck in Big Walk? Browse spoiler-free puzzle hints and detailed solutions by tower, item, or location, with clear route context and links to their sources.',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     url: '/',
     title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
     description:
-      'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location, with clear route context and source links.',
+      'Stuck in Big Walk? Browse spoiler-free puzzle hints and detailed solutions by tower, item, or location, with clear route context and links to their sources.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Big Walk Walkthrough — Hints & Puzzle Guides (2026)',
     description:
-      'Stuck in Big Walk? Browse spoiler-free puzzle hints and source-checked solutions by tower, item, or location, with clear route context and source links.',
+      'Stuck in Big Walk? Browse spoiler-free puzzle hints and detailed solutions by tower, item, or location, with clear route context and links to their sources.',
   },
 };
 
@@ -38,7 +38,7 @@ const websiteJsonLd = {
   name: site.name,
   url: site.url,
   description:
-    'A spoiler-conscious directory of Big Walk puzzle hints, source-checked solutions, evidence status, and route context.',
+    'A spoiler-conscious directory of Big Walk puzzle hints, detailed solutions, linked sources, and route context.',
 };
 
 function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }) {
@@ -66,7 +66,7 @@ const categories = [
   { label: 'Tower', description: 'Browse available tower hints.', count: `${directoryStats.puzzleEntries} puzzle entries`, icon: <GuideIcon type="tower" />, href: '/puzzles#directory-by-tower' },
   { label: 'Area', description: 'Browse route walkthroughs by landmark.', count: `${directoryStats.walkthroughEntries} routes`, icon: <GuideIcon type="area" />, href: '/walkthrough' },
   { label: 'Item', description: 'Browse visible objects and clues.', count: `${directoryStats.visualEntries} visual entries`, icon: <GuideIcon type="item" />, href: '/puzzles#visual-finder' },
-  { label: 'Achievement', description: 'Browse the source-checked trophy list.', count: `${directoryStats.achievements} trophies`, icon: <GuideIcon type="achievement" />, href: '/achievements' },
+  { label: 'Achievement', description: 'Browse the trophy list and linked references.', count: `${directoryStats.achievements} trophies`, icon: <GuideIcon type="achievement" />, href: '/achievements' },
 ];
 
 const quickAnswers = [
@@ -113,8 +113,8 @@ export default function HomePage() {
             <p className="eyebrow">A FIELD GUIDE FOR CURIOUS WALKERS</p>
             <h1 id="home-title">Big Walk Walkthrough: Hints &amp; Puzzle Guides</h1>
             <p className="home-hero__lede">
-              Browse spoiler-free hints by tower, item, or location. Source-checked solutions come with their research
-              trail and clear route checkpoints.
+              Browse spoiler-free hints by tower, item, or location. Detailed solutions include clear route
+              checkpoints and links to the official pages, guide articles, or player discussions they use.
             </p>
             <div className="home-path-actions" aria-label="Choose a guide path">
               <Link className="home-path-action" href="/puzzles">
@@ -221,9 +221,8 @@ export default function HomePage() {
               <p>
                 Big Walk is built around the conversations a group has while exploring. A useful guide should help you
                 get unstuck without turning the whole island into a checklist. Start with the visible clue your group
-                has, use the closest tower, area, item, or achievement entry, and check the evidence status before
-                opening spoilers so source-checked routes and unresolved reports stay clearly separated in a
-                player-count-sensitive co-op game.
+                has, use the closest tower, area, item, or achievement entry, and open the linked sources when a
+                detail can vary by version or world size. Reports that disagree remain outside search indexing.
               </p>
             </div>
             <Link className="text-link" href="/methodology">
