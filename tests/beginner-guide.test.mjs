@@ -21,7 +21,7 @@ test('beginner guide is a publishable spoiler-light first-session handbook', () 
   assert.equal(page.evidenceLevel, 'corroborated');
   assert.equal(page.title, 'Big Walk Beginner Guide — First Session Tips, Saves & Co-op Setup');
   assert.equal(page.h1, 'Big Walk Beginner Guide: What to Know Before Your First Walk');
-  assert.equal(page.updated, '2026-08-10');
+  assert.equal(page.updated, '2026-08-28');
   assert.match(page.description, /spoiler-light/i);
 });
 
@@ -38,7 +38,8 @@ test('beginner guide covers the complete first-session journey without becoming 
   assert.ok(content.firstRoute.steps.length >= 3);
   assert.ok(content.mistakes.length >= 6);
   assert.ok(content.faqs.length >= 6);
-  assert.ok(content.relatedLinks.length >= 6);
+  assert.ok(content.relatedLinks.length >= 7);
+  assert.ok(content.relatedLinks.some((link) => link.href === '/beginner-guide/lost-items-and-lost-found'));
 
   const text = textValues(content).join(' ');
   assert.match(text, /host/i);

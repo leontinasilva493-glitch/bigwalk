@@ -84,6 +84,38 @@ export function TroubleshootingGuide({ guide }: { guide: TroubleshootingRecord }
             </ol>
           </section>
 
+          {'symptomRows' in guide && guide.symptomRows?.length ? (
+            <section className="route-recovery" aria-labelledby="symptom-router">
+              <p className="hint-block__kicker">NAME THE FAILURE</p>
+              <h2 id="symptom-router">{'symptomHeading' in guide ? guide.symptomHeading : 'Where does connection fail?'}</h2>
+              <div className="route-recovery__table-wrap">
+                <table>
+                  <thead><tr><th>Symptom</th><th>Likely boundary</th><th>Next step</th></tr></thead>
+                  <tbody>{guide.symptomRows.map((row) => <tr key={row.symptom}><th scope="row">{row.symptom}</th><td>{row.likelyBoundary}</td><td>{row.nextStep}</td></tr>)}</tbody>
+                </table>
+              </div>
+              <div className="route-recovery__mobile-list">
+                {guide.symptomRows.map((row) => <details className="route-recovery__mobile-card" key={row.symptom}><summary>{row.symptom}</summary><p><strong>Likely boundary:</strong> {row.likelyBoundary}</p><p><strong>Next step:</strong> {row.nextStep}</p></details>)}
+              </div>
+            </section>
+          ) : null}
+
+          {'platformChecks' in guide && guide.platformChecks?.length ? (
+            <section className="route-recovery" aria-labelledby="platform-checks">
+              <p className="hint-block__kicker">USE THE MATCHING DEVICE PATH</p>
+              <h2 id="platform-checks">Platform-specific checks</h2>
+              <div className="route-recovery__table-wrap">
+                <table>
+                  <thead><tr><th>Platform</th><th>Symptom</th><th>Official check</th><th>Evidence</th></tr></thead>
+                  <tbody>{guide.platformChecks.map((row) => <tr key={`${row.platform}-${row.symptom}`}><th scope="row">{row.platform}</th><td>{row.symptom}</td><td>{row.check}</td><td><span className="evidence-label">{row.evidence}</span></td></tr>)}</tbody>
+                </table>
+              </div>
+              <div className="route-recovery__mobile-list">
+                {guide.platformChecks.map((row) => <details className="route-recovery__mobile-card" key={`${row.platform}-${row.symptom}`}><summary>{row.platform}: {row.symptom}</summary><p>{row.check}</p><p><span className="evidence-label">{row.evidence}</span></p></details>)}
+              </div>
+            </section>
+          ) : null}
+
           <section className="route-recovery" aria-labelledby="diagnostic-path">
             <h2 id="diagnostic-path">Diagnostic path</h2>
             <div className="route-recovery__table-wrap">

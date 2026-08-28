@@ -12,6 +12,7 @@ const routeFiles = [
   '../app/multiplayer/how-to-find-players/page.tsx',
   '../app/troubleshooting/page.tsx',
   '../app/troubleshooting/cant-rejoin-after-disconnect/page.tsx',
+  '../app/troubleshooting/cant-connect-or-join/page.tsx',
   '../app/troubleshooting/voice-chat-not-working/page.tsx',
   '../app/troubleshooting/crossplay-switch-2/page.tsx',
   '../app/troubleshooting/white-screen-and-crash/page.tsx',
@@ -19,7 +20,9 @@ const routeFiles = [
 ];
 
 test('the approved v3 hubs and topic routes exist', async () => {
-  await Promise.all(routeFiles.map((routeFile) => access(new URL(routeFile, import.meta.url))));
+  const exists = await Promise.all(routeFiles.map((routeFile) =>
+    access(new URL(routeFile, import.meta.url)).then(() => true, () => false)));
+  assert.ok(exists.every(Boolean));
 });
 
 test('guide records expose the v3 evidence model and visual aliases', () => {

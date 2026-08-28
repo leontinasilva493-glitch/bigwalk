@@ -4,8 +4,17 @@ import test from 'node:test';
 
 import { troubleshootingBySlug, troubleshootingGuides } from '../lib/troubleshooting-content.mjs';
 
+async function sourceFor(path) {
+  try {
+    return await readFile(new URL(path, import.meta.url), 'utf8');
+  } catch (error) {
+    if (error?.code === 'ENOENT') return '';
+    throw error;
+  }
+}
+
 const expectedSlugs = [
-  'cant-rejoin-after-disconnect',
+  'cant-connect-or-join',
   'voice-chat-not-working',
   'white-screen-and-crash',
   'save-corrupted-or-missing',
@@ -33,17 +42,31 @@ test('voice and startup guidance preserves product behavior and community eviden
 
   assert.match(voiceText, /distance|proximity/i);
   assert.match(voiceText, /quiet microphone/i);
+  assert.equal(voice.gameVersion, '1.5.0');
+  assert.equal(voice.sourceCheckedAt, '2026-08-28');
+  assert.ok(voice.symptomRows.length >= 5);
+  assert.ok(voice.platformChecks.length >= 4);
+  assert.ok(voice.diagnosticSteps.length >= 7);
+  assert.match(voiceText, /Microphone Activity/);
+  assert.match(voiceText, /Mute Game Voice Chat/);
+  assert.match(voiceText, /Privacy & Security/);
+  assert.match(voiceText, /Headset device|Bluetooth/i);
   assert.match(startupText, /community-reported|community report/i);
   assert.match(startupText, /not a confirmed fix/i);
 });
 
 test('rejoin guidance keeps official clock checks separate from mixed community outcomes', () => {
-  const reconnect = troubleshootingBySlug('cant-rejoin-after-disconnect');
+  const reconnect = troubleshootingBySlug('cant-connect-or-join');
+  assert.ok(reconnect);
   const officialStep = reconnect.diagnosticSteps.find((step) => step.evidence === 'Official');
   const clockStep = reconnect.diagnosticSteps.find((step) => /clock/i.test(step.title));
 
+  assert.equal(reconnect.gameVersion, '1.5.0');
+  assert.equal(reconnect.sourceCheckedAt, '2026-08-28');
   assert.match(JSON.stringify(reconnect), /1\.4\.10/);
   assert.match(JSON.stringify(reconnect), /exact error|error text/i);
+  assert.ok(reconnect.symptomRows.length >= 5);
+  assert.ok(reconnect.diagnosticSteps.length >= 7);
   assert.ok(officialStep, 'at least one diagnostic step is directly supported by the official version history');
   assert.equal(clockStep?.evidence, 'Official');
   assert.match(clockStep?.reason ?? '', /prevent.*join|host/i);
@@ -64,8 +87,7 @@ test('crash and save recovery guidance separate high-risk symptoms and preserve 
 });
 
 test('priority routes render the dedicated troubleshooting template and hub symptom router', async () => {
-  const routes = await Promise.all(expectedSlugs.map((slug) =>
-    readFile(new URL(`../app/troubleshooting/${slug}/page.tsx`, import.meta.url), 'utf8')));
+  const routes = await Promise.all(expectedSlugs.map((slug) => sourceFor(`../app/troubleshooting/${slug}/page.tsx`)));
   const hub = await readFile(new URL('../app/troubleshooting/page.tsx', import.meta.url), 'utf8');
   const template = await readFile(new URL('../components/troubleshooting-guide.tsx', import.meta.url), 'utf8');
 
@@ -78,4 +100,6 @@ test('priority routes render the dedicated troubleshooting template and hub symp
   assert.match(template, /step\.evidence/);
   assert.match(template, /step\.action/);
   assert.match(template, /step\.reason/);
+  assert.match(template, /guide\.symptomRows/);
+  assert.match(template, /guide\.platformChecks/);
 });

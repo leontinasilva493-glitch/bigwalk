@@ -513,6 +513,27 @@ export function RouteOverview({ guide }: { guide: Guide }) {
   );
 }
 
+export function CompletionChecklist({ guide }: { guide: Guide }) {
+  if (!('completionChecklist' in guide) || !guide.completionChecklist?.length) return null;
+
+  return (
+    <section className="route-recovery" aria-labelledby="completion-checklist-heading">
+      <p className="hint-block__kicker">SAME-HOST 100% ROUTE</p>
+      <h2 id="completion-checklist-heading">True ending completion checklist</h2>
+      <p>Use each success signal before moving on. If one phase does not match the current host world, stop there and recheck the linked evidence instead of repeating the whole ending.</p>
+      <div className="route-recovery__table-wrap">
+        <table>
+          <thead><tr><th>Phase</th><th>Check</th><th>Success signal</th><th>Evidence</th></tr></thead>
+          <tbody>{guide.completionChecklist.map((row) => <tr key={row.phase}><th scope="row">{row.phase}</th><td>{row.check}</td><td>{row.successSignal}</td><td><span className="evidence-label">{row.evidence}</span></td></tr>)}</tbody>
+        </table>
+      </div>
+      <div className="route-recovery__mobile-list">
+        {guide.completionChecklist.map((row) => <details className="route-recovery__mobile-card" key={row.phase}><summary>{row.phase}</summary><p><strong>Check:</strong> {row.check}</p><p><strong>Success signal:</strong> {row.successSignal}</p><p><span className="evidence-label">{row.evidence}</span></p></details>)}
+      </div>
+    </section>
+  );
+}
+
 function recommendationTarget(slug: string) {
   if (slug === 'home') return { href: '/', title: 'Big Walk Walkthrough home' };
   if (slug === 'puzzles') return { href: '/puzzles', title: 'Big Walk Puzzle Directory' };
@@ -579,12 +600,14 @@ export function GuideToc({ guide }: { guide: Guide }) {
   const hasSolution = guide.solutionSteps.length > 0;
   const hasRecovery = guide.commonFailures.length > 0;
   const hasSources = guide.sources.length > 0;
+  const hasCompletionChecklist = 'completionChecklist' in guide && Boolean(guide.completionChecklist?.length);
 
   return (
     <nav id="guide-start" className="guide-toc" aria-label="On this page">
       <p>On this page</p>
       <a href="#hint-heading">Hint</a>
       {quickAnswerTarget ? <a href={quickAnswerTarget}>Quick answer</a> : null}
+      {hasCompletionChecklist ? <a href="#completion-checklist-heading">100% checklist</a> : null}
       {hasSolution ? <a href="#solution-heading">Solution</a> : null}
       {hasRecovery ? <a href="#recovery-heading">Recovery</a> : null}
       {hasSources ? <a href="#sources-heading">Sources</a> : null}

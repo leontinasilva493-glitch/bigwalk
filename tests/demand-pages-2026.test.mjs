@@ -77,7 +77,8 @@ test('purple rewards and White Key have one clear completion route', () => {
   assert.equal(ending.verificationStatus, 'source_checked');
   assert.equal(ending.status, 'published');
   assert.equal(ending.indexable, true);
-  assert.equal(ending.gameVersion, '1.4.10');
+  assert.equal(ending.gameVersion, '1.5.0');
+  assert.equal(ending.sourceCheckedAt, '2026-08-28');
   assert.match(ending.directAnswer, /8 red/i);
   assert.match(ending.directAnswer, /7 purple/i);
   assert.match(ending.directAnswer, /White Key/);
