@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Breadcrumbs, CompletionChecklist, GreenRoomResearch, GuideToc, HintBlock, NextStepRecommendations, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence, VideoJumpLink } from '../../../components/guides';
+import { Breadcrumbs, CompletionChecklist, GreenRoomResearch, GuideSources, GuideToc, HintBlock, NextStepRecommendations, RelatedGuides, RouteOverview, VerificationPanel, VideoEvidence, VideoJumpLink } from '../../../components/guides';
 import { JsonLd } from '../../../components/json-ld';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { guideBySlug, guides, site } from '../../../lib/content.mjs';
@@ -87,6 +87,7 @@ export default async function WalkthroughGuidePage({ params }: PageProps) {
           <VideoEvidence guide={guide} />
           <VerificationPanel guide={guide} showVideo={false} />
           <RelatedGuides guide={guide} />
+          <GuideSources guide={guide} />
         </article>
       </main>
       <SiteFooter />

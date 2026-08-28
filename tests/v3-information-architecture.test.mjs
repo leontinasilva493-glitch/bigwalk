@@ -70,7 +70,8 @@ test('new topic pages use the shared source template and derive indexing from ev
   const source = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
   assert.match(source, /robots: \{ index: page\.indexable, follow: true \}/);
   assert.doesNotMatch(source, /page\.verificationLabel/);
-  assert.match(source, /Sources and version notes/);
+  assert.match(source, /PrimarySources/);
+  assert.doesNotMatch(source, /Sources and version notes/);
 });
 
 test('primary navigation leads with player intents and keeps lower-priority topics secondary', async () => {

@@ -51,7 +51,8 @@ test('lost items guide routes players by item state without promising one univer
   assert.match(page, /robots:\s*\{\s*index:\s*false/);
   assert.match(page, /What kind of item is missing\?/);
   assert.match(page, /Safe recovery order/);
-  assert.match(page, /Sources and evidence limits/);
+  assert.match(page, /PrimarySources/);
+  assert.doesNotMatch(page, /Sources and evidence limits/);
   assert.match(page, /href="\/multiplayer\/hosting-and-saves"/);
   assert.match(page, /href="\/map"/);
   assert.match(page, /href="\/puzzles"/);
@@ -92,7 +93,8 @@ test('hosting and saves guide separates official session rules from item persist
   assert.match(page, /Who owns the save\?/);
   assert.match(page, /Before starting a session/);
   assert.match(page, /What persists between sessions\?/);
-  assert.match(page, /Sources and unresolved limits/);
+  assert.match(page, /PrimarySources/);
+  assert.doesNotMatch(page, /Sources and unresolved limits/);
   assert.match(page, /href="\/beginner-guide\/lost-items-and-lost-found"/);
   assert.match(page, /href="\/troubleshooting\/cant-connect-or-join"/);
 });

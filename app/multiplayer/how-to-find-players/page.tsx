@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { EditorialArtwork } from '../../../components/editorial-artwork';
 import { JsonLd } from '../../../components/json-ld';
+import { PrimarySources } from '../../../components/primary-sources';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { site, siteSectionBySlug } from '../../../lib/content.mjs';
 import { lfgGuide } from '../../../lib/lfg-content.mjs';
@@ -155,17 +156,13 @@ export default function FindPlayersPage() {
             </ul>
           </section>
 
-          <section className="guide-sources" aria-labelledby="lfg-sources-heading">
-            <h2 id="lfg-sources-heading">Official rules and current community channels</h2>
-            <ul>{lfgGuide.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span><p>{source.note}</p></li>)}</ul>
-          </section>
-
           <section className="related-guides" aria-labelledby="lfg-related-heading">
             <h2 id="lfg-related-heading">Related pages</h2>
             <ul>
               {relatedPages.map((related) => <li key={related.href}><Link href={related.href}>{related.title}</Link></li>)}
             </ul>
           </section>
+          <PrimarySources sources={lfgGuide.sources} headingId="lfg-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />

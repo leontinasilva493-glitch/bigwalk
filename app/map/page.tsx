@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '../../components/json-ld';
 import { MapExplorer } from '../../components/map-explorer';
+import { PrimarySources } from '../../components/primary-sources';
 import { SiteFooter, SiteHeader } from '../../components/site';
 import { site } from '../../lib/content.mjs';
 import { mapCategories, mapPoints, mapSources } from '../../lib/map-content.mjs';
@@ -71,10 +72,7 @@ export default function MapPage() {
           </div>
         </section>
 
-        <section className="guide-sources page-shell" aria-labelledby="map-sources-heading">
-          <h2 id="map-sources-heading">Map sources and boundaries</h2>
-          <ul>{mapSources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span><p>{source.note}</p></li>)}</ul>
-        </section>
+        <PrimarySources sources={mapSources} headingId="map-primary-sources-heading" className="guide-sources page-shell" />
       </main>
       <SiteFooter />
     </>

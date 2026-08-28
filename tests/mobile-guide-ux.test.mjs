@@ -31,12 +31,12 @@ test('guide toc points only at live semantic sections', async () => {
   assert.doesNotMatch(tocSource, /#next-steps-heading/);
 });
 
-test('verification panel exposes stable solution recovery and source ids', async () => {
+test('shared guide components expose stable solution recovery and source footer ids', async () => {
   const source = await sourceFor('components/guides.tsx');
 
   assert.match(source, /id="solution-heading"/);
   assert.match(source, /id="recovery-heading"/);
-  assert.match(source, /id="sources-heading"/);
+  assert.match(source, /headingId="sources-heading"/);
   assert.doesNotMatch(source, /recovery-\$\{guide\.slug/);
   assert.doesNotMatch(source, /sources-\$\{guide\.slug/);
 });

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { EditorialArtwork } from '../../components/editorial-artwork';
 import { JsonLd } from '../../components/json-ld';
+import { PrimarySources } from '../../components/primary-sources';
 import { SiteFooter, SiteHeader } from '../../components/site';
 import { site } from '../../lib/content.mjs';
 
@@ -201,14 +202,6 @@ export default function AchievementsPage() {
             ))}
           </section>
 
-          <section className="guide-sources" aria-labelledby="achievement-sources">
-            <h3 id="achievement-sources">Source links</h3>
-            <p>These sources were checked against one another for names, counts, grades, and high-level requirements.</p>
-            <ul>
-              {sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>- {source.publisher}</span></li>)}
-            </ul>
-          </section>
-
           <section className="capture-list" aria-labelledby="achievement-captures">
             <h3 id="achievement-captures">Original screenshot capture list</h3>
             <ol>
@@ -227,6 +220,7 @@ export default function AchievementsPage() {
               <li><Link href="/walkthrough/true-ending">Big Walk true ending checklist</Link></li>
             </ul>
           </section>
+          <PrimarySources sources={sources} headingId="achievement-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />

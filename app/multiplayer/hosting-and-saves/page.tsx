@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '../../../components/json-ld';
+import { PrimarySources } from '../../../components/primary-sources';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { site } from '../../../lib/content.mjs';
 import { hostingSavesGuide as guide } from '../../../lib/hosting-saves-content.mjs';
@@ -46,7 +47,7 @@ export default function HostingAndSavesPage() {
           <p className="guide-kicker">HOST · JOIN · RETURN</p>
           <h1>{guide.h1}</h1>
           <p className="evidence-page__lede">{guide.description}</p>
-          <p className="guide-meta">Game version context: {guide.gameVersion} · Sources checked {guide.sourceCheckedAt} · Noindex until current cross-session item captures are available</p>
+          <p className="guide-meta">Game version context: {guide.gameVersion} · Updated {guide.sourceCheckedAt}</p>
 
           <section className="hint-block" aria-labelledby="hosting-quick-answer">
             <p className="hint-block__kicker">QUICK ANSWER</p>
@@ -74,12 +75,6 @@ export default function HostingAndSavesPage() {
             <div className="route-recovery__mobile-list">{guide.persistenceRows.map((row) => <details className="route-recovery__mobile-card" key={row.state}><summary>{row.state}</summary><p><span className="evidence-label">{row.evidence}</span></p><p>{row.persists}</p></details>)}</div>
           </section>
 
-          <section className="verification-panel" aria-labelledby="hosting-sources-heading">
-            <h2 id="hosting-sources-heading">Sources and unresolved limits</h2>
-            <p>{guide.evidenceNote}</p>
-            <div className="guide-sources"><ul>{guide.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span><p>{source.note}</p></li>)}</ul></div>
-          </section>
-
           <section className="related-guides" aria-labelledby="hosting-related-heading">
             <h2 id="hosting-related-heading">Continue from the current symptom</h2>
             <ul>
@@ -89,6 +84,7 @@ export default function HostingAndSavesPage() {
               <li><Link href="/multiplayer/how-to-find-players">Find a compatible group</Link></li>
             </ul>
           </section>
+          <PrimarySources sources={guide.sources} headingId="hosting-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />

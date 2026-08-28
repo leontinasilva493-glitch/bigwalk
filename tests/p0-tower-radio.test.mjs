@@ -93,11 +93,12 @@ test('Crosswalk explains the drawbridge alias immediately after its description'
   assert.ok(route.indexOf('guide.introNote') < route.indexOf('<RouteOverview'));
 });
 
-test('shared walkthrough components render the radio table, source purposes, and per-video link labels', async () => {
+test('shared walkthrough components render the radio table, primary source footer, and per-video link labels', async () => {
   const components = await readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8');
 
   assert.match(components, /radioChannels/);
   assert.match(components, /Official mix and tracks/);
-  assert.match(components, /source\.purpose/);
+  assert.match(components, /PrimarySources/);
+  assert.doesNotMatch(components, /source\.purpose/);
   assert.match(components, /guide\.video\.linkLabel/);
 });

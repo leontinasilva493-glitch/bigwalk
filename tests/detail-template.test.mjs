@@ -60,9 +60,8 @@ test('published guide pages render named sources, spoiler-gated steps, route che
     readFile(new URL('../components/youtube-embed.tsx', import.meta.url), 'utf8'),
   ]);
 
-  assert.match(source, /Sources reviewed/);
   assert.match(source, /solutionSteps/);
-  assert.match(source, /Sources and version context/);
+  assert.match(source, /PrimarySources/);
   assert.match(source, /Route checkpoints/);
   assert.doesNotMatch(source, /Original screenshot capture list/);
   assert.match(source, /<YouTubeEmbed/);

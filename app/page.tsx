@@ -222,7 +222,7 @@ export default function HomePage() {
                 Big Walk is built around the conversations a group has while exploring. A useful guide should help you
                 get unstuck without turning the whole island into a checklist. Start with the visible clue your group
                 has, use the closest tower, area, item, or achievement entry, and open the linked sources when a
-                detail can vary by version or world size. Reports that disagree remain outside search indexing.
+                detail can vary by version or world size. Reports that disagree stay clearly labelled until the route is confirmed.
               </p>
             </div>
             <Link className="text-link" href="/methodology">

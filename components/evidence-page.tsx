@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PuzzleCard } from './guides';
 import { JsonLd } from './json-ld';
+import { PrimarySources } from './primary-sources';
 import { SiteFooter, SiteHeader } from './site';
 import { MapIcon, RadioIcon, TrophyIcon, Walker } from './game-elements';
 import { guides, site, siteSectionBySlug } from '../lib/content.mjs';
@@ -144,7 +145,7 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
             <section className="challenge-directory" aria-labelledby="challenge-directory-heading">
               <p className="hint-block__kicker">PURPLE CHALLENGE DIRECTORY</p>
               <h2 id="challenge-directory-heading">Seven reported purple challenges</h2>
-              <p>Names are player working names, not official labels. Each listed cue or map marker links back to its source; disputed reward or unlock mechanics are not presented as settled facts.</p>
+              <p>Names are player working names, not official labels. Each listed cue links to its available guide so the group can open the matching route.</p>
               <div className="challenge-directory__table-wrap">
                 <table>
                   <thead>
@@ -168,23 +169,9 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
             </section>
           ) : null}
 
-          <section className="verification-panel" aria-labelledby="evidence-heading">
-            <h2 id="evidence-heading">Sources and version notes</h2>
-            <p>{page.indexable
-              ? 'The directory uses the linked sources for names, visual cues, and mapped positions. Player wording and layouts can differ by group and selected world size.'
-              : 'The linked reports do not support a stable answer yet, so this page stays out of search indexing. Use the original discussions below to review the disputed details.'}</p>
-            {page.sources?.length ? (
-              <div className="guide-sources">
-                <h3>Source links</h3>
-                <ul>{page.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span></li>)}</ul>
-              </div>
-            ) : null}
-          </section>
-
           {featuredGuides.length ? (
             <section className="evidence-page__available" aria-labelledby="available-routes-heading">
               <h2 id="available-routes-heading">Available routes</h2>
-              <p>Published routes link their sources. Research pages remain outside search indexing when reports disagree.</p>
               <div className="puzzle-list">
                 {featuredGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
               </div>
@@ -199,6 +186,7 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
               </ul>
             </section>
           ) : null}
+          <PrimarySources sources={page.sources} headingId="section-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />
