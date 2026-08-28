@@ -31,7 +31,6 @@ export function NativeAd() {
   return (
     <section
       className={styles.placement}
-      aria-hidden={isFilled ? undefined : true}
       aria-label="Advertisement"
       data-ad-filled={isFilled ? 'true' : 'false'}
     >

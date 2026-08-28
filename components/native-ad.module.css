@@ -1,15 +1,9 @@
 .placement {
+  --native-ad-min-height: 220px;
+
   padding-block: 28px;
   border-top: 1px solid var(--border);
   background: var(--surface);
-}
-
-.placement[data-ad-filled='false'] {
-  max-height: 0;
-  padding-block: 0;
-  overflow: hidden;
-  border-top: 0;
-  visibility: hidden;
 }
 
 .frame {
@@ -29,11 +23,20 @@
 
 .viewport {
   width: 100%;
-  min-height: 104px;
+  min-height: var(--native-ad-min-height);
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+
+.placement[data-ad-filled='false'] .viewport {
+  border-color: var(--border);
+  border-style: dashed;
+  background: var(--paper);
 }
 
 .container {
   width: 100%;
+  min-height: var(--native-ad-min-height);
 }
 
 @media (min-width: 768px) {
@@ -42,12 +45,16 @@
   }
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+  .placement {
+    --native-ad-min-height: 300px;
+  }
+}
+
 @media (max-width: 767px) {
   .placement {
-    padding-block: 22px;
-  }
+    --native-ad-min-height: 460px;
 
-  .viewport {
-    min-height: 250px;
+    padding-block: 22px;
   }
 }
