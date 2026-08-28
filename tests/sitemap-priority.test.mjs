@@ -81,7 +81,11 @@ test('significantly updated P0 pages publish accurate lastmod dates', () => {
   const lastModifiedByPath = new Map(entries.map((entry) => [entry.path, entry.lastModified]));
 
   for (const path of p0Paths) {
-    const expected = path === '/patch-notes' ? '2026-08-26' : '2026-08-25';
+    const expected = path === '/patch-notes'
+      ? '2026-08-26'
+      : ['/puzzles', '/walkthrough/true-ending'].includes(path)
+        ? '2026-08-28'
+        : '2026-08-25';
     assert.equal(lastModifiedByPath.get(path), expected, `${path} should advertise its significant update`);
   }
 });

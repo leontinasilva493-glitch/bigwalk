@@ -3,7 +3,7 @@ import { CategoryCard, EvidenceRouteCard, PuzzleCard } from '../../components/gu
 import { JsonLd } from '../../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../components/site';
 import { buildPuzzleDirectoryJsonLd, guides, site, siteSections } from '../../lib/content.mjs';
-import { puzzleIdentifierChoices } from '../../lib/gameplay-demand-content.mjs';
+import { mapRoomPuzzleStates, puzzleHelpLevels, puzzleIdentifierChoices } from '../../lib/gameplay-demand-content.mjs';
 
 const puzzleDirectorySeo = site.puzzleDirectory;
 
@@ -95,6 +95,23 @@ export default function PuzzlesPage() {
           </div>
         </section>
 
+        <section className="discovery-section discovery-section--tint" aria-labelledby="help-level-heading">
+          <div className="page-shell">
+            <SectionHeading kicker="SPOILER DEPTH" title="Choose how much help to reveal" />
+            <p className="section-intro" id="help-level-heading">Start with the smallest useful answer. Every detailed guide keeps the direct answer and recovery path above a separate full-solution gate.</p>
+            <div className="evidence-route-grid">
+              {puzzleHelpLevels.map((level) => (
+                <article className="evidence-route-card" key={level.label}>
+                  <p className="guide-card-category">{level.eyebrow}</p>
+                  <h3>{level.label}</h3>
+                  <p>{level.answer}</p>
+                  <p><strong>Use it:</strong> {level.action}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="puzzle-or-landmark" className="discovery-section discovery-section--tint" aria-labelledby="puzzle-or-landmark-heading">
           <div className="page-shell">
             <SectionHeading kicker="PUZZLE OR LANDMARK?" title="Check the reward state before searching for a solution" />
@@ -110,6 +127,22 @@ export default function PuzzlesPage() {
               ))}
             </div>
           </div>
+        </section>
+
+        <section className="route-recovery page-shell" aria-labelledby="map-room-state-heading">
+          <p className="hint-block__kicker">COMMUNITY MAP-ROOM LEGEND</p>
+          <h2 id="map-room-state-heading">Read the Map Room state</h2>
+          <p className="section-intro">Use the marker as a routing clue, not an official guarantee. Record whether the host selected a 2-player, 3-player, or 4+ world before comparing puzzle layouts or completion states.</p>
+          <div className="route-recovery__table-wrap">
+            <table>
+              <thead><tr><th>Visible state</th><th>Reported meaning</th><th>Next step</th><th>Evidence</th></tr></thead>
+              <tbody>{mapRoomPuzzleStates.map((row) => <tr key={row.state}><th scope="row">{row.state}</th><td>{row.meaning}</td><td>{row.nextStep}</td><td><span className="evidence-label">{row.evidence}</span></td></tr>)}</tbody>
+            </table>
+          </div>
+          <div className="route-recovery__mobile-list">
+            {mapRoomPuzzleStates.map((row) => <details className="route-recovery__mobile-card" key={row.state}><summary>{row.state}</summary><p>{row.meaning}</p><p><strong>Next step:</strong> {row.nextStep}</p><p><span className="evidence-label">{row.evidence}</span></p></details>)}
+          </div>
+          <p>If a solved reward is missing, use the <a href="/beginner-guide/lost-items-and-lost-found">lost items and Lost &amp; Found guide</a> before replaying the puzzle.</p>
         </section>
 
         <section id="directory-by-tower" className="directory-groups page-shell">

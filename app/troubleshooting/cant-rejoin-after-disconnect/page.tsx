@@ -1,6 +1,5 @@
-import { TroubleshootingGuide, troubleshootingMetadata } from '../../../components/troubleshooting-guide';
-import { troubleshootingBySlug } from '../../../lib/troubleshooting-content.mjs';
+import { permanentRedirect } from 'next/navigation';
 
-const guide = troubleshootingBySlug('cant-rejoin-after-disconnect')!;
-export const metadata = troubleshootingMetadata(guide);
-export default function CantRejoinPage() { return <TroubleshootingGuide guide={guide} />; }
+export default function LegacyCantRejoinPage() {
+  permanentRedirect('/troubleshooting/cant-connect-or-join');
+}
