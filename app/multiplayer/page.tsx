@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '../../components/json-ld';
+import { PrimarySources } from '../../components/primary-sources';
 import { SiteFooter, SiteHeader } from '../../components/site';
 import { site } from '../../lib/content.mjs';
 
@@ -151,14 +152,6 @@ export default function MultiplayerPage() {
             </ul>
           </section>
 
-          <section className="guide-sources" aria-labelledby="multiplayer-sources">
-            <h3 id="multiplayer-sources">Source links</h3>
-            <p>The official FAQ is the primary source; third-party articles were used to cross-check platform and join-code wording.</p>
-            <ul>
-              {sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>- {source.publisher}</span></li>)}
-            </ul>
-          </section>
-
           <section className="related-guides" aria-labelledby="multiplayer-related">
             <h2 id="multiplayer-related">Related guides</h2>
             <ul>
@@ -170,6 +163,7 @@ export default function MultiplayerPage() {
               <li><Link href="/achievements">Achievements</Link></li>
             </ul>
           </section>
+          <PrimarySources sources={sources} headingId="multiplayer-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />

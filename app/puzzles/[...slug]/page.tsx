@@ -95,10 +95,10 @@ export default async function PuzzleGuidePage({ params }: PageProps) {
             <>
               <AnswerFirstPuzzleGuide guide={guide} />
               <NextStepRecommendations guide={guide} />
-              <GuideSources guide={guide} />
             </>
           )}
           <RelatedGuides guide={guide} />
+          <GuideSources guide={guide} />
         </article>
       </main>
       <SiteFooter />

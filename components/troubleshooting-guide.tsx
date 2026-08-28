@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { EditorialArtwork } from './editorial-artwork';
 import { JsonLd } from './json-ld';
+import { PrimarySources } from './primary-sources';
 import { SiteFooter, SiteHeader } from './site';
 import { RadioIcon } from './game-elements';
 import { site, siteSectionBySlug } from '../lib/content.mjs';
@@ -19,15 +20,6 @@ export function troubleshootingMetadata(guide: TroubleshootingRecord): Metadata 
     openGraph: { url: path, title: guide.title, description: guide.description },
     twitter: { card: 'summary', title: guide.title, description: guide.description },
   };
-}
-
-function sourceBoundary(source: TroubleshootingRecord['sources'][number]) {
-  return (
-    <li key={source.url}>
-      <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>{' '}
-      <span>— {source.publisher}. {source.note}</span>
-    </li>
-  );
 }
 
 export function TroubleshootingGuide({ guide }: { guide: TroubleshootingRecord }) {
@@ -145,18 +137,6 @@ export function TroubleshootingGuide({ guide }: { guide: TroubleshootingRecord }
             </div>
           </section>
 
-          <section className="verification-panel" aria-labelledby="evidence-boundary">
-            <h2 id="evidence-boundary">Sources and limits</h2>
-            <p>
-              Official or publisher-attributed behavior is separated from player symptoms. Forum workarounds are
-              presented as symptom-specific experiments, not universal fixes, and this page remains <strong>noindex, follow</strong>.
-            </p>
-            <div className="guide-sources">
-              <h3>Official pages and original discussions</h3>
-              <ul>{guide.sources.map(sourceBoundary)}</ul>
-            </div>
-          </section>
-
           <section className="related-guides" aria-labelledby="related-troubleshooting">
             <h2 id="related-troubleshooting">Related troubleshooting</h2>
             <ul>
@@ -167,6 +147,7 @@ export function TroubleshootingGuide({ guide }: { guide: TroubleshootingRecord }
               })}
             </ul>
           </section>
+          <PrimarySources sources={guide.sources} headingId="troubleshooting-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />
@@ -230,7 +211,7 @@ export function TroubleshootingHub() {
                   <p className="guide-card-category">DIAGNOSTIC PAGE</p>
                   <h3><Link href={`/troubleshooting/${guide.slug}`}>{guide.h1}</Link></h3>
                   <p>{guide.description}</p>
-                  <p className="guide-card-meta">Noindex while fixes are being verified</p>
+                  <p className="guide-card-meta">Symptom-specific diagnostic guide</p>
                 </article>
               ))}
               <article className="evidence-route-card">
@@ -242,10 +223,6 @@ export function TroubleshootingHub() {
             </div>
           </section>
 
-          <section className="verification-panel" aria-labelledby="hub-evidence">
-            <h2 id="hub-evidence">Why these pages stay out of search for now</h2>
-            <p>They provide safe diagnostic structure, but a reproducible current-version result is still missing for the proposed Big Walk-specific recoveries. The pages remain noindex until that evidence exists.</p>
-          </section>
         </article>
       </main>
       <SiteFooter />

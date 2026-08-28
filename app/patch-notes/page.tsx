@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '../../components/json-ld';
+import { PrimarySources } from '../../components/primary-sources';
 import { SiteFooter, SiteHeader } from '../../components/site';
 import { site } from '../../lib/content.mjs';
 import { currentVersion, updates, updateSources } from '../../lib/updates-content.mjs';
@@ -55,7 +56,6 @@ export default function PatchNotesPage() {
               <span>Current official version</span>
               <strong>{currentVersion.version}</strong>
               <p>{currentVersion.summary}</p>
-              <a href={currentVersion.officialUrl} target="_blank" rel="noreferrer">Open the official Version History</a>
             </div>
           </header>
 
@@ -64,11 +64,6 @@ export default function PatchNotesPage() {
             <h2 id="update-today-heading">Was Big Walk updated today?</h2>
             <p>{currentVersion.directAnswer}</p>
             <ul className="compact-facts">{currentVersion.conditions.map((condition) => <li key={condition}>{condition}</li>)}</ul>
-            <p className="guide-sources__updated">
-              <strong>Official evidence checked {currentVersion.checkedAt}:</strong>{' '}
-              <a href={currentVersion.officialUrl} target="_blank" rel="noreferrer">Version History</a>{' · '}
-              <a href={currentVersion.faqUrl} target="_blank" rel="noreferrer">version compatibility FAQ</a>
-            </p>
           </section>
 
           <section aria-labelledby="compatibility-heading">
@@ -104,10 +99,7 @@ export default function PatchNotesPage() {
             </ol>
           </section>
 
-          <section className="guide-sources" aria-labelledby="update-sources-heading">
-            <h2 id="update-sources-heading">Official sources</h2>
-            <ul>{updateSources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span><p>{source.purpose}</p></li>)}</ul>
-          </section>
+          <PrimarySources sources={updateSources} headingId="update-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />

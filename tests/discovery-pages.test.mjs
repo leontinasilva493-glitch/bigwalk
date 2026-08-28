@@ -116,8 +116,9 @@ test('directory cards keep puzzle answers distinct from route walkthroughs', asy
       orderedWalkthroughs.findIndex((guide) => !guide.indexable),
   );
   const evidencePage = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
-  assert.match(evidencePage, /Published routes link their sources/i);
-  assert.match(evidencePage, /Research pages remain outside search indexing/i);
+  assert.match(evidencePage, /Available routes/i);
+  assert.match(evidencePage, /PrimarySources/);
+  assert.doesNotMatch(evidencePage, /remain outside search indexing/i);
 });
 
 test('homepage discovery controls route visitors to real puzzle and walkthrough destinations', async () => {

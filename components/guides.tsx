@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { guides, siteSectionBySlug, topicHubStatusLabel } from '../lib/content.mjs';
-import { answerEvidenceFor } from '../lib/answer-evidence.mjs';
 import { SignalFlareIcon } from './game-elements';
+import { PrimarySources } from './primary-sources';
 import { YouTubeEmbed } from './youtube-embed';
 
 type Guide = (typeof guides)[number];
@@ -264,7 +264,6 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
   const navigationHeading = 'navigationHeading' in guide
     ? guide.navigationHeading
     : 'Two ways to reach the coordinates';
-  const answerEvidence = answerEvidenceFor(guide);
 
   if (!directAnswer || !progressiveHints?.length || !navigationMethods?.length) return null;
 
@@ -289,14 +288,6 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
         <details>
           <summary>Reveal the short solution</summary>
           <p>{guide.directAnswer}</p>
-          {answerEvidence ? (
-            <p className="guide-sources__updated">
-              <strong>Answer evidence checked {answerEvidence.checkedAt}:</strong>{' '}
-              {answerEvidence.sources.map((source, index) => (
-                <span key={source.url}>{index ? ', ' : ''}<a href={source.url} target="_blank" rel="noreferrer">{source.publisher}</a></span>
-              ))}
-            </p>
-          ) : null}
         </details>
       </section>
 
@@ -436,7 +427,6 @@ export function GreenRoomResearch({ guide }: { guide: Guide }) {
         <p className="evidence-label">{sections.itemConflict.status}</p>
         <h3 id="green-room-conflict-heading">{sections.itemConflict.title}</h3>
         <p>{sections.itemConflict.body}</p>
-        <ul>{sections.itemConflict.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a></li>)}</ul>
       </section>
 
       <section aria-labelledby="green-room-map-heading">
@@ -462,7 +452,6 @@ export function GreenRoomResearch({ guide }: { guide: Guide }) {
 export function RouteOverview({ guide }: { guide: Guide }) {
   const routeSummary = 'routeSummary' in guide ? guide.routeSummary : undefined;
   const radioChannels = 'radioChannels' in guide ? guide.radioChannels : undefined;
-  const answerEvidence = answerEvidenceFor(guide);
   if (!routeSummary?.length && !radioChannels?.length) return null;
 
   return (
@@ -470,14 +459,6 @@ export function RouteOverview({ guide }: { guide: Guide }) {
       <p className="hint-block__kicker">Quick answer</p>
       <h2 id="route-overview-heading">Route at a glance</h2>
       <p>{guide.goal}</p>
-      {answerEvidence ? (
-        <p className="guide-sources__updated">
-          <strong>Answer evidence checked {answerEvidence.checkedAt}:</strong>{' '}
-          {answerEvidence.sources.map((source, index) => (
-            <span key={source.url}>{index ? ', ' : ''}<a href={source.url} target="_blank" rel="noreferrer">{source.publisher}</a></span>
-          ))}
-        </p>
-      ) : null}
       {'routeNotice' in guide && guide.routeNotice ? (
         <aside className="hint-block route-notice" aria-labelledby="route-notice-heading">
           <p className="hint-block__kicker">QUICK CLARIFICATION</p>
@@ -616,26 +597,7 @@ export function GuideToc({ guide }: { guide: Guide }) {
 }
 
 export function GuideSources({ guide }: { guide: Guide }) {
-  return (
-    <section id="sources" className="guide-sources" aria-labelledby="sources-heading">
-      <p className="hint-block__kicker">SOURCES REVIEWED {guide.sourceCheckedAt}</p>
-      <h2 id="sources-heading">Sources and version context</h2>
-      <p>Official pages, publisher material, guide articles, and player discussions are named separately so you can judge each route from its original context.</p>
-      <ul>
-        {guide.sources.map((source) => {
-          const purpose = 'purpose' in source ? source.purpose : undefined;
-          return (
-            <li key={source.url}>
-              <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a>{' '}
-              <span>— {source.publisher}</span>
-              {purpose ? <p>{purpose}</p> : null}
-            </li>
-          );
-        })}
-      </ul>
-      <p className="guide-sources__updated"><strong>Last reviewed:</strong> {guide.lastVerified}</p>
-    </section>
-  );
+  return <PrimarySources sources={guide.sources} headingId="sources-heading" sectionId="sources" />;
 }
 
 export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; showVideo?: boolean }) {
@@ -646,17 +608,15 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
 
   return (
     <section className="verification-panel" aria-labelledby="verification-heading">
-      <div className="spoiler-gate__title"><SignalFlareIcon className="spoiler-gate__icon" /><div><p className="hint-block__kicker">{isPublished ? 'SPOILER WARNING' : 'RESEARCH NOTES'}</p><h2 id="verification-heading">{isPublished ? 'Full solution' : 'What the available sources agree on'}</h2></div></div>
+      <div className="spoiler-gate__title"><SignalFlareIcon className="spoiler-gate__icon" /><div><p className="hint-block__kicker">{isPublished ? 'SPOILER WARNING' : 'CURRENT ROUTE'}</p><h2 id="verification-heading">{isPublished ? 'Full solution' : 'Reported route'}</h2></div></div>
       <dl className="guide-facts">
-        <div><dt>Sources reviewed</dt><dd>{guide.sourceCheckedAt}</dd></div>
         <div><dt>Platforms</dt><dd>{guide.platforms.join('; ')}</dd></div>
         <div><dt>Player count</dt><dd>{guide.playerCount}</dd></div>
       </dl>
-      <p>{guide.evidenceNote}</p>
       <section className="guide-solution" aria-labelledby="solution-heading">
         <h3 id="solution-heading">{isPublished ? 'Solution' : 'Reported route'}</h3>
         <details className="spoiler-gate">
-          <summary>{isPublished ? 'Reveal the full solution' : 'Read the linked reports'}</summary>
+          <summary>{isPublished ? 'Reveal the full solution' : 'Read the reported route'}</summary>
           <ol className="solution-steps">
             {guide.solutionSteps.map((step, index) => (
               <li key={step.title}>
@@ -693,7 +653,6 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
           </div>
         </section>
       ) : null}
-      <GuideSources guide={guide} />
       {showVideo ? <VideoEvidence guide={guide} /> : null}
       {isPublished ? (
         <section className="capture-list" aria-labelledby={`captures-${guide.slug.replaceAll('/', '-')}`}>

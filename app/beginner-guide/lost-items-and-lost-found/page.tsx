@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { JsonLd } from '../../../components/json-ld';
+import { PrimarySources } from '../../../components/primary-sources';
 import { SiteFooter, SiteHeader } from '../../../components/site';
 import { site } from '../../../lib/content.mjs';
 import { lostItemsGuide as guide } from '../../../lib/lost-items-content.mjs';
@@ -53,7 +54,7 @@ export default function LostItemsPage() {
           <p className="guide-kicker">LOST ITEM RECOVERY · LINKED SOURCES</p>
           <h1>{guide.h1}</h1>
           <p className="evidence-page__lede">{guide.description}</p>
-          <p className="guide-meta">Game version context: {guide.gameVersion} · Sources checked {guide.sourceCheckedAt} · Noindex while a current reset capture is still missing</p>
+          <p className="guide-meta">Game version context: {guide.gameVersion} · Updated {guide.sourceCheckedAt}</p>
 
           <section className="hint-block" aria-labelledby="lost-items-quick-answer">
             <p className="hint-block__kicker">QUICK ANSWER</p>
@@ -113,18 +114,6 @@ export default function LostItemsPage() {
             <p><Link href="/map">Open the spoiler-controlled Big Walk map →</Link></p>
           </section>
 
-          <section className="verification-panel" aria-labelledby="lost-items-sources-heading">
-            <h2 id="lost-items-sources-heading">Sources and evidence limits</h2>
-            <p>{guide.evidenceNote}</p>
-            <div className="guide-sources">
-              <ul>
-                {guide.sources.map((source) => (
-                  <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span><p>{source.note}</p></li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
           <section className="related-guides" aria-labelledby="lost-items-related-heading">
             <h2 id="lost-items-related-heading">Continue from the right problem</h2>
             <ul>
@@ -134,6 +123,7 @@ export default function LostItemsPage() {
               <li><Link href="/map">Interactive map</Link></li>
             </ul>
           </section>
+          <PrimarySources sources={guide.sources} headingId="lost-items-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />

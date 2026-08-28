@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { JsonLd } from './json-ld';
 import { SiteFooter, SiteHeader } from './site';
 import { Walker } from './game-elements';
+import { PrimarySources } from './primary-sources';
 import { VideoAfterLinks, VideoJumpLink } from './guides';
 import { YouTubeEmbed } from './youtube-embed';
 import { site } from '../lib/content.mjs';
@@ -201,25 +202,13 @@ export function BeginnerGuideArticle({ page }: { page: BeginnerPage }) {
             </div>
           </section>
 
-          <section className="beginner-section beginner-evidence" aria-labelledby="sources-and-verification">
-            <p className="hint-block__kicker">SOURCES AND VERSION NOTES</p>
-            <h2 id="sources-and-verification">Sources, videos, and current-version notes</h2>
-            <div className="beginner-card-grid">
-              {content.evidenceNotes.map((note) => <article key={note.title}><EvidenceLabel status={note.status} /><h3>{note.title}</h3><p>{note.body}</p></article>)}
-            </div>
-            <h3>Optional community videos</h3>
-            <div className="beginner-video-links">
-              {content.communityVideos.map((video) => <article key={video.url}><EvidenceLabel status={video.status} /><h4><a href={video.url} target="_blank" rel="noreferrer">{video.title}</a></h4><p>{video.note}</p></article>)}
-            </div>
-            <h3>Research sources</h3>
-            <ul className="beginner-source-list">
-              {content.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> <span>— {source.publisher}</span></li>)}
-            </ul>
-            <h3>Continue from here</h3>
+          <section className="beginner-section" aria-labelledby="beginner-related-heading">
+            <h2 id="beginner-related-heading">Continue from here</h2>
             <div className="beginner-related-grid">
               {content.relatedLinks.map((link) => <Link href={link.href} key={link.href}><strong>{link.title}</strong><span>{link.body}</span></Link>)}
             </div>
           </section>
+          <PrimarySources sources={content.sources} headingId="beginner-primary-sources-heading" />
         </article>
       </main>
       <SiteFooter />
