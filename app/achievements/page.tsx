@@ -5,8 +5,9 @@ import { JsonLd } from '../../components/json-ld';
 import { PrimarySources } from '../../components/primary-sources';
 import { SiteFooter, SiteHeader } from '../../components/site';
 import { site } from '../../lib/content.mjs';
+import { currentVersion } from '../../lib/updates-content.mjs';
 
-const lastChecked = '2026-08-25';
+const lastChecked = '2026-08-29';
 
 const title = 'Big Walk Trophy Guide - All 13 Achievements & Trophies';
 const description =
@@ -57,6 +58,7 @@ const trophies = [
 ];
 
 const sources = [
+  { title: 'Big Walk Version History', publisher: 'House House and Panic', url: 'https://bigwalk.game/history/' },
   { title: 'Big Walk on Steam', publisher: 'Valve / House House', url: 'https://store.steampowered.com/app/1478500/Big_Walk/' },
   { title: 'Big Walk FAQ', publisher: 'House House and Panic', url: 'https://bigwalk.game/faq/' },
   { title: 'Big Walk Trophy List', publisher: 'Gamer Social Club', url: 'https://gamersocialclub.ca/2026/06/17/big-walk-trophy-list/' },
@@ -110,7 +112,7 @@ export default function AchievementsPage() {
               <p className="guide-kicker">TROPHY & ACHIEVEMENT GUIDE</p>
               <h1>Big Walk Trophy & Achievement Guide</h1>
               <p className="guide-description">{description}</p>
-              <p className="guide-meta">13 PS5 trophies / 12 Steam achievements / Version 1.4.10 / Last checked: {lastChecked}</p>
+              <p className="guide-meta">13 PS5 trophies / 12 Steam achievements / Last verified on version {currentVersion.version} / Checked {lastChecked}</p>
             </div>
             <EditorialArtwork
               src="/images/editorial/big-walk-achievements-trophy-guide.webp"
@@ -200,15 +202,6 @@ export default function AchievementsPage() {
                 </dl>
               </section>
             ))}
-          </section>
-
-          <section className="capture-list" aria-labelledby="achievement-captures">
-            <h3 id="achievement-captures">Original screenshot capture list</h3>
-            <ol>
-              <li>Platinum trophy pop-up screen.</li>
-              <li>Hidden trophy trigger scene.</li>
-              <li>Full trophy or achievement list overview.</li>
-            </ol>
           </section>
 
           <section className="related-guides" aria-labelledby="achievement-related">

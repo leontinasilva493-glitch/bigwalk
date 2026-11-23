@@ -3,6 +3,11 @@
 # Git keeps this script LF-only so WSL can execute it after a Windows checkout.
 set -euo pipefail
 
+sync_back=false
+if [[ "${1:-}" == "--sync-back" ]]; then
+  sync_back=true
+fi
+
 source_dir="$(pwd -P)"
 
 if [[ ! -f "$source_dir/package.json" || ! -f "$source_dir/wrangler.jsonc" ]]; then
@@ -26,6 +31,7 @@ tar \
   --exclude=.wrangler \
   --exclude=node_modules \
   --exclude=coverage \
+  --exclude=outputs \
   -C "$source_dir" -cf - . | tar -C "$work_dir" -xf -
 
 cd "$work_dir"
@@ -40,3 +46,11 @@ fi
 
 worker_bytes="$(wc -c < "$worker_file" | tr -d ' ')"
 echo "OpenNext worker verified in WSL native storage ($worker_bytes bytes)."
+
+if [[ "$sync_back" == "true" ]]; then
+  echo "Syncing dereferenced .open-next artifact back to Windows workspace..."
+  rm -rf "$source_dir/.open-next"
+  sed -i "s|$work_dir/.open-next/server-functions/default/|./|g" "$work_dir/.open-next/server-functions/default/handler.mjs"
+  cp -rL "$work_dir/.open-next" "$source_dir/.open-next"
+  echo "Synced .open-next back successfully."
+fi

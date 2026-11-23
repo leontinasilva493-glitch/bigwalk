@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { CategoryCard, EvidenceRouteCard, PuzzleCard } from '../../components/guides';
 import { JsonLd } from '../../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../../components/site';
@@ -41,7 +42,7 @@ const categories = [
   { label: 'Tower', description: 'Browse available tower hints.', count: `${puzzleGuides.length} entries`, icon: <GuideIcon type="tower" />, href: '#directory-by-tower' },
   { label: 'Area', description: 'Browse route walkthroughs by landmark.', count: `${walkthroughGuides.length} routes`, icon: <GuideIcon type="area" />, href: '/walkthrough' },
   { label: 'Item', description: 'Browse visible objects and clues.', count: `${puzzleGuides.length} entries`, icon: <GuideIcon type="item" />, href: '#visual-finder' },
-  { label: 'Achievement', description: 'Verification pending.', count: 'Coming soon', icon: <GuideIcon type="achievement" />, href: '/achievements' },
+  { label: 'Achievement', description: 'Browse all 13 PS5 trophies and the 12 matching Steam achievements.', count: '13 PS5 trophies / 12 Steam achievements', icon: <GuideIcon type="achievement" />, href: '/achievements' },
 ];
 
 export default function PuzzlesPage() {
@@ -83,14 +84,14 @@ export default function PuzzlesPage() {
 
         <section id="visual-finder" className="visual-finder-section page-shell" aria-labelledby="visual-finder-heading">
           <SectionHeading kicker="VISUAL FINDER" title="Browse by what you saw" />
-          <p className="section-intro">Each clue is filed under its visible words and aliases. Aliases improve discovery without creating thin duplicate pages.</p>
+          <p className="section-intro">Match the object, room, sound, or number your group saw on the island to open the right puzzle guide.</p>
           <div className="visual-cue-grid">
-            {puzzleGuides.map((guide) => (
-              <a className="visual-cue-card" href={`/${guide.slug}`} key={guide.slug}>
+            {puzzleGuides.filter((guide) => guide.indexable).map((guide) => (
+              <Link className="visual-cue-card" href={`/${guide.slug}`} key={guide.slug}>
                 <span>VISUAL CUE</span>
                 <strong>{guide.visualCues.join(' + ')}</strong>
                 <small>{guide.aliases.join(' / ')}</small>
-              </a>
+              </Link>
             ))}
           </div>
         </section>
@@ -122,7 +123,7 @@ export default function PuzzlesPage() {
                   <p className="guide-card-category">{choice.eyebrow}</p>
                   <h3>{choice.title}</h3>
                   <p>{choice.answer}</p>
-                  <a href={choice.href}>{choice.linkLabel} →</a>
+                  <Link href={choice.href}>{choice.linkLabel} →</Link>
                 </article>
               ))}
             </div>
@@ -142,7 +143,7 @@ export default function PuzzlesPage() {
           <div className="route-recovery__mobile-list">
             {mapRoomPuzzleStates.map((row) => <details className="route-recovery__mobile-card" key={row.state}><summary>{row.state}</summary><p>{row.meaning}</p><p><strong>Next step:</strong> {row.nextStep}</p><p><span className="evidence-label">{row.evidence}</span></p></details>)}
           </div>
-          <p>If a solved reward is missing, use the <a href="/beginner-guide/lost-items-and-lost-found">lost items and Lost &amp; Found guide</a> before replaying the puzzle.</p>
+          <p>If a solved reward is missing, use the <Link href="/beginner-guide/lost-items-and-lost-found">lost items and Lost &amp; Found guide</Link> before replaying the puzzle.</p>
         </section>
 
         <section id="directory-by-tower" className="directory-groups page-shell">

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ClueFinder } from '../components/clue-finder';
 import { CategoryCard, PuzzleCard } from '../components/guides';
 import { JsonLd } from '../components/json-ld';
 import { SectionHeading, SiteFooter, SiteHeader } from '../components/site';
@@ -52,8 +53,28 @@ function GuideIcon({ type }: { type: 'tower' | 'area' | 'item' | 'achievement' }
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[type]}</svg>;
 }
 
-const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle');
-const walkthroughGuides = guides.filter((guide) => guide.kind === 'walkthrough');
+const demandSlugSet = new Set<string>(homepageDemandGuideSlugs);
+const puzzleGuides = guides.filter((guide) => guide.kind === 'puzzle' && guide.indexable && !demandSlugSet.has(guide.slug));
+const walkthroughGuides = guides.filter((guide) => guide.kind === 'walkthrough' && guide.indexable && !demandSlugSet.has(guide.slug));
+const visualCueGuides = guides.filter((guide) => guide.kind === 'puzzle' && guide.indexable && guide.slug !== 'puzzles/peg-puzzle');
+const finderItems = guides
+  .filter((guide) => guide.indexable)
+  .map((guide) => ({
+    slug: guide.slug,
+    h1: guide.h1,
+    area: guide.area,
+    tower: guide.tower,
+    kind: guide.kind,
+    keywords: [
+      guide.h1,
+      guide.title,
+      guide.area,
+      guide.tower,
+      ...(guide.aliases ?? []),
+      ...(guide.visualCues ?? []),
+      ...(guide.nearbyLandmarks ?? []),
+    ].join(' ').toLowerCase(),
+  }));
 const directoryStats = homepageDirectoryStats();
 const featuredGuides = homepageFeaturedGuideSlugs
   .map((slug) => guides.find((guide) => guide.slug === slug))
@@ -100,6 +121,12 @@ const quickAnswers = [
     answer: 'Search and filter the spoiler-controlled field map, then keep a local completion checklist.',
     href: '/map',
   },
+  {
+    label: 'Silver / White Key',
+    question: 'Where does the Silver Key go in Big Walk?',
+    answer: 'After filling all 15 slots in the green completion building, carry the Silver / White Key to the split black sphere near spawn.',
+    href: '/walkthrough/true-ending',
+  },
 ];
 export default function HomePage() {
   return (
@@ -116,6 +143,7 @@ export default function HomePage() {
               Browse spoiler-free hints by tower, item, or location. Detailed solutions include clear route
               checkpoints and links to the official pages, guide articles, or player discussions they use.
             </p>
+            <ClueFinder items={finderItems} />
             <div className="home-path-actions" aria-label="Choose a guide path">
               <Link className="home-path-action" href="/puzzles">
                 <span>Need a solution?</span>
@@ -164,7 +192,7 @@ export default function HomePage() {
         </section>
 
         <section className="discovery-section page-shell" aria-labelledby="puzzles-title">
-          <SectionHeading kicker="CURRENT ENTRIES" title="Browse available hints" />
+          <SectionHeading kicker="PUZZLE GUIDES" title="Browse available hints" />
           <div className="puzzle-list">
             {puzzleGuides.map((guide) => (
               <PuzzleCard guide={guide} key={guide.slug} />
@@ -188,10 +216,10 @@ export default function HomePage() {
         </section>
 
         <section className="discovery-section page-shell" aria-labelledby="demand-guides-title">
-          <SectionHeading kicker="NEW DEMAND PAGES" title="Black Tower, true ending, and peg puzzles" />
+          <SectionHeading kicker="POPULAR LATE-GAME HELP" title="Black Tower, true ending, and peg puzzles" />
           <p className="section-intro">
-            These focused pages separate the Black Tower vision, 100% White Key route, circular colored pegboard, and
-            Forget-Me-Not console. Each answer keeps official facts and current player reports visibly separated.
+            Jump directly to the dedicated late-game routes for the Black Tower vision, 100% Silver / White Key checklist,
+            36-piece circular pegboard, and peninsula clue console.
           </p>
           <div className="puzzle-list">
             {demandGuides.map((guide) => <PuzzleCard guide={guide} key={guide.slug} />)}
@@ -201,9 +229,9 @@ export default function HomePage() {
         <section className="discovery-section discovery-section--tint" aria-labelledby="visual-finder-title">
           <div className="page-shell">
             <SectionHeading kicker="VISUAL FINDER" title="Start with what you can see" />
-            <p className="section-intro">Visual words and alternate names are stored on the guide record, rather than being turned into duplicate URLs.</p>
+            <p className="section-intro">Match the object, sound, symbol, or coordinates on your screen to jump straight to the matching puzzle guide.</p>
             <div className="visual-cue-grid">
-              {puzzleGuides.map((guide) => (
+              {visualCueGuides.map((guide) => (
                 <Link className="visual-cue-card" href={`/${guide.slug}`} key={guide.slug}>
                   <span>LOOK FOR</span>
                   <strong>{guide.visualCues.join(' + ')}</strong>

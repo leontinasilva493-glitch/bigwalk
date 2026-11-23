@@ -14,7 +14,15 @@ type SphereRoom = {
   hint: string;
   status: string;
 };
-type LocatorImageData = { src: string; width: number; height: number; alt: string; caption: string };
+type LocatorImageData = {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  caption: string;
+  sourceLabel?: string;
+  sourceUrl?: string;
+};
 type CoordinateMechanic = {
   heading: string;
   answer: string;
@@ -123,7 +131,12 @@ export function GuideLocatorImage({ guide }: { guide: Guide }) {
   return (
     <figure className="guide-locator" aria-labelledby="guide-locator-caption">
       <Image src={locator.src} width={locator.width} height={locator.height} alt={locator.alt} sizes="(max-width: 760px) 100vw, 760px" />
-      <figcaption id="guide-locator-caption">{locator.caption}</figcaption>
+      <figcaption id="guide-locator-caption">
+        <span>{locator.caption}</span>
+        {locator.sourceLabel && locator.sourceUrl ? (
+          <a href={locator.sourceUrl} target="_blank" rel="noreferrer">Image source: {locator.sourceLabel}</a>
+        ) : null}
+      </figcaption>
     </figure>
   );
 }
@@ -269,6 +282,12 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
 
   return (
     <div className="puzzle-mvp-overview">
+      <section id="quick-answer" className="quick-answer" aria-labelledby="quick-answer-heading">
+        <p className="hint-block__kicker">DIRECT ANSWER</p>
+        <h2 id="quick-answer-heading">{quickAnswerHeading}</h2>
+        <p>{guide.directAnswer}</p>
+      </section>
+
       <section className="progressive-hints" aria-labelledby="progressive-hints-heading">
         <p className="hint-block__kicker">MORE HELP, ONE STEP AT A TIME</p>
         <h2 id="progressive-hints-heading">Progressive hints</h2>
@@ -280,15 +299,6 @@ export function PuzzleMvpOverview({ guide }: { guide: Guide }) {
             </details>
           ))}
         </div>
-      </section>
-
-      <section id="quick-answer" className="quick-answer" aria-labelledby="quick-answer-heading">
-        <p className="hint-block__kicker">DIRECT ANSWER</p>
-        <h2 id="quick-answer-heading">{quickAnswerHeading}</h2>
-        <details>
-          <summary>Reveal the short solution</summary>
-          <p>{guide.directAnswer}</p>
-        </details>
       </section>
 
       <section id="navigation-methods" className="navigation-methods" aria-labelledby="navigation-methods-heading">
@@ -608,15 +618,14 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
 
   return (
     <section className="verification-panel" aria-labelledby="verification-heading">
-      <div className="spoiler-gate__title"><SignalFlareIcon className="spoiler-gate__icon" /><div><p className="hint-block__kicker">{isPublished ? 'SPOILER WARNING' : 'CURRENT ROUTE'}</p><h2 id="verification-heading">{isPublished ? 'Full solution' : 'Reported route'}</h2></div></div>
+      <div className="spoiler-gate__title"><SignalFlareIcon className="spoiler-gate__icon" /><div><p className="hint-block__kicker">{isPublished ? 'STEP-BY-STEP SOLUTION' : 'CURRENT ROUTE'}</p><h2 id="verification-heading">{isPublished ? 'Full solution' : 'Reported route'}</h2></div></div>
       <dl className="guide-facts">
         <div><dt>Platforms</dt><dd>{guide.platforms.join('; ')}</dd></div>
         <div><dt>Player count</dt><dd>{guide.playerCount}</dd></div>
       </dl>
       <section className="guide-solution" aria-labelledby="solution-heading">
         <h3 id="solution-heading">{isPublished ? 'Solution' : 'Reported route'}</h3>
-        <details className="spoiler-gate">
-          <summary>{isPublished ? 'Reveal the full solution' : 'Read the reported route'}</summary>
+        {isPublished ? (
           <ol className="solution-steps">
             {guide.solutionSteps.map((step, index) => (
               <li key={step.title}>
@@ -625,7 +634,19 @@ export function VerificationPanel({ guide, showVideo = true }: { guide: Guide; s
               </li>
             ))}
           </ol>
-        </details>
+        ) : (
+          <details className="spoiler-gate">
+            <summary>Read the reported route</summary>
+            <ol className="solution-steps">
+              {guide.solutionSteps.map((step, index) => (
+                <li key={step.title}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <div><h4>{step.title}</h4><p>{step.body}</p></div>
+                </li>
+              ))}
+            </ol>
+          </details>
+        )}
       </section>
       {guide.commonFailures.length ? (
         <section className="route-recovery" aria-labelledby="recovery-heading">
@@ -722,7 +743,7 @@ export function Breadcrumbs({ guide }: { guide: Guide }) {
 }
 
 export function RelatedGuides({ guide }: { guide: Guide }) {
-  const sameKind = guides.filter((entry) => entry.kind === guide.kind);
+  const sameKind = guides.filter((entry) => entry.kind === guide.kind && (entry.indexable || !guide.indexable));
   const currentIndex = sameKind.findIndex((entry) => entry.slug === guide.slug);
   const previous = currentIndex > 0 ? sameKind[currentIndex - 1] : undefined;
   const next = currentIndex >= 0 && currentIndex < sameKind.length - 1 ? sameKind[currentIndex + 1] : undefined;

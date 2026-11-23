@@ -6,7 +6,7 @@ test('the catalogue exposes the current puzzle and walkthrough records', () => {
   assert.equal(guides.length, 17);
   assert.equal(
     guideBySlug('puzzles/green-chair-headphones').h1,
-    'Big Walk Sound Check Puzzle: Chair and Headphones Solution',
+    'Big Walk Sound Check & Music Chair Headphones Solutions',
   );
   assert.equal(guideBySlug('missing'), undefined);
 });

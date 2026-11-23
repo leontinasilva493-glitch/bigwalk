@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { LanternWalker } from './game-elements';
-import { NativeAd } from './native-ad';
 
 const navigation = [
   { href: '/puzzles', label: 'Puzzles', key: 'puzzles' },
@@ -66,29 +65,29 @@ export function SiteHeader({ active }: { active?: NavigationKey }) {
 
 export function SiteFooter() {
   return (
-    <>
-      <NativeAd />
-      <footer className="site-footer">
-        <div>
-          <p className="site-footer__brand">Big Walk Walkthrough</p>
-          <p>Independent fan guide - not affiliated with the developers.</p>
-        </div>
-        <div className="site-footer__links">
-          <Link href="/puzzles">Puzzles</Link>
-          <Link href="/walkthrough">Walkthroughs</Link>
-          <Link href="/map">Map</Link>
-          <Link href="/beginner-guide">Beginner Guide</Link>
-          <Link href="/multiplayer">Multiplayer</Link>
-          <Link href="/troubleshooting">Help &amp; Fixes</Link>
-          <Link href="/achievements">Achievements</Link>
-          <Link href="/patch-notes">Patch Notes</Link>
-        </div>
-        <p className="site-footer__official">
-          Official game information: <a href="https://bigwalk.game/" target="_blank" rel="noreferrer">Big Walk by House House</a>.
-        </p>
-        <LanternWalker />
-      </footer>
-    </>
+    <footer className="site-footer">
+      <div>
+        <p className="site-footer__brand">Big Walk Walkthrough</p>
+        <p>Independent fan guide - not affiliated with the developers.</p>
+      </div>
+      <div className="site-footer__links">
+        <Link href="/puzzles">Puzzles</Link>
+        <Link href="/walkthrough">Walkthroughs</Link>
+        <Link href="/map">Map</Link>
+        <Link href="/beginner-guide">Beginner Guide</Link>
+        <Link href="/multiplayer">Multiplayer</Link>
+        <Link href="/troubleshooting">Help &amp; Fixes</Link>
+        <Link href="/achievements">Achievements</Link>
+        <Link href="/patch-notes">Patch Notes</Link>
+        <Link href="/privacy">Privacy Policy</Link>
+        <Link href="/terms">Terms of Use</Link>
+        <Link href="/contact">Contact</Link>
+      </div>
+      <p className="site-footer__official">
+        Official game information: <a href="https://bigwalk.game/" target="_blank" rel="noreferrer">Big Walk by House House</a>.
+      </p>
+      <LanternWalker />
+    </footer>
   );
 }
 
