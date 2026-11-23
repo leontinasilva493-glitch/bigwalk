@@ -7,9 +7,6 @@ import test from 'node:test';
 const root = new URL('../', import.meta.url);
 const componentPath = 'components/editorial-artwork.tsx';
 const intendedSurfaces = [
-  'app/methodology/page.tsx',
-  'app/multiplayer/how-to-find-players/page.tsx',
-  'components/troubleshooting-guide.tsx',
   'app/achievements/page.tsx',
 ];
 
@@ -162,25 +159,7 @@ for (const path of intendedSurfaces) {
   });
 }
 
-test('troubleshooting artwork appears in the hub only, not individual diagnostic guides', async () => {
-  const source = await sourceFor('components/troubleshooting-guide.tsx');
-  const guideStart = source.indexOf('export function TroubleshootingGuide');
-  const hubStart = source.indexOf('export function TroubleshootingHub');
-
-  assert.ok(guideStart >= 0 && hubStart > guideStart, 'troubleshooting exports must remain inspectable');
-  assert.doesNotMatch(
-    source.slice(guideStart, hubStart),
-    /<EditorialArtwork\b/,
-    'individual troubleshooting guides must not render the hub editorial artwork',
-  );
-  assert.match(
-    source.slice(hubStart),
-    /<EditorialArtwork\b/,
-    'TroubleshootingHub must render the editorial artwork',
-  );
-});
-
-test('EditorialArtwork is rendered on exactly the four intended surfaces', async () => {
+test('EditorialArtwork is rendered on the surviving intended surface', async () => {
   const files = [...await tsxFilesBelow('app'), ...await tsxFilesBelow('components')];
   const consumers = [];
 
@@ -195,18 +174,6 @@ test('EditorialArtwork is rendered on exactly the four intended surfaces', async
 
 test('hero artwork URLs and alt text carry each page topic without implying gameplay proof', async () => {
   const expectations = new Map([
-    ['app/methodology/page.tsx', {
-      src: '/images/editorial/big-walk-methodology-guide-workflow.webp',
-      alt: /big walk.*methodology/i,
-    }],
-    ['app/multiplayer/how-to-find-players/page.tsx', {
-      src: '/images/editorial/big-walk-find-players-lfg-guide.webp',
-      alt: /big walk.*(?:find players|lfg)/i,
-    }],
-    ['components/troubleshooting-guide.tsx', {
-      src: '/images/editorial/big-walk-troubleshooting-help-fixes-guide.webp',
-      alt: /big walk.*troubleshooting/i,
-    }],
     ['app/achievements/page.tsx', {
       src: '/images/editorial/big-walk-achievements-trophy-guide.webp',
       alt: /big walk.*(?:achievements|trophy)/i,
@@ -259,9 +226,6 @@ test('achievements keeps detailed platform totals below the fixed-height desktop
 
 test('page metadata exposes the topic artwork for large social previews', async () => {
   const expectations = new Map([
-    ['app/methodology/page.tsx', '/images/editorial/big-walk-methodology-guide-workflow.webp'],
-    ['app/multiplayer/how-to-find-players/page.tsx', '/images/editorial/big-walk-find-players-lfg-guide.webp'],
-    ['app/troubleshooting/page.tsx', '/images/editorial/big-walk-troubleshooting-help-fixes-guide.webp'],
     ['app/achievements/page.tsx', '/images/editorial/big-walk-achievements-trophy-guide.webp'],
   ]);
 
@@ -276,8 +240,6 @@ test('page metadata exposes the topic artwork for large social previews', async 
 
 test('existing JSON-LD articles and collection identify their related artwork', async () => {
   const expectations = new Map([
-    ['app/multiplayer/how-to-find-players/page.tsx', '/images/editorial/big-walk-find-players-lfg-guide.webp'],
-    ['components/troubleshooting-guide.tsx', '/images/editorial/big-walk-troubleshooting-help-fixes-guide.webp'],
     ['app/achievements/page.tsx', '/images/editorial/big-walk-achievements-trophy-guide.webp'],
   ]);
 

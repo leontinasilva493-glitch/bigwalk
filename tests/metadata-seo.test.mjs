@@ -114,19 +114,19 @@ test('the root route includes original social and browser metadata assets', asyn
   assert.equal(icon.readUInt32BE(20), 512);
 });
 
-test('homepage summarizes the evidence policy and links to the noindex methodology route', async () => {
-  const [home, methodology] = await Promise.all([
+test('homepage summarizes the guide approach and legal pages use noindex, follow', async () => {
+  const [home, privacy, terms, contact] = await Promise.all([
     sourceFor('app/page.tsx'),
-    sourceFor('app/methodology/page.tsx'),
+    sourceFor('app/privacy/page.tsx'),
+    sourceFor('app/terms/page.tsx'),
+    sourceFor('app/contact/page.tsx'),
   ]);
 
   assert.match(home, /How to use this Big Walk directory/);
-  assert.match(home, /href="\/methodology"/);
-  assert.doesNotMatch(home, /What makes a solution publishable\?/);
-  assert.match(methodology, /2-player, 3-player, or 4\+ world/);
-  assert.match(methodology, /bigwalk\.game\/faq/);
-  assert.match(methodology, /What makes a solution publishable\?/);
-  assert.match(methodology, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
+  assert.doesNotMatch(home, /href="\/methodology"/);
+  for (const legalPage of [privacy, terms, contact]) {
+    assert.match(legalPage, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
+  }
 });
 
 test('the root layout defers Microsoft Clarity until browser idle time', async () => {

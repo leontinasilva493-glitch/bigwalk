@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { guides, guideBySlug, site } from '../lib/content.mjs';
 
 test('the catalogue exposes the current puzzle and walkthrough records', () => {
-  assert.equal(guides.length, 17);
+  assert.equal(guides.length, 15);
   assert.equal(
     guideBySlug('puzzles/green-chair-headphones').h1,
     'Big Walk Sound Check & Music Chair Headphones Solutions',
@@ -34,7 +34,6 @@ test('every guide declares its tower evidence state', () => {
     guides.map((guide) => guide.tower),
     [
       'Yellow Tower area',
-      'Late-game completion area',
       'Red Tower map room',
       'Blue platform side puzzle',
       'Purple challenge ridge',
@@ -44,7 +43,6 @@ test('every guide declares its tower evidence state', () => {
       'Green Tower',
       'Yellow Tower',
       'Island radio network',
-      'Green Room research',
       'Black Tower',
       'Black Sphere finale',
       'Post-game completion route',
@@ -110,14 +108,10 @@ test('the Crosswalk opening route is complete enough for indexed discovery', () 
   ]);
 });
 
-test('purple-things remains a useful but non-indexable evidence page while reports conflict', () => {
-  const purpleThings = guideBySlug('puzzles/purple-things-where-to-use');
-
-  assert.equal(purpleThings.verificationStatus, 'evidence_conflict');
-  assert.equal(purpleThings.indexable, false);
-  assert.match(purpleThings.evidenceNote, /conflict/i);
-  assert.ok(purpleThings.sources.length >= 2);
-  assert.ok(purpleThings.solutionSteps.length >= 3);
+test('all remaining guides are indexable published entries', () => {
+  assert.equal(guideBySlug('puzzles/purple-things-where-to-use'), undefined);
+  assert.equal(guideBySlug('walkthrough/green-room'), undefined);
+  assert.ok(guides.every((guide) => guide.indexable === true && guide.status === 'published'));
 });
 
 test('guide text remains free of malformed encoding', () => {

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Contact & Corrections',
   description: 'Contact Big Walk Walkthrough to report puzzle route updates, world-size differences, or copyright inquiries.',
   alternates: { canonical: '/contact' },
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   openGraph: {
     url: '/contact',
     title: 'Contact & Corrections | Big Walk Walkthrough',
@@ -41,7 +41,7 @@ export default function ContactPage() {
             <h2>What helps us verify a puzzle report fastest</h2>
             <ul>
               <li>The exact guide URL on <code>bigwalkwalkthrough.com</code>.</li>
-              <li>Your platform (PC, Mac, PS5, or Nintendo Switch 2) and current game version (see <Link href="/patch-notes">Patch Notes</Link>).</li>
+              <li>Your platform (PC, Mac, PS5, or Nintendo Switch 2) and current game version (for example, v1.5.0).</li>
               <li>Which world-size setting the host selected (2-player, 3-player, or 4+).</li>
               <li>Nearby landmarks, coordinates, or an uncropped screenshot showing the puzzle state.</li>
             </ul>

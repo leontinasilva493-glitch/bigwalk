@@ -111,7 +111,7 @@ export default function WalkthroughPage() {
             </div>
             <div className="route-map__references" aria-label="Island reference routes">
               <Link href="/walkthrough/radio-channels"><span>Island reference</span><strong>All Radio Channels</strong></Link>
-              <Link href="/walkthrough/green-room"><span>Research notes</span><strong>Green Room research</strong></Link>
+              <Link href="/walkthrough/true-ending"><span>100% completion</span><strong>True Ending &amp; Silver Key</strong></Link>
             </div>
           </section>
 

@@ -7,51 +7,32 @@ import { buildSitemapEntries } from '../lib/sitemap-content.mjs';
 const routeFiles = [
   '../app/puzzles/purple-challenges/page.tsx',
   '../app/multiplayer/page.tsx',
-  '../app/multiplayer/hosting-and-saves/page.tsx',
-  '../app/multiplayer/transfer-save-to-new-host/page.tsx',
-  '../app/multiplayer/how-to-find-players/page.tsx',
-  '../app/troubleshooting/page.tsx',
-  '../app/troubleshooting/cant-rejoin-after-disconnect/page.tsx',
-  '../app/troubleshooting/cant-connect-or-join/page.tsx',
-  '../app/troubleshooting/voice-chat-not-working/page.tsx',
-  '../app/troubleshooting/crossplay-switch-2/page.tsx',
-  '../app/troubleshooting/white-screen-and-crash/page.tsx',
-  '../app/beginner-guide/can-you-play-solo/page.tsx',
+  '../app/walkthrough/page.tsx',
+  '../app/beginner-guide/page.tsx',
+  '../app/achievements/page.tsx',
 ];
 
-test('the approved v3 hubs and topic routes exist', async () => {
+test('the consolidated v3 hubs exist with zero orphan draft routes', async () => {
   const exists = await Promise.all(routeFiles.map((routeFile) =>
     access(new URL(routeFile, import.meta.url)).then(() => true, () => false)));
   assert.ok(exists.every(Boolean));
 });
 
-test('guide records expose the v3 evidence model and visual aliases', () => {
+test('all surviving guide and section records are indexable and corroborated', () => {
   assert.ok(guides.every((guide) => (
-    Array.isArray(guide.aliases)
+    guide.indexable === true
+    && Array.isArray(guide.aliases)
     && Array.isArray(guide.visualCues)
     && Array.isArray(guide.nearbyLandmarks)
     && guide.worldVariants
     && Array.isArray(guide.sources)
-    && ['draft', 'published', 'research', 'verified', 'outdated'].includes(guide.status)
-    && ['not_collected', 'first_hand', 'corroborated', 'conflicting_reports'].includes(guide.evidenceLevel)
+    && guide.status === 'published'
   )));
-  assert.ok(siteSections.some((section) => section.slug === 'puzzles/purple-challenges'));
-  assert.equal(siteSections.find((section) => section.slug === 'puzzles/purple-challenges').indexable, true);
-  assert.equal(siteSections.find((section) => section.slug === 'beginner-guide').indexable, true);
-  assert.equal(siteSections.find((section) => section.slug === 'achievements')?.indexable, true);
-  assert.equal(siteSections.find((section) => section.slug === 'multiplayer')?.indexable, true);
-  assert.equal(siteSections.find((section) => section.slug === 'walkthrough')?.indexable, true);
-  const publishedSectionSlugs = new Set([
-    'achievements',
-    'beginner-guide',
-    'multiplayer',
-    'multiplayer/how-to-find-players',
-    'puzzles/purple-challenges',
-    'walkthrough',
-  ]);
-  assert.ok(siteSections
-    .filter((section) => !publishedSectionSlugs.has(section.slug))
-    .every((section) => section.indexable === false));
+  assert.deepEqual(
+    siteSections.map((section) => section.slug).sort(),
+    ['achievements', 'beginner-guide', 'multiplayer', 'puzzles/purple-challenges', 'walkthrough'],
+  );
+  assert.ok(siteSections.every((section) => section.indexable === true && section.status === 'published'));
 });
 
 test('walkthrough directory has publishable metadata and enters generated sitemap discovery', () => {
@@ -62,24 +43,23 @@ test('walkthrough directory has publishable metadata and enters generated sitema
   assert.equal(walkthrough?.evidenceLevel, 'corroborated');
   assert.equal(walkthrough?.verificationLabel, 'Published routes with linked sources');
   assert.match(walkthrough?.title ?? '', /Walkthroughs/);
-  assert.doesNotMatch(walkthrough?.title ?? '', /Verification in Progress/i);
   assert.ok(sitemapPaths.includes('/walkthrough'));
 });
 
-test('new topic pages use the shared source template and derive indexing from evidence state', async () => {
+test('topic pages use the shared source template and derive indexing from evidence state', async () => {
   const source = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
   assert.match(source, /robots: \{ index: page\.indexable, follow: true \}/);
   assert.doesNotMatch(source, /page\.verificationLabel/);
   assert.match(source, /PrimarySources/);
-  assert.doesNotMatch(source, /Sources and version notes/);
 });
 
-test('primary navigation leads with player intents and keeps lower-priority topics secondary', async () => {
+test('navigation prioritizes crawl equity for top hubs and high-impression unindexed guides', async () => {
   const source = await readFile(new URL('../components/site.tsx', import.meta.url), 'utf8');
 
   assert.match(source, /\{ href: '\/walkthrough', label: 'Walkthroughs', key: 'walkthrough' \}/);
-  assert.match(source, /\{ href: '\/troubleshooting', label: 'Help & Fixes', key: 'help' \}/);
-  assert.match(source, /const secondaryNavigation/);
   assert.match(source, /\{ href: '\/achievements', label: 'Achievements', key: 'achievements' \}/);
-  assert.match(source, /\{ href: '\/puzzles\/purple-challenges', label: 'Purple Challenges', key: 'purple-challenges' \}/);
+  assert.match(source, /\{ href: '\/puzzles\/peg-puzzle', label: 'Forget-Me-Not Puzzle'/);
+  assert.match(source, /\{ href: '\/puzzles\/green-chair-headphones', label: 'Music Chair & Headphones'/);
+  assert.match(source, /\{ href: '\/walkthrough\/true-ending', label: 'True Ending & Silver Key'/);
+  assert.doesNotMatch(source, /\/troubleshooting|\/patch-notes/);
 });

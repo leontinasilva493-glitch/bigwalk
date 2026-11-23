@@ -17,7 +17,6 @@ export async function GET() {
     `- [Big Walk Walkthrough Home](${site.url}/): Quick puzzle finder by visual clue, tower, item, or coordinates.`,
     `- [Interactive Map & Completion Checklist](${site.url}/map): Searchable island map for towers, puzzles, radio stations, and 100% completion tracking.`,
     `- [All Big Walk Puzzles Directory](${site.url}/puzzles): Visual clue directory and Map Room marker legend.`,
-    `- [Patch Notes & Current Version](${site.url}/patch-notes): Official Big Walk version history (v${currentVersion.version}).`,
     ...indexableHubs.map((hub) => `- [${hub.h1}](${site.url}/${hub.slug}): ${hub.description}`),
     '',
     '## Puzzle Solutions',

@@ -110,10 +110,10 @@ const quickAnswers = [
     href: '/multiplayer',
   },
   {
-    label: 'Current version',
-    question: 'What is the latest Big Walk update?',
-    answer: 'House House currently lists version 1.5.0, a maintenance patch that fixes missing collision in one patch of trees.',
-    href: '/patch-notes',
+    label: 'Music Chair',
+    question: 'How do you solve the Music Chair & Headphones puzzle?',
+    answer: 'For Sound Check, match the 6 headset microphones; at the Amphitheater chair, tune the handheld radio to the headset track.',
+    href: '/puzzles/green-chair-headphones',
   },
   {
     label: 'Interactive map',
@@ -253,8 +253,8 @@ export default function HomePage() {
                 detail can vary by version or world size. Reports that disagree stay clearly labelled until the route is confirmed.
               </p>
             </div>
-            <Link className="text-link" href="/methodology">
-              Read the full methodology
+            <Link className="text-link" href="/puzzles">
+              Browse all verified puzzle solutions
               <span aria-hidden="true"> →</span>
             </Link>
           </div>

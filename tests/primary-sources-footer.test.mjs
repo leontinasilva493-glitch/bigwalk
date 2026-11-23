@@ -30,11 +30,7 @@ test('source-bearing page shells place the shared primary source footer after re
     '../app/walkthrough/[...slug]/page.tsx',
     '../components/beginner-guide.tsx',
     '../components/evidence-page.tsx',
-    '../components/troubleshooting-guide.tsx',
     '../app/multiplayer/page.tsx',
-    '../app/multiplayer/how-to-find-players/page.tsx',
-    '../app/multiplayer/hosting-and-saves/page.tsx',
-    '../app/beginner-guide/lost-items-and-lost-found/page.tsx',
     '../app/achievements/page.tsx',
   ];
 
@@ -51,14 +47,9 @@ test('public page source headings use the single primary sources label', async (
     '../components/guides.tsx',
     '../components/beginner-guide.tsx',
     '../components/evidence-page.tsx',
-    '../components/troubleshooting-guide.tsx',
     '../app/multiplayer/page.tsx',
-    '../app/multiplayer/how-to-find-players/page.tsx',
-    '../app/multiplayer/hosting-and-saves/page.tsx',
-    '../app/beginner-guide/lost-items-and-lost-found/page.tsx',
     '../app/achievements/page.tsx',
     '../app/map/page.tsx',
-    '../app/patch-notes/page.tsx',
   ];
   const bannedHeadings = [
     'Sources and evidence limits',

@@ -132,7 +132,7 @@ export function BeginnerGuideArticle({ page }: { page: BeginnerPage }) {
             <p className="hint-block__kicker">SET UP THE SESSION</p>
             <h2 id="hosting-and-world-size">Hosting, saves, and choosing a world size</h2>
             {content.hosting.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            <p className="beginner-inline-link"><Link href="/multiplayer/hosting-and-saves">Review the current host and save rules →</Link></p>
+            <p className="beginner-inline-link"><Link href="/multiplayer#hosting">Review crossplay, Join Codes, and host-save rules →</Link></p>
             <div className="beginner-table-wrap">
               <table>
                 <thead><tr><th>World</th><th>Best for</th><th>How to choose</th><th>Evidence</th></tr></thead>

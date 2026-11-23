@@ -99,7 +99,7 @@ test('walkthrough is an indexable route center built from current walkthrough da
   assert.match(page, /walkthrough\/green-tower-chairlift/);
   assert.match(page, /walkthrough\/yellow-tower-tunnels/);
   assert.match(page, /walkthrough\/radio-channels/);
-  assert.match(page, /walkthrough\/green-room/);
+  assert.match(page, /walkthrough\/true-ending/);
 });
 
 test('video evidence waits for user action before creating the YouTube iframe', async () => {

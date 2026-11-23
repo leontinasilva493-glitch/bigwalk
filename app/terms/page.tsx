@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Terms of Use',
   description: 'Terms of use, fan-site disclaimer, and intellectual property notice for Big Walk Walkthrough.',
   alternates: { canonical: '/terms' },
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   openGraph: {
     url: '/terms',
     title: 'Terms of Use | Big Walk Walkthrough',
@@ -48,7 +48,7 @@ export default function TermsPage() {
           <section className="route-overview">
             <h2>3. Accuracy &amp; game updates</h2>
             <p>
-              Puzzle layouts in <em>Big Walk</em> can adapt to 2-player, 3-player, and 4+ host world settings and may change across game patches. Every guide cites its checked sources and version context, and is provided &ldquo;as is&rdquo; without warranty. Check our <Link href="/patch-notes">Patch Notes</Link> and <Link href="/contact">Contact page</Link> if a current patch changes a route.
+              Puzzle layouts in <em>Big Walk</em> can adapt to 2-player, 3-player, and 4+ host world settings and may change across game patches. Every guide cites its checked sources and version context, and is provided &ldquo;as is&rdquo; without warranty. Visit our <Link href="/contact">Contact page</Link> if a current patch changes a route.
             </p>
           </section>
 

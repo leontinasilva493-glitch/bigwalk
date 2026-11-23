@@ -6,15 +6,17 @@ const navigation = [
   { href: '/puzzles', label: 'Puzzles', key: 'puzzles' },
   { href: '/walkthrough', label: 'Walkthroughs', key: 'walkthrough' },
   { href: '/map', label: 'Map', key: 'map' },
-  { href: '/beginner-guide', label: 'Beginner Guide', key: 'beginner' },
+  { href: '/achievements', label: 'Achievements', key: 'achievements' },
   { href: '/multiplayer', label: 'Multiplayer', key: 'multiplayer' },
-  { href: '/troubleshooting', label: 'Help & Fixes', key: 'help' },
 ] as const;
 
 const secondaryNavigation = [
-  { href: '/achievements', label: 'Achievements', key: 'achievements' },
+  { href: '/puzzles/peg-puzzle', label: 'Forget-Me-Not Puzzle', key: 'forget-me-not' },
+  { href: '/puzzles/green-chair-headphones', label: 'Music Chair & Headphones', key: 'music-chair' },
+  { href: '/walkthrough/true-ending', label: 'True Ending & Silver Key', key: 'true-ending' },
+  { href: '/walkthrough/radio-channels', label: 'All Radio Channels', key: 'radio-channels' },
   { href: '/puzzles/purple-challenges', label: 'Purple Challenges', key: 'purple-challenges' },
-  { href: '/patch-notes', label: 'Patch Notes', key: 'patch-notes' },
+  { href: '/beginner-guide', label: 'Beginner Guide', key: 'beginner' },
 ] as const;
 
 type NavigationKey = (typeof navigation)[number]['key'] | (typeof secondaryNavigation)[number]['key'];
@@ -74,11 +76,13 @@ export function SiteFooter() {
         <Link href="/puzzles">Puzzles</Link>
         <Link href="/walkthrough">Walkthroughs</Link>
         <Link href="/map">Map</Link>
-        <Link href="/beginner-guide">Beginner Guide</Link>
-        <Link href="/multiplayer">Multiplayer</Link>
-        <Link href="/troubleshooting">Help &amp; Fixes</Link>
         <Link href="/achievements">Achievements</Link>
-        <Link href="/patch-notes">Patch Notes</Link>
+        <Link href="/multiplayer">Multiplayer</Link>
+        <Link href="/beginner-guide">Beginner Guide</Link>
+        <Link href="/puzzles/peg-puzzle">Forget-Me-Not</Link>
+        <Link href="/puzzles/green-chair-headphones">Music Chair</Link>
+        <Link href="/walkthrough/true-ending">True Ending</Link>
+        <Link href="/walkthrough/radio-channels">Radio Channels</Link>
         <Link href="/privacy">Privacy Policy</Link>
         <Link href="/terms">Terms of Use</Link>
         <Link href="/contact">Contact</Link>

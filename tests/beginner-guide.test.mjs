@@ -38,8 +38,8 @@ test('beginner guide covers the complete first-session journey without becoming 
   assert.ok(content.firstRoute.steps.length >= 3);
   assert.ok(content.mistakes.length >= 6);
   assert.ok(content.faqs.length >= 6);
-  assert.ok(content.relatedLinks.length >= 7);
-  assert.ok(content.relatedLinks.some((link) => link.href === '/beginner-guide/lost-items-and-lost-found'));
+  assert.ok(content.relatedLinks.length >= 5);
+  assert.ok(content.relatedLinks.some((link) => link.href === '/multiplayer'));
 
   const text = textValues(content).join(' ');
   assert.match(text, /host/i);

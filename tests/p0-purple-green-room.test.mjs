@@ -44,37 +44,13 @@ test('purple challenges keeps the shared evidence skeleton and enters generated 
   assert.ok(sitemapPaths.includes('/puzzles/purple-challenges'));
 });
 
-test('green room is a complete noindex research route with disambiguation and conflict labels', () => {
-  const guide = guideBySlug('walkthrough/green-room');
-
-  assert.ok(guide);
-  assert.equal(guide.title, 'Big Walk Green Room Location & How to Open It');
-  assert.equal(guide.h1, 'How to Find and Open the Green Room in Big Walk');
-  assert.equal(guide.indexable, false);
-  assert.equal(guide.verificationStatus, 'evidence_conflict');
-  assert.match(guide.description, /^This is NOT the green chair and headphones \(Sound Check\) puzzle/);
-  assert.equal(guide.greenRoomSections.routes.length, 2);
-  assert.match(guide.greenRoomSections.entrance.body, /do not agree on the exact wall or entrance position/i);
-  assert.equal(guide.greenRoomSections.slots.status, 'Player report');
-  assert.equal(guide.greenRoomSections.itemConflict.status, 'Evidence conflict');
-  assert.equal(guide.greenRoomSections.itemConflict.sources.length, 2);
-  assert.deepEqual(guide.plannedLinks, [
-    'puzzles/purple-things-where-to-use',
-    'puzzles/purple-challenges',
-    'walkthrough/true-ending',
-  ]);
-});
-
-test('green room renders its ordered research sections and remains outside the sitemap', async () => {
-  const [route, components] = await Promise.all([
-    readFile(new URL('../app/walkthrough/[...slug]/page.tsx', import.meta.url), 'utf8'),
-    readFile(new URL('../components/guides.tsx', import.meta.url), 'utf8'),
-  ]);
+test('green room and purple-things research stubs are pruned and consolidated into canonical guides', () => {
   const sitemapPaths = buildSitemapEntries({ guides, siteSections }).map((entry) => entry.path);
 
-  assert.match(route, /GreenRoomResearch/);
-  assert.ok(route.indexOf('<GreenRoomResearch') < route.indexOf('<RouteOverview'));
-  assert.match(components, /sections\.slots/);
-  assert.match(components, /sections\.itemConflict/);
+  assert.equal(guideBySlug('walkthrough/green-room'), undefined);
+  assert.equal(guideBySlug('puzzles/purple-things-where-to-use'), undefined);
   assert.ok(!sitemapPaths.includes('/walkthrough/green-room'));
+  assert.ok(!sitemapPaths.includes('/puzzles/purple-things-where-to-use'));
+  assert.ok(sitemapPaths.includes('/puzzles/purple-challenges'));
+  assert.ok(sitemapPaths.includes('/walkthrough/true-ending'));
 });

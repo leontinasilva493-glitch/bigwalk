@@ -132,35 +132,31 @@ export default function MultiplayerPage() {
           </section>
 
           <section className="guide-section" aria-labelledby="players">
-            <h2 id="players">Player Count & Matchmaking</h2>
+            <h2 id="players">Player Count, Matchmaking &amp; How to Find Players (LFG)</h2>
             <p>
-              Big Walk is for organized online groups, not public matchmaking. The official FAQ describes a 2-12 player
-              range and says the game is meant to be played with a regular group across multiple sessions.
+              Big Walk is for organized online groups (2–12 players), with host worlds scaled to 2-player, 3-player, or
+              4+ minimum regular attendance. Because there is no public matchmaking queue, players find groups through
+              the official Big Walk Discord, Steam Discussions, or the pinned <code>r/BigWalk</code> LFG thread, then
+              share a private Join Code only after confirming everyone is on the same game version.
             </p>
-            <p><Link href="/multiplayer/how-to-find-players">Use the LFG directory with current source links</Link> to compare active community spaces and post without exposing personal details or a public Join Code.</p>
           </section>
 
           <section className="guide-section" aria-labelledby="hosting">
-            <h2 id="hosting">Hosting & Saves</h2>
+            <h2 id="hosting">Hosting &amp; Saves</h2>
             <p>
-              The host keeps the save and progress. When the group continues, that same host should start the session
-              again. Use the deeper research pages for unresolved save-transfer and host-change questions.
+              The host keeps the save and progress. When the group continues, that same host must start the saved world
+              again and share the new session Join Code; official sources do not support transferring a host save to
+              another player.
             </p>
-            <ul className="check-list">
-              <li><Link href="/multiplayer/hosting-and-saves">Hosting and saves</Link></li>
-              <li><Link href="/multiplayer/transfer-save-to-new-host">Transfer save to a new host</Link></li>
-            </ul>
           </section>
 
           <section className="related-guides" aria-labelledby="multiplayer-related">
             <h2 id="multiplayer-related">Related guides</h2>
             <ul>
-              <li><Link href="/multiplayer/best-group-size">Best group size</Link></li>
-              <li><Link href="/multiplayer/hosting-and-saves">Hosting and saves</Link></li>
-              <li><Link href="/multiplayer/transfer-save-to-new-host">Transfer save to new host</Link></li>
-              <li><Link href="/multiplayer/how-to-find-players">How to find players</Link></li>
-              <li><Link href="/troubleshooting">Troubleshooting</Link></li>
-              <li><Link href="/achievements">Achievements</Link></li>
+              <li><Link href="/beginner-guide">Beginner guide: host setup &amp; world size</Link></li>
+              <li><Link href="/walkthrough/crosswalk">Crosswalk opening route</Link></li>
+              <li><Link href="/puzzles">All puzzle solutions &amp; hints</Link></li>
+              <li><Link href="/achievements">Trophy &amp; achievement checklist</Link></li>
             </ul>
           </section>
           <PrimarySources sources={sources} headingId="multiplayer-primary-sources-heading" />

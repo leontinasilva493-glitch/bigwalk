@@ -56,16 +56,13 @@ test('Sound Check recognizes music-chair searches without creating another route
   assert.ok(guide.commonFailures.length >= 3);
 });
 
-test('walkthrough hub starts with the opening route and separates research routes', () => {
+test('walkthrough hub starts with the opening route and includes only indexable routes', () => {
   assert.equal(typeof content.walkthroughHubGuides, 'function');
   const ordered = content.walkthroughHubGuides();
-  const firstResearchIndex = ordered.findIndex((guide) => !guide.indexable);
 
   assert.equal(ordered[0].slug, 'walkthrough/crosswalk');
-  assert.ok(firstResearchIndex > 0);
-  assert.ok(ordered.slice(0, firstResearchIndex).every((guide) => guide.indexable));
-  assert.ok(ordered.slice(firstResearchIndex).every((guide) => !guide.indexable));
-  assert.ok(ordered.findIndex((guide) => guide.slug === 'walkthrough/true-ending') < firstResearchIndex);
+  assert.ok(ordered.every((guide) => guide.indexable));
+  assert.equal(ordered.at(-1).slug, 'walkthrough/true-ending');
 
   const hub = content.siteSectionBySlug('walkthrough');
   assert.deepEqual(hub.startPaths.map((path) => path.label), [
@@ -89,7 +86,7 @@ test('topic hub cards report their real search-index status', () => {
     'Sources linked / included in search',
   );
   assert.equal(
-    content.topicHubStatusLabel(content.siteSectionBySlug('troubleshooting')),
+    content.topicHubStatusLabel({ indexable: false }),
     'Research notes / not indexed',
   );
 });

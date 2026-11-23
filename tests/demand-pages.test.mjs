@@ -25,7 +25,7 @@ test('true-ending demand page is a source-checked same-host completion route', (
   assert.ok(guide.commonFailures.length >= 3);
   assert.ok(guide.sources.length >= 3);
   assert.ok(guide.screenshotRequests.length >= 3);
-  assert.ok(guide.relatedSlugs.some((related) => related.slug === 'walkthrough/green-room'));
+  assert.ok(guide.relatedSlugs.some((related) => related.slug === 'puzzles/black-sphere'));
   assert.ok(guide.relatedSlugs.some((related) => related.slug === 'puzzles/purple-challenges'));
 });
 

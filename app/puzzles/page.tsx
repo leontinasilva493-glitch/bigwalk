@@ -54,7 +54,7 @@ export default function PuzzlesPage() {
   const topicHubs = siteSections.filter((section) => [
     'puzzles/purple-challenges',
     'walkthrough',
-    'troubleshooting',
+    'multiplayer',
   ].includes(section.slug));
 
   return (
@@ -143,7 +143,7 @@ export default function PuzzlesPage() {
           <div className="route-recovery__mobile-list">
             {mapRoomPuzzleStates.map((row) => <details className="route-recovery__mobile-card" key={row.state}><summary>{row.state}</summary><p>{row.meaning}</p><p><strong>Next step:</strong> {row.nextStep}</p><p><span className="evidence-label">{row.evidence}</span></p></details>)}
           </div>
-          <p>If a solved reward is missing, use the <Link href="/beginner-guide/lost-items-and-lost-found">lost items and Lost &amp; Found guide</Link> before replaying the puzzle.</p>
+          <p>If a solved reward is missing, confirm the original host is running the saved world via the <Link href="/multiplayer#hosting">Multiplayer host &amp; save rules</Link> before replaying the puzzle.</p>
         </section>
 
         <section id="directory-by-tower" className="directory-groups page-shell">

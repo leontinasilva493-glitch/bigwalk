@@ -36,7 +36,7 @@ test('achievement page uses the current version source and hides internal captur
 test('beginner guide links to verified host and save rules instead of a transfer placeholder', async () => {
   const beginner = await sourceFor('components/beginner-guide.tsx');
 
-  assert.match(beginner, /href="\/multiplayer\/hosting-and-saves"/);
-  assert.match(beginner, /current host and save rules/i);
+  assert.match(beginner, /href="\/multiplayer#hosting"/);
+  assert.match(beginner, /host-save rules/i);
   assert.doesNotMatch(beginner, /href="\/multiplayer\/transfer-save-to-new-host"/);
 });

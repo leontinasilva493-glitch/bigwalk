@@ -89,7 +89,7 @@ export function EvidencePage({ page, featuredGuides = [] }: { page: SectionRecor
     <>
       <JsonLd data={article} />
       <JsonLd data={breadcrumb} />
-      <SiteHeader active={page.active as 'puzzles' | 'walkthrough' | 'beginner' | 'multiplayer' | 'help' | 'achievements' | 'purple-challenges'} />
+      <SiteHeader active={page.active as 'puzzles' | 'walkthrough' | 'beginner' | 'multiplayer' | 'achievements' | 'purple-challenges'} />
       <main className="evidence-page page-shell">
         <nav className="breadcrumbs" aria-label="Breadcrumb">
           <ol><li><Link href="/">Home</Link></li><li aria-current="page">{page.h1}</li></ol>

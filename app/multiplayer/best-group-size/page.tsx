@@ -1,6 +1,0 @@
-import { EvidencePage, evidenceMetadata } from '../../../components/evidence-page';
-import { siteSectionBySlug } from '../../../lib/content.mjs';
-
-const page = siteSectionBySlug('multiplayer/best-group-size')!;
-export const metadata = evidenceMetadata(page);
-export default function BestGroupSizePage() { return <EvidencePage page={page} />; }

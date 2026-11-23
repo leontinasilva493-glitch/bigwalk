@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'How Big Walk Walkthrough handles analytics, browser storage, embedded videos, and visitor privacy.',
   alternates: { canonical: '/privacy' },
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
   openGraph: {
     url: '/privacy',
     title: 'Privacy Policy | Big Walk Walkthrough',

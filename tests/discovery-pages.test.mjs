@@ -38,7 +38,7 @@ test('indexable discovery pages link concrete sources and expose the directory s
   assert.match(home, /Need a solution\?/);
   assert.match(home, /Need the next unlock\?/);
   assert.match(home, /How to use this Big Walk directory/);
-  assert.match(home, /href="\/methodology"/);
+  assert.doesNotMatch(home, /href="\/methodology"/);
   assert.match(home, /CategoryCard/g);
   assert.equal((home.match(/CategoryCard/g) ?? []).length, 2);
   assert.match(home, /tower/);
@@ -111,10 +111,7 @@ test('directory cards keep puzzle answers distinct from route walkthroughs', asy
     orderedWalkthroughs.findIndex((guide) => guide.slug === 'walkthrough/black-tower') <
       orderedWalkthroughs.findIndex((guide) => guide.slug === 'walkthrough/true-ending'),
   );
-  assert.ok(
-    orderedWalkthroughs.findLastIndex((guide) => guide.indexable) <
-      orderedWalkthroughs.findIndex((guide) => !guide.indexable),
-  );
+  assert.ok(orderedWalkthroughs.every((guide) => guide.indexable));
   const evidencePage = await readFile(new URL('../components/evidence-page.tsx', import.meta.url), 'utf8');
   assert.match(evidencePage, /Available routes/i);
   assert.match(evidencePage, /PrimarySources/);
@@ -140,9 +137,9 @@ test('homepage counts are derived from the current catalogue and featured links 
   const featuredGuides = homepageFeaturedGuideSlugs.map((slug) => guides.find((guide) => guide.slug === slug));
 
   assert.deepEqual(stats, {
-    puzzleEntries: 8,
-    walkthroughEntries: 9,
-    visualEntries: 8,
+    puzzleEntries: 7,
+    walkthroughEntries: 8,
+    visualEntries: 7,
     achievements: 13,
   });
   assert.equal(homepageFeaturedGuideSlugs.length, 5);

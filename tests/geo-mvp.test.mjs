@@ -27,7 +27,7 @@ test('the quick GEO MVP exposes the current official patch without inventing a r
 
   const patchNotesEntry = buildSitemapEntries({ guides, siteSections })
     .find((entry) => entry.path === '/patch-notes');
-  assert.equal(patchNotesEntry.lastModified, '2026-08-26');
+  assert.equal(patchNotesEntry, undefined);
 });
 
 test('the two route MVPs declare publication dates and answer-level source references', () => {

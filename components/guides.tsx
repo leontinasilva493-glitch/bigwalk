@@ -399,66 +399,6 @@ export function CoordinatesFirstScreen({ guide }: { guide: Guide }) {
   );
 }
 
-export function GreenRoomResearch({ guide }: { guide: Guide }) {
-  if (!('greenRoomSections' in guide) || !guide.greenRoomSections) return null;
-
-  const sections = guide.greenRoomSections;
-  const plannedLinkLabels: Record<string, string> = {
-    'puzzles/purple-things-where-to-use': 'Where Do Purple Things Go?',
-    'puzzles/purple-challenges': 'Purple Challenges directory',
-    'walkthrough/true-ending': 'True Ending research page (planned)',
-  };
-
-  return (
-    <section className="green-room-research" aria-labelledby="green-room-research-heading">
-      <p className="hint-block__kicker">NOINDEX RESEARCH ROUTE</p>
-      <h2 id="green-room-research-heading">Routes, entrance evidence, and reported room use</h2>
-
-      <section aria-labelledby="green-room-routes-heading">
-        <h3 id="green-room-routes-heading">Two routes from spawn</h3>
-        <div className="research-card-grid">
-          {sections.routes.map((route) => <article key={route.title}><h4>{route.title}</h4><p>{route.body}</p></article>)}
-        </div>
-      </section>
-
-      <section aria-labelledby="green-room-entrance-heading">
-        <p className="evidence-label">{sections.entrance.status}</p>
-        <h3 id="green-room-entrance-heading">{sections.entrance.title}</h3>
-        <p>{sections.entrance.body}</p>
-      </section>
-
-      <section aria-labelledby="green-room-slots-heading">
-        <p className="evidence-label">{sections.slots.status}</p>
-        <h3 id="green-room-slots-heading">{sections.slots.title}</h3>
-        <p>{sections.slots.body}</p>
-      </section>
-
-      <section className="evidence-conflict" aria-labelledby="green-room-conflict-heading">
-        <p className="evidence-label">{sections.itemConflict.status}</p>
-        <h3 id="green-room-conflict-heading">{sections.itemConflict.title}</h3>
-        <p>{sections.itemConflict.body}</p>
-      </section>
-
-      <section aria-labelledby="green-room-map-heading">
-        <p className="evidence-label">{sections.mapTracking.status}</p>
-        <h3 id="green-room-map-heading">{sections.mapTracking.title}</h3>
-        <p>{sections.mapTracking.body}</p>
-      </section>
-
-      <section aria-labelledby="green-room-recovery-heading">
-        <p className="evidence-label">{sections.recovery.status}</p>
-        <h3 id="green-room-recovery-heading">{sections.recovery.title}</h3>
-        <p>{sections.recovery.body}</p>
-      </section>
-
-      <section className="green-room-research__links" aria-labelledby="green-room-links-heading">
-        <h3 id="green-room-links-heading">Continue the evidence trail</h3>
-        <ul>{guide.plannedLinks.map((slug) => <li key={slug}><Link href={`/${slug}`}>{plannedLinkLabels[slug] ?? slug}</Link></li>)}</ul>
-      </section>
-    </section>
-  );
-}
-
 export function RouteOverview({ guide }: { guide: Guide }) {
   const routeSummary = 'routeSummary' in guide ? guide.routeSummary : undefined;
   const radioChannels = 'radioChannels' in guide ? guide.radioChannels : undefined;
