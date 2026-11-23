@@ -18,16 +18,17 @@ test('the puzzle directory exposes its requested search title, H1, and collectio
   assert.equal(typeof content.buildPuzzleDirectoryJsonLd, 'function');
 
   const puzzleGuides = content.guides.filter((guide) => guide.kind === 'puzzle');
+  const indexablePuzzles = puzzleGuides.filter((guide) => guide.indexable);
   const jsonLd = content.buildPuzzleDirectoryJsonLd(puzzleGuides);
 
   assert.equal(jsonLd['@context'], 'https://schema.org');
   assert.equal(jsonLd['@type'], 'CollectionPage');
   assert.equal(jsonLd.url, 'https://bigwalkwalkthrough.com/puzzles');
   assert.equal(jsonLd.mainEntity['@type'], 'ItemList');
-  assert.equal(jsonLd.mainEntity.numberOfItems, puzzleGuides.length);
+  assert.equal(jsonLd.mainEntity.numberOfItems, indexablePuzzles.length);
   assert.deepEqual(
     jsonLd.mainEntity.itemListElement,
-    puzzleGuides.map((guide, index) => ({
+    indexablePuzzles.map((guide, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name: guide.h1,

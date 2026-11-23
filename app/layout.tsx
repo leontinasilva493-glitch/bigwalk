@@ -40,6 +40,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          defer
+          src="https://www.pvuv.ai/f.js"
+          data-site="9QdwaZFh"
+          data-api="https://in.pvuv.ai"
+        />
+      </head>
       <body>
         {children}
         <Script

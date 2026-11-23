@@ -861,7 +861,8 @@ h3 {
 .coordinate-mechanic .research-card-grid p { margin: 8px 0 0; color: var(--ink-2); font-size: .9rem; }
 .guide-locator { margin: 32px 0 0; padding: 14px; border: 1px solid color-mix(in srgb, var(--forest) 28%, var(--border)); border-radius: 12px; background: #f4f0e5; box-shadow: 0 16px 38px rgba(32, 53, 40, .09); }
 .guide-locator img { display: block; width: 100%; height: auto; border-radius: 8px; }
-.guide-locator figcaption { padding: 12px 4px 2px; color: var(--ink-2); font-size: .84rem; font-weight: 700; line-height: 1.55; }
+.guide-locator figcaption { display: grid; gap: 6px; padding: 12px 4px 2px; color: var(--ink-2); font-size: .84rem; font-weight: 700; line-height: 1.55; }
+.guide-locator figcaption a { width: fit-content; color: var(--forest); font-size: .78rem; font-weight: 600; }
 .lost-reward { border-color: var(--amber); background: var(--amber-tint); }
 .guide-checklist,
 .progressive-hints,
@@ -1473,4 +1474,113 @@ h3 {
   .site-brand { gap: 6px; font-size: 1rem; }
   .site-mark { width: 24px; height: 24px; flex: 0 0 24px; }
   .mobile-nav { flex: 0 0 44px; }
+}
+
+.clue-finder {
+  width: min(100%, 680px);
+  margin: 20px 0 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fffdf7;
+  box-shadow: 0 6px 20px rgba(25, 42, 31, 0.08);
+  text-align: left;
+}
+.clue-finder__label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--forest-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.clue-finder__bar {
+  display: flex;
+  gap: 8px;
+}
+.clue-finder__input {
+  flex: 1 1 auto;
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1.5px solid #8aa18f;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.96rem;
+}
+.clue-finder__input:focus-visible {
+  outline: 2px solid var(--forest);
+  outline-offset: 1px;
+}
+.clue-finder__clear {
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.clue-finder__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.clue-finder__chip {
+  min-height: 34px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--forest-dark);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.clue-finder__chip:hover {
+  border-color: var(--forest);
+  background: #e8f1e8;
+}
+.clue-finder__results {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.clue-finder__results ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.clue-finder__results li a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  text-decoration: none;
+}
+.clue-finder__results li a:hover {
+  border-color: var(--forest);
+  background: #f4f8f3;
+}
+.clue-finder__results li span {
+  color: var(--ink-2);
+  font-size: 0.8rem;
+}
+.clue-finder__empty {
+  margin: 4px 0 0;
+  color: var(--ink-2);
+  font-size: 0.88rem;
 }

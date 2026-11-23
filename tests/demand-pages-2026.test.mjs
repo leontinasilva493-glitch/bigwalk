@@ -94,5 +94,6 @@ test('achievements is a Platinum roadmap rather than only a trophy list', async 
   assert.match(page, /12 Steam achievements/);
   assert.match(page, /13 PS5 trophies/);
   assert.match(page, /same host save/i);
-  assert.match(page, /Version 1\.4\.10/);
+  assert.match(page, /currentVersion\.version/);
+  assert.doesNotMatch(page, /Version 1\.4\.10/);
 });

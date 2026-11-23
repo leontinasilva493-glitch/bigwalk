@@ -165,7 +165,21 @@ test('homepage quick answers route trophy and platform demand to sourced hubs', 
   assert.match(home, /href:\s*'\/multiplayer'/);
 });
 
-test('achievements and multiplayer hubs are source-checked and indexable', async () => {
+test('homepage omits the duplicate Other game guides module', async () => {
+  const home = await sourceFor('home');
+
+  assert.doesNotMatch(home, /RelatedGames|homepageRelatedGame|Other game guides/);
+  await assert.rejects(
+    readFile(new URL('../components/related-games.tsx', import.meta.url), 'utf8'),
+    'the deleted homepage module must not remain as unused component code',
+  );
+  await assert.rejects(
+    readFile(new URL('../lib/related-games.mjs', import.meta.url), 'utf8'),
+    'the deleted homepage module must not leave duplicate route data behind',
+  );
+});
+
+test('achievements and multiplayer hubs link sources and remain indexable', async () => {
   const [achievements, multiplayer] = await Promise.all([
     sourceFor('achievements'),
     sourceFor('multiplayer'),

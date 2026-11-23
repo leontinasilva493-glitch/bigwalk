@@ -49,7 +49,7 @@ test('Sound Check recognizes music-chair searches without creating another route
   assert.match(guide.searchIntent.answer, /six microphones/i);
   assert.deepEqual(
     guide.searchIntent.rows.map((row) => row.label),
-    ['Sound Check', 'Green Tower chairlift', 'Timer room'],
+    ['Sound Check', 'Amphitheater radio chair', 'Green Tower chairlift', 'Timer room'],
   );
   assert.ok(guide.prerequisites.some((item) => /beige-and-red archway/i.test(typeof item === 'string' ? item : item.text)));
   assert.equal(guide.roleAssignments.length, 2);
